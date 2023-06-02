@@ -1,2 +1,0 @@
-on: pull_request
-echo "::debug::Yuhu!"
