@@ -1,0 +1,2 @@
+# SSE_SoSe_2023_Projekt
+Abschlussprojekt Secure Software Engineering
