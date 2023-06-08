@@ -20,18 +20,29 @@ export class RegisterComponent implements OnInit {
     private _router:Router
 
   ) { }
-  ngOnInit() {this.isUserLogin();}onSubmit(form: NgForm) {this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
+
+  ngOnInit() {
+    this.isUserLogin();
+  }
+  
+  onSubmit(form: NgForm) {
+    console.log('Register button pressed');
+    this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
       if (res.status) { 
-        console.log(res)
+        console.log(res);
         this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));  
         this._auth.setDataInLocalStorage('token', res.token);  
         this._router.navigate(['login']);
       } else { 
-        console.log(res)
-        alert(res.msg)
+        console.log(res);
+        alert(res.msg);
       }
-    });}isUserLogin(){
-    
-    if(this._auth.getUserDetails() != null){this.isLogin = true;
-    }}
+    });
   }
+
+  isUserLogin(){
+    if(this._auth.getUserDetails() != null){
+      this.isLogin = true;
+    }
+  }
+}
