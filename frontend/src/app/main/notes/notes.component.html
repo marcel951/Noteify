@@ -1,0 +1,25 @@
+<p>notes works!</p>
+<h2>My Notes</h2>
+<ul class="notes" style="list-style-type:none;">
+    <li *ngFor="let note of notes">
+    <div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col text-center border-black border">
+                <span class="titel fw-bold fs-2" >{{note.titel}}</span>  
+
+            </div>
+            <div class="col text-end border-black border">
+                <button type="button" class="btn btn-primary  mx-2 my-2 " (click)="updateNote(note.note_id)">Edit</button>
+                <button type="button" class="btn btn-primary mx-2 mx-2 my-2" (click)="deletNote(note.note_id)">Remove</button>
+            </div>
+            
+            
+        </div>
+        <div class="row">
+           <span class="content fs-5" [innerHTML]="note.content"></span> 
+        </div>
+      
+    </div>
+  </li>
+</ul>
