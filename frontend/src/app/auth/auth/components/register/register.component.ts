@@ -26,7 +26,6 @@ export class RegisterComponent implements OnInit {
   }
   
   onSubmit(form: NgForm) {
-    console.log('Register button pressed');
     this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
       if (res.status) { 
         console.log(res);
@@ -35,10 +34,29 @@ export class RegisterComponent implements OnInit {
         this._router.navigate(['login']);
       } else { 
         console.log(res);
-        alert(res.msg);
+        //alert(res.msg);
+        
+        const app = document.getElementById("liveAlertPlaceholder")!;
+        //app?.classList.add("alert");   //add the class
+        //app?.classList.add("alert-primary");
+        
+        const appendAlert = (message: any, type: any) => {
+          const wrapper = document.createElement('div')
+          wrapper.innerHTML = [
+            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+            `   <div>${message}</div>`,
+            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+            '</div>'
+          ].join('')
+
+          app.append(wrapper);
+        }
+
+        appendAlert(res.msg, 'danger')
       }
     });
   }
+
 
   isUserLogin(){
     if(this._auth.getUserDetails() != null){
