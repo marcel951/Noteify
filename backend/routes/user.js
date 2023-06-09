@@ -3,7 +3,7 @@ const router = express.Router();
 
 const jwt = require('jsonwebtoken');
 const mariadb = require('mariadb');
-const argon = require('argon2');
+//const argon = require('argon2');
 const pool = mariadb.createPool({
     host: 'localhost', 
     port: '3306',
@@ -69,7 +69,7 @@ router.post('/register', async function (req, res, next) {
   try {
     const conn = await pool.getConnection();
     const {username, email, password} = req.body;
-    const hashed_password = await argon.hash(password.toString());
+    const hashed_password = "abc";//await argon.hash(password.toString());
 
     const newUser ='INSERT INTO users (username, pass, email) VALUES (?, ?, ?)';
 
