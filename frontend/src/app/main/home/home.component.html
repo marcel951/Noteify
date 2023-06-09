@@ -1,5 +1,5 @@
-<p>notes works!</p>
-<h2>My Notes</h2>
+<p>home works!</p>
+<h2>Public Notes</h2>
 <div *ngIf="notes.length > 0; else elseBlock">
     <ul class="notes" style="list-style-type:none;">
         <li *ngFor="let note of notes">
@@ -11,8 +11,7 @@
 
                 </div>
                 <div class="col text-end">
-                    <button type="button" class="btn btn-primary  mx-2 my-2 " (click)="updateNote(note.note_id)">Edit</button>
-                    <button type="button" class="btn btn-primary mx-2 mx-2 my-2" (click)="deletNote(note.note_id)">Remove</button>
+                    <span class="titel  fs-4" >Author: {{note.author}}</span>  
                 </div>
                 
                 
@@ -25,8 +24,7 @@
     </li>
     </ul>
 </div>
-<ng-template #elseBlock>You have no Notes yet
-    <br>
-    create a new Note here: "Link zur Noteerstellung"
-
+<ng-template #elseBlock>
+    No public Notes createt yet
 </ng-template>
+
