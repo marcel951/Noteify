@@ -27,7 +27,6 @@ export class RegisterComponent implements OnInit {
   
   onSubmit(form: NgForm) {
     this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
-main
       if (res.status) { 
         console.log(res);
         this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));  
