@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit{
   ) { }
 
   ngOnInit(){
-    this.api.getTypeRequest("/home/publicnotes").subscribe((res:any) => {
+    this.api.getTypeRequest("home/publicnotes").subscribe((res:any) => {
       console.log(res);
       this.notes = res.data;
     });
