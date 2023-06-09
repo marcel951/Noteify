@@ -3,7 +3,7 @@ const router = express.Router();
 
 const jwt = require('jsonwebtoken');
 const mariadb = require('mariadb');
-const argon = require('argon2');
+//const argon = require('argon2');
 const pool = mariadb.createPool({
     host: 'localhost', 
     port: '3306',
