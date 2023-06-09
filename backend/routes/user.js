@@ -77,9 +77,9 @@ router.post('/register', async function (req, res, next) {
     const emailExists = await checkIfEmailExists(email);
 
     if(userExists){
-      res.send({status:0, error: 'username already taken'});
+      res.send({status:0, error: 'username already taken', msg:'This username is already taken'});
     }else if(emailExists){
-      res.send({status:0, error: 'email already taken'});
+      res.send({status:0, error: 'email already taken', msg:'This email is already taken'});
     } else {
       conn.query(newUser, [username, hashed_password, email], (err, result, fields) => {
         if(err){
