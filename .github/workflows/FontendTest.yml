@@ -23,6 +23,6 @@ jobs:
       working-directory: ./frontend
       run:  npm ci
 
-    - name: Run tests
+    - name: Run compile Test
       working-directory: ./frontend
-      run:  npm serve
+      run:  ng serve
