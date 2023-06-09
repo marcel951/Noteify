@@ -29,40 +29,67 @@ async function asyncFunction() {
     } finally {
       //if (conn) conn.release(); //release to pool
     }
+}
+
+async function checkIfUserExists(username){
+  const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE username = ?';
+
+  try{
+    const conn = await pool.getConnection();
+    const result = await conn.query(checkUsername, [username]);
+    conn.release();
+
+    const count = result[0].count;
+    return count > 0;
+  } catch(error) {
+    console.error(error);
+    throw error;
   }
+}
+
+async function checkIfEmailExists(email){
+  const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE email = ?';
+
+  try{
+    const conn = await pool.getConnection();
+    const result = await conn.query(checkUsername, [email]);
+    conn.release();
+
+    const count = result[0].count;
+    return count > 0;
+  } catch(error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 
 /* GET users listing. */
 router.post('/register', async function (req, res, next) {
-  console.log(new Date());
-  console.log('Register triggered');
-
-  let conn;
-
   try {
-    console.log('Register start');
-    conn = await pool.getConnection();
-    let {username, email, password} = req.body;
+    const conn = await pool.getConnection();
+    const {username, email, password} = req.body;
     const hashed_password = await argon.hash(password.toString());
 
-    const checkUsername = `SELECT username FROM users WHERE username = ?`;
-    const newUser =`INSERT INTO users (username, pass, email) VALUES (?, ?, ?)`;
+    const newUser ='INSERT INTO users (username, pass, email) VALUES (?, ?, ?)';
 
-    console.log('Register #1');
-    conn.query(checkUsername, [username], (err, result, fields) => {
-      if(!result.length){
-        conn.query(newUser, [username, hashed_password, email], (err, result, fields) => {
-          if(err){
-            res.send({status: 0, data: err});
-          }else{
-            let token = jwt.sign({data:result}, 'secret')
-            res.send({status: 1, data: result, token: token});
-          }
-        })
-      }
-    });
-    console.log('Register end');
-    const rows = await conn.query("SELECT * from users");
-    console.log(rows);
+    const userExists = await checkIfUserExists(username);
+    const emailExists = await checkIfEmailExists(email);
+
+    if(userExists){
+      res.send({status:0, error: 'username already taken'});
+    }else if(emailExists){
+      res.send({status:0, error: 'email already taken'});
+    } else {
+      conn.query(newUser, [username, hashed_password, email], (err, result, fields) => {
+        if(err){
+          res.send({status: 0, data: err});
+        }else{
+          let token = jwt.sign({data:result}, 'secret')
+          res.send({status: 1, data: result, token: token});
+        }
+      });
+    }
   } catch(error){
     res.send({status:0 , error: 'Registration failed'});
   }
