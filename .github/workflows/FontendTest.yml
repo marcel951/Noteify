@@ -25,4 +25,4 @@ jobs:
 
     - name: Run compile Test
       working-directory: ./frontend
-      run:  npm build
+      run:  npm run build
