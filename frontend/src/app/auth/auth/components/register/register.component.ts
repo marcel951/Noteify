@@ -5,6 +5,21 @@ import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { zxcvbn, zxcvbnOptions } from '@zxcvbn-ts/core'
+import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common'
+import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en'
+import * as zxcvbnDePackage from '@zxcvbn-ts/language-de'
+
+const options = {
+  translations: zxcvbnDePackage.translations,
+  graphs: zxcvbnCommonPackage.adjacencyGraphs,
+  dictionary: {
+    ...zxcvbnCommonPackage.dictionary,
+    ...zxcvbnEnPackage.dictionary,
+    ...zxcvbnDePackage.dictionary
+  },
+}
+  let res :any;
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -18,14 +33,19 @@ export class RegisterComponent implements OnInit {
     private _api: ApiService, 
     private _auth: AuthService, 
     private _router:Router
-
+    
   ) { }
 
   ngOnInit() {
     this.isUserLogin();
+    zxcvbnOptions.setOptions(options);
   }
   
   onSubmit(form: NgForm) {
+    res = zxcvbn(form.value.password);
+    console.log("here");
+    console.log(res);
+    /*
     this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
       if (res.status) { 
         console.log(res);
@@ -54,7 +74,7 @@ export class RegisterComponent implements OnInit {
 
         appendAlert(res.msg, 'danger')
       }
-    });
+    });*/
   }
 
 
