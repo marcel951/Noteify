@@ -57,4 +57,28 @@ router.get('/singlenote/:id', async function (req, res) {
   });
   res.send({status : 1,data : data});
 });
+
+async function asyncFunctionNewNote(titel, isPrivate, content) {
+  let conn;
+  try {
+    //TODO: Titel mit einfügen sobald die DB das hergibt 
+    const query = "INSERT INTO notes( isPrivate,content, user_id) VALUES (?,?,?)"
+    conn = await pool.getConnection();
+    //TODO: get authorId aus JWT vorher verify
+    const authorId = 1;
+    const note = await conn.query(query, [isPrivate, content, authorId]);
+    console.log(note); 
+    const test = await conn.query("SELECT * FROM notes");
+    console.log(test);  
+    return note;
+  } finally {
+    //if (conn) conn.release(); //release to pool
+  }
+}
+router.post('/new', async function (req, res) {
+  console.log("post new note");
+  const {titel, content, isPrivate} = req.body;
+  const data = await asyncFunctionNewNote(titel, isPrivate, content);
+  res.send({status : 1});
+});
 module.exports = router;
