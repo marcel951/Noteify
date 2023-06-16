@@ -3,11 +3,12 @@
 <div *ngIf="notes.length > 0; else elseBlock">
     <ul class="notes" style="list-style-type:none;">
         <li *ngFor="let note of notes">
+            <a [routerLink]="['/note', note.note_id]">
         <div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
             <div class="row">
                 <div class="col"></div>
                 <div class="col text-center">
-                    <span class="titel fw-bold fs-2" >{{note.titel}}</span>  
+                    <span class="titel fw-bold fs-2" >{{note.titel}} {{note.note_id}}</span>  
 
                 </div>
                 <div class="col text-end">
@@ -21,6 +22,7 @@
             </div>
         
         </div>
+        </a>
     </li>
     </ul>
 </div>

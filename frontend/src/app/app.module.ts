@@ -7,12 +7,14 @@ import { AuthModule } from './auth/auth/auth.module';
 import { RouterModule } from '@angular/router';
 import { NotesComponent } from './main/notes/notes.component';
 import { HomeComponent } from './main/home/home.component';
+import { SingleNoteComponent } from './main/single-note/single-note.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotesComponent,
-    HomeComponent
+    HomeComponent,
+    SingleNoteComponent
   ],
   imports: [
     BrowserModule,
