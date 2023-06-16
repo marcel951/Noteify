@@ -27,39 +27,39 @@ const options = {
 })
 export class RegisterComponent implements OnInit {
   isLogin: boolean = false
-  errorMessage: any 
-  
+  errorMessage: any
+
   constructor(
-    private _api: ApiService, 
-    private _auth: AuthService, 
+    private _api: ApiService,
+    private _auth: AuthService,
     private _router:Router
-    
+
   ) { }
 
   ngOnInit() {
     this.isUserLogin();
     zxcvbnOptions.setOptions(options);
   }
-  
+
   onSubmit(form: NgForm) {
     res = zxcvbn(form.value.password);
     console.log("here");
     console.log(res);
-    /*
+
     this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
-      if (res.status) { 
+      if (res.status) {
         console.log(res);
-        this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));  
-        this._auth.setDataInLocalStorage('token', res.token);  
+        this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
+        this._auth.setDataInLocalStorage('token', res.token);
         this._router.navigate(['login']);
-      } else { 
+      } else {
         console.log(res);
         //alert(res.msg);
-        
+
         const app = document.getElementById("liveAlertPlaceholder")!;
         //app?.classList.add("alert");   //add the class
         //app?.classList.add("alert-primary");
-        
+
         const appendAlert = (message: any, type: any) => {
           const wrapper = document.createElement('div')
           wrapper.innerHTML = [
@@ -74,7 +74,7 @@ export class RegisterComponent implements OnInit {
 
         appendAlert(res.msg, 'danger')
       }
-    });*/
+    });
   }
 
 
