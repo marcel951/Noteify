@@ -3,7 +3,8 @@ const router = express.Router();
 
 const jwt = require('jsonwebtoken');
 const mariadb = require('mariadb');
-//const argon = require('argon2');
+const argon = require('argon2');
+const util = require("util");
 const pool = mariadb.createPool({
     host: 'localhost', 
     port: '3306',
@@ -69,7 +70,7 @@ router.post('/register', async function (req, res, next) {
   try {
     const conn = await pool.getConnection();
     const {username, email, password} = req.body;
-    const hashed_password = "abc";//await argon.hash(password.toString());
+    const hashed_password = await argon.hash(password.toString());
 
     const newUser ='INSERT INTO users (username, pass, email) VALUES (?, ?, ?)';
 
@@ -91,38 +92,46 @@ router.post('/register', async function (req, res, next) {
       });
     }
   } catch(error){
+    console.log(error);
     res.send({status:0 , error: 'Registration failed'});
   }
 });
 
 
-router.get('/test', async function (req, res) {
-    asyncFunction();
-    res.send({ status: 1});
 
-    
-});
 
 router.post('/login', async function (req, res, next) {
+  const con = await pool.getConnection();
+  const argon2 = require('argon2');
+  console.log("login");
   try {
-    let { username, password } = req.body; 
-   
-    const hashed_password = md5(password.toString())
-    const sql = `SELECT * FROM users WHERE username = ? AND password = ?`
-    
-    con.query(
-      sql, [username, hashed_password],
-    function(err, result, fields){
-      if(err){
-        res.send({ status: 0, data: err });
-      }else{
-        let token = jwt.sign({ data: result }, 'secret')
+    const { username, password } = req.body;
+
+    const sql = `SELECT * FROM users WHERE username = ?`;
+    console.log("username: ", username);
+    const result = await con.query(sql, [username]);
+    console.log("result: ", result[0].pass);
+    if (result.length > 0) {
+      const hashedPassword = result[0].pass;
+      const isMatch = await argon2.verify(hashedPassword, password.toString());
+      console.log("isMatch: ", isMatch);
+      if (isMatch) {
+        console.log("generate Token start");
+        const token = jwt.sign({ data: result }, '1337leet420');
+        console.log("Login Successful!!!!");
         res.send({ status: 1, data: result, token: token });
+
+      } else {
+        res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});
       }
-     
-    })
+    } else {
+      res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});
+    }
   } catch (error) {
     res.send({ status: 0, error: error });
   }
 });
+
+
+
 module.exports = router;
