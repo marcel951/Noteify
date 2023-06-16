@@ -36,4 +36,25 @@ router.get('/publicnotes', async function (req, res) {
     res.send({status : 1,data : data});
 });
 
+async function asyncFunctionSinglePage(id) {
+  let conn;
+  try {
+    const query = "SELECT * FROM notes WHERE notes.note_id = ?"
+    conn = await pool.getConnection();
+    const note = await conn.query(query, [id]);
+    console.log(note);  
+    return note;
+  } finally {
+    //if (conn) conn.release(); //release to pool
+  }
+}
+router.get('/singlenote/:id', async function (req, res) {
+  console.log("get SingleNote");
+  const data = await asyncFunctionSinglePage(req.params.id);
+  data.forEach(element => {
+      element.note_id = element.note_id.toString();
+      element.user_id = element.user_id.toString();
+  });
+  res.send({status : 1,data : data});
+});
 module.exports = router;

@@ -1,0 +1,18 @@
+<div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col text-center">
+            <span class="titel fw-bold fs-2" >{{notes[0].titel}} {{notes[0].note_id}}</span>  
+
+        </div>
+        <div class="col text-end">
+            <span class="titel  fs-4" >Author: {{notes[0].author}}</span>  
+        </div>
+        
+        
+    </div>
+    <div class="row">
+    <span class="content fs-5" [innerHTML]="notes[0].content"></span> 
+    </div>
+
+</div>
