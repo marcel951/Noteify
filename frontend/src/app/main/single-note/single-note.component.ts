@@ -15,7 +15,9 @@ export class SingleNoteComponent implements OnInit{
   id  = 0;
   private res: any;
   notes = NOTES;
-
+  author_id_user = -1;
+  author_id_note = -2;
+  data = localStorage.getItem("userData");
   constructor(
     private route: ActivatedRoute,
     private api: ApiService, 
@@ -25,12 +27,16 @@ export class SingleNoteComponent implements OnInit{
     this.res = this.route.params.subscribe(para => {
       this.id = +para['id'];
     })
-
-    console.log("test singleNote"+this.id);
-
+    if(this.data != null) {
+      this.author_id_user = JSON.parse(this.data).user_id;
+    }
+    console.log(this.author_id_user)
     this.api.getTypeRequest("home/singlenote/"+this.id).subscribe((res:any) => {
       console.log(res);
       this.notes = res.data;
+      console.log(res.data)
+      this.author_id_note = res.data[0].user_id;
+      console.log(this.author_id_note)
       this.parse();
     });
     
