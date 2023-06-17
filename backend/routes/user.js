@@ -6,7 +6,9 @@ const mariadb = require('mariadb');
 const argon = require('argon2');
 const util = require("util");
 const pool = mariadb.createPool({
-    host: 'localhost', 
+  //ACHTUNG!!!!!!!
+  //host: 'localhost', ==> Kein Container Betrieb !!!!!!
+    host: 'database', //==> Container Betrieb !!!!!!
     port: '3306',
     user:'admin', 
     password: 'admin',

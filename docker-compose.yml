@@ -1,5 +1,6 @@
 version: '3'
 services:
+
     backend:
         container_name: backend
         build:
@@ -21,7 +22,7 @@ services:
             - ./cert.crt:/etc/nginx/ssl/cert.crt
             - ./cert.key:/etc/nginx/ssl/cert.key
     database:
-        container_name: mariaDB
+        container_name: database
         build:
             context: .
             dockerfile: mariaDB/Dockerfile
