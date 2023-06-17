@@ -7,14 +7,15 @@ import { NotesComponent } from './main/notes/notes.component';
 import { SingleNoteComponent } from './main/single-note/single-note.component';
 import { NewNoteComponent } from './main/new-note/new-note.component';
 import { UpdateNoteComponent } from './main/update-note/update-note.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
 {path: 'login', component: LoginComponent},
 {path: 'register', component: RegisterComponent},
-{path: 'notes', component: NotesComponent},
-{path: 'new', component: NewNoteComponent},
-{path: 'note/:id', component: SingleNoteComponent},
-{path: 'update/:id', component: UpdateNoteComponent},
+{path: 'notes',canActivate: [AuthGuardService], component: NotesComponent},
+{path: 'new', canActivate: [AuthGuardService],component: NewNoteComponent},
+{path: 'note/:id',component: SingleNoteComponent},
+{path: 'update/:id', canActivate: [AuthGuardService],component: UpdateNoteComponent},
 {path: '', component: HomeComponent}
 ];
 

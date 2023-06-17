@@ -11,6 +11,8 @@ import { SingleNoteComponent } from './main/single-note/single-note.component';
 import { NewNoteComponent } from './main/new-note/new-note.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdateNoteComponent } from './main/update-note/update-note.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './services/interceptor-service.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,11 @@ import { UpdateNoteComponent } from './main/update-note/update-note.component';
   exports : [
     NewNoteComponent,
   ],
-  providers: [],
+  providers: [
+{   provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
