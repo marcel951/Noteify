@@ -17,16 +17,21 @@ export class NotesComponent implements OnInit {
   ){}
   notes = NOTES;
   ngOnInit(){
-    this.notes.forEach(elem => {
-        (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
-      //console.log(elem.content)
-    });
     //Hier API Req für alle public notes
     this.api.getTypeRequest("home/usernotes").subscribe((res:any) => {
       //console.log(res);
       this.notes = res.data;
+      this.parse();
+    });
+    
+  }
+  parse(){
+      this.notes.forEach(elem => {
+        (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
     });
   }
+  
+
   //Potenziell in eigenen Service auslagern 
   //Nur möglich falls logged in
   updateNote(note_id : number){
