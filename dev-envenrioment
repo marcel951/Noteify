@@ -1,0 +1,5 @@
+NOTES_PASSWORD=
+mariaDB_USER=admin
+marriaDB_PASSWORD=
+NOTES_USER=Test
+NOTES_DB_HOST=localhost
