@@ -2,6 +2,7 @@ import { Component, makeEnvironmentProviders, OnInit } from '@angular/core';
 import { NOTES } from '../mock-notes';
 import { Note } from '../note';
 import * as marked from 'marked';
+import { ApiService } from 'src/app/services/api.service';
 
 
 //declare const marked: any;
@@ -11,13 +12,20 @@ import * as marked from 'marked';
   styleUrls: ['./notes.component.css']
 })
 export class NotesComponent implements OnInit {
+  constructor(
+    private api : ApiService,
+  ){}
   notes = NOTES;
   ngOnInit(){
     this.notes.forEach(elem => {
         (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
-      console.log(elem.content)}
-    );
+      //console.log(elem.content)
+    });
     //Hier API Req für alle public notes
+    this.api.getTypeRequest("home/usernotes").subscribe((res:any) => {
+      //console.log(res);
+      this.notes = res.data;
+    });
   }
   //Potenziell in eigenen Service auslagern 
   //Nur möglich falls logged in
