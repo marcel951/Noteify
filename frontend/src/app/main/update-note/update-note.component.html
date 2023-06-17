@@ -1,0 +1,20 @@
+<p>update-note works!</p>
+<div class='row m-0 w-100'>
+    <div class='col-md-4 offset-4 mt-5'>
+        <h4>Update Note</h4>
+        
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+            <input id="titel" type="text" formControlName="titel">
+            <br>
+
+
+            <textarea class="form-control" id="content" rows="10" formControlName="content"></textarea>
+            <br>
+            is Private : <input class="form-check-input" type="checkbox" value="" id="isPrivate" formControlName="isPrivate">
+            <br>
+            <input class='btn btn-outline-info' type="submit" value="UpdateNote">
+            
+        </form>
+          
+    </div>
+</div>

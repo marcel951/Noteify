@@ -10,6 +10,7 @@ CREATE TABLE notes (
     user_id BIGINT UNSIGNED,
     isPrivate BOOLEAN,
     content VARCHAR(255),
+    titel VARCHAR(50),
     FOREIGN KEY (user_id) REFERENCES `users` (user_id)
 );
 
