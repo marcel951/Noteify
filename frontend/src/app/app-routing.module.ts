@@ -6,6 +6,7 @@ import { HomeComponent } from './main/home/home.component';
 import { NotesComponent } from './main/notes/notes.component';
 import { SingleNoteComponent } from './main/single-note/single-note.component';
 import { NewNoteComponent } from './main/new-note/new-note.component';
+import { UpdateNoteComponent } from './main/update-note/update-note.component';
 
 const routes: Routes = [
 {path: 'login', component: LoginComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
 {path: 'notes', component: NotesComponent},
 {path: 'new', component: NewNoteComponent},
 {path: 'note/:id', component: SingleNoteComponent},
+{path: 'update/:id', component: UpdateNoteComponent},
 {path: '', component: HomeComponent}
 ];
 

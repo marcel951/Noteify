@@ -61,12 +61,11 @@ router.get('/singlenote/:id', async function (req, res) {
 async function asyncFunctionNewNote(titel, isPrivate, content) {
   let conn;
   try {
-    //TODO: Titel mit einfügen sobald die DB das hergibt 
-    const query = "INSERT INTO notes( isPrivate,content, user_id) VALUES (?,?,?)"
+    const query = "INSERT INTO notes(titel, isPrivate,content, user_id) VALUES (?,?,?,?)"
     conn = await pool.getConnection();
     //TODO: get authorId aus JWT vorher verify
     const authorId = 1;
-    const note = await conn.query(query, [isPrivate, content, authorId]);
+    const note = await conn.query(query, [titel,isPrivate, content, authorId]);
     console.log(note); 
     const test = await conn.query("SELECT * FROM notes");
     console.log(test);  
@@ -81,4 +80,27 @@ router.post('/new', async function (req, res) {
   const data = await asyncFunctionNewNote(titel, isPrivate, content);
   res.send({status : 1});
 });
+
+async function asyncFunctionUpdate(id,titel,isPrivate,content) {
+  let conn;
+  try { 
+    const query = "UPDATE notes SET titel = ?, isPrivate = ?, content = ? WHERE note_id = ?"
+    conn = await pool.getConnection();
+    //TODO: get authorId aus JWT vorher verify
+    const authorId = 1;
+    const note = await conn.query(query, [titel,isPrivate, content, id]);
+    console.log(note); 
+    return note;
+  } finally {
+    //if (conn) conn.release(); //release to pool
+  }
+}
+router.post('/update/:id', async function (req, res) {
+  console.log("post update note");
+  const {titel, content, isPrivate} = req.body;
+  const data = await asyncFunctionUpdate(req.params.id,titel,isPrivate, content);
+  res.send({status : 1});
+});
+
+
 module.exports = router;
