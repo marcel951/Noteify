@@ -1,3 +1,15 @@
+# Docker Commands
+##Build && run
+sudo docker-compose up --build -d
+
+##Check State
+sudo docker-compose ps
+
+##Stop
+sudo docker-compose down
+
+
+
 # SSE_SoSe_2023_Projekt
 * feat: The new feature you're adding to a particular application
 * fix: A bug fix
