@@ -139,10 +139,9 @@ router.post('/login', async function (req, res, next) {
       console.log("isMatch: ", isMatch);
       if (isMatch) {
         console.log("generate Token start");
-        const token = jwt.sign({ data: result }, '1337leet420');
+        const token = jwt.sign({data:username}, '1337leet420');
         console.log("Login Successful!");
-        res.send({ status: 1, data: result, token: token });
-
+        res.send({ status:1, data:username, token:token });
       } else {
         res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});
       }
