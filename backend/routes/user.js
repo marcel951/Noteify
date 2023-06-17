@@ -122,8 +122,10 @@ router.post('/register', async function (req, res, next) {
       const newUser = await registerNewUser(username, hashed_password, email);
       
       if(newUser > 0){
-        let token = jwt.sign({username}, 'secret')
-        res.send({status: 1, token: token, data:username});
+        const query = "SELECT user_id FROM users WHERE username = ?";
+        userIdQuery = await conn.query(query,username);
+        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420')
+        res.send({status: 1, token: token, data:{username,user_id: userIdQuery[0].user_id.toString()}});
       } else {
         res.send({status: 0, data: err});
       }
@@ -154,9 +156,11 @@ router.post('/login', async function (req, res, next) {
       console.log("isMatch: ", isMatch);
       if (isMatch) {
         console.log("generate Token start");
-        const token = jwt.sign({data:username}, '1337leet420');
+        const query = "SELECT user_id FROM users WHERE username = ?";
+        userIdQuery = await conn.query(query,username);
+        const token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420')
         console.log("Login Successful!");
-        res.send({ status:1, data:username, token:token });
+        res.send({ status:1, data:{username,user_id: userIdQuery[0].user_id.toString()}, token:token });
       } else {
         res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});
       }
