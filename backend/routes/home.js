@@ -18,7 +18,7 @@ function authenticateToken(req, res, next){
   } else {
     jwt.verify(req.headers.authorization, "1337leet420", function (err, decoded) {
         if(decoded){
-            req.user = decoded.data
+            req.user = decoded.user_id
             console.log(req.user);
             next()
         }else{
@@ -31,21 +31,20 @@ function authenticateToken(req, res, next){
 
 async function asyncFunction() {
     let conn;
-    console.log("test-DB");
     try {
       conn = await pool.getConnection();
       //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('1',TRUE,'private note1')");
       //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('2',FALSE,'public note 1')");
       //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('2',FALSE,'public note 1 Test für falschen Zuigriff')");
       const rows = await conn.query("SELECT * FROM notes WHERE notes.isPrivate = FALSE");
-      console.log(rows);  
+      console.log(rows); 
+      await conn.release(); 
       return rows;
     } finally {
       //if (conn) conn.release(); //release to pool
     }
 }
 router.get('/publicnotes', async function (req, res) {
-    console.log("get");
     const data = await asyncFunction();
     data.forEach(element => {
         element.note_id = element.note_id.toString();
@@ -59,10 +58,10 @@ async function asyncFunctionUserNotes(user_id) {
   let conn;
   try {
     conn = await pool.getConnection();
-    user_id = 1;
     const query = "SELECT * FROM notes WHERE notes.user_id = ?";
     const rows = await conn.query(query,[user_id]);
-    console.log(rows);  
+    console.log(rows); 
+    await conn.release(); 
     return rows;
   } finally {
     //if (conn) conn.release(); //release to pool
@@ -84,6 +83,7 @@ async function asyncFunctionSinglePage(id) {
     conn = await pool.getConnection();
     const note = await conn.query(query, [id]);
     console.log(note);  
+    await conn.release();
     return note;
   } finally {
     //if (conn) conn.release(); //release to pool
@@ -106,11 +106,11 @@ async function asyncFunctionNewNote(titel, isPrivate, content, authorId) {
     conn = await pool.getConnection();
     //TODO: get authorId aus JWT vorher verify
     console.log(authorId);
-    authorId = 1;
     const note = await conn.query(query, [titel,isPrivate, content, authorId]);
     console.log(authorId); 
     const test = await conn.query("SELECT * FROM notes");
-    //console.log(test);  
+    //console.log(test);
+    await conn.release();  
     return note;
   } finally {
     //if (conn) conn.release(); //release to pool
@@ -131,9 +131,10 @@ async function asyncFunctionUpdate(id,titel,isPrivate,content,authorId,res) {
     const query = "UPDATE notes SET titel = ?, isPrivate = ?, content = ? WHERE note_id = ?"
     conn = await pool.getConnection();
     //TODO: get authorId aus JWT vorher verify
-    authorId = 1;
     const query2 = "SELECT user_id FROM notes WHERE note_id = ?";
     authorIdQuery = await conn.query(query2,[id]);
+    await conn.release();
+
     if(authorId == authorIdQuery[0].user_id){
       const note = await conn.query(query, [titel,isPrivate, content, id]);
       console.log(note); 
