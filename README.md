@@ -1,7 +1,7 @@
 # Docker Commands
 ## Build && run
 sudo docker-compose up --build -d
-Das -d steht für Hintergrund
+### Das -d steht für Hintergrund
 
 
 ## Check State
