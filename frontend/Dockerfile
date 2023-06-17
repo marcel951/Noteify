@@ -10,10 +10,11 @@ COPY . .
 RUN npm run build
 
 # Nginx-Image als Basis verwenden
-FROM nginx:latest
+FROM nginx:alpine
 # Nginx-Konfiguration ersetzen
 COPY nginx.conf /etc/nginx/nginx_original.conf
 COPY nginx.conf /etc/nginx/nginx.conf
+
 # Angular-Build in Nginx-Verzeichnis kopieren
 COPY --from=build /app/dist/frontend /usr/share/nginx/html
 # Port freigeben

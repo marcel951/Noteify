@@ -1,12 +1,16 @@
 version: '3'
 services:
     backend:
+        container_name: backend
         build:
             context: backend
             dockerfile: Dockerfile
+        ports:
+            - "4000:4000"
         depends_on:
             - database
     frontend:
+        container_name: frontend
         build:
             context: frontend
             dockerfile: Dockerfile
@@ -17,6 +21,7 @@ services:
             - ./cert.crt:/etc/nginx/ssl/cert.crt
             - ./cert.key:/etc/nginx/ssl/cert.key
     database:
+        container_name: mariaDB
         build:
             context: .
             dockerfile: mariaDB/Dockerfile
