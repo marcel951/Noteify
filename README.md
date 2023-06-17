@@ -1,11 +1,11 @@
 # Docker Commands
-##Build && run
+## Build && run
 sudo docker-compose up --build -d
 
-##Check State
+## Check State
 sudo docker-compose ps
 
-##Stop
+## Stop
 sudo docker-compose down
 
 
