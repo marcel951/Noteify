@@ -5,11 +5,13 @@ import { RegisterComponent } from './auth/auth/components/register/register.comp
 import { HomeComponent } from './main/home/home.component';
 import { NotesComponent } from './main/notes/notes.component';
 import { SingleNoteComponent } from './main/single-note/single-note.component';
+import { NewNoteComponent } from './main/new-note/new-note.component';
 
 const routes: Routes = [
 {path: 'login', component: LoginComponent},
 {path: 'register', component: RegisterComponent},
 {path: 'notes', component: NotesComponent},
+{path: 'new', component: NewNoteComponent},
 {path: 'note/:id', component: SingleNoteComponent},
 {path: '', component: HomeComponent}
 ];

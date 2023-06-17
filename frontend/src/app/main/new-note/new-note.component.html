@@ -1,0 +1,18 @@
+<p>new-note works!</p>
+<div class='row m-0 w-100'>
+    <div class='col-md-4 offset-4 mt-5'>
+        <h4>New Note</h4>
+        
+        <form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
+            <div class='form-group'><input class='form-control' type="text" name="titel" placeholder="Titel" ngModel>
+                </div>
+            <div class='form-group'><input class='form-control' type="text" name="content" placeholder="Content" ngModel>
+                </div>
+            <div class='form-group'>
+                Note is private:<input class='' type="checkbox" value = "isPrivate" name="isPrivate" ngModel>
+            </div> 
+            <input class='btn btn-outline-info' type="submit" value="NewNote">
+        </form>
+          
+    </div>
+</div>

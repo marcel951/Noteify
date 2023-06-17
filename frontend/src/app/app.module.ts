@@ -8,19 +8,26 @@ import { RouterModule } from '@angular/router';
 import { NotesComponent } from './main/notes/notes.component';
 import { HomeComponent } from './main/home/home.component';
 import { SingleNoteComponent } from './main/single-note/single-note.component';
+import { NewNoteComponent } from './main/new-note/new-note.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotesComponent,
     HomeComponent,
-    SingleNoteComponent
+    SingleNoteComponent,
+    NewNoteComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule,
-    AuthModule
+    AuthModule,
+    FormsModule
+  ],
+  exports : [
+    NewNoteComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
