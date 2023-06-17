@@ -20,8 +20,9 @@ export class HomeComponent implements OnInit{
     this.api.getTypeRequest("home/publicnotes").subscribe((res:any) => {
       console.log(res);
       this.notes = res.data;
+      this.parse();
     });
-    this.parse();
+    
   }
   parse(){
       this.notes.forEach(elem => {

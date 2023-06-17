@@ -31,8 +31,12 @@ export class SingleNoteComponent implements OnInit{
     this.api.getTypeRequest("home/singlenote/"+this.id).subscribe((res:any) => {
       console.log(res);
       this.notes = res.data;
+      this.parse();
     });
-    this.notes.forEach(elem => {
+    
+  }
+  parse(){
+      this.notes.forEach(elem => {
         (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
     });
   }
