@@ -86,6 +86,20 @@ async function checkIfEmailExists(email){
   }
 }
 
+async function registerNewUser(username, password, email){
+  const newUser ='INSERT INTO users (username, pass, email) VALUES (?, ?, ?)';
+
+  try{
+    const conn = await pool.getConnection();
+    const result = await conn.query(newUser, [username, password, email]);
+    conn.release();
+
+    return 1;
+  } catch(error) {
+    return 0;
+  }
+}
+
 
 /* GET users listing. */
 router.post('/register', async function (req, res, next) {
@@ -94,7 +108,7 @@ router.post('/register', async function (req, res, next) {
     const {username, email, password} = req.body;
     const hashed_password = await argon.hash(password.toString());
 
-    const newUser ='INSERT INTO users (username, pass, email) VALUES (?, ?, ?)';
+    
 
     const userExists = await checkIfUserExists(username);
     const emailExists = await checkIfEmailExists(email);
@@ -104,14 +118,15 @@ router.post('/register', async function (req, res, next) {
     }else if(emailExists){
       res.send({status:0, error: 'email already taken', msg:'This email is already taken'});
     } else {
-      conn.query(newUser, [username, hashed_password, email], (err, result, fields) => {
-        if(err){
-          res.send({status: 0, data: err});
-        }else{
-          let token = jwt.sign({data:result}, 'secret')
-          res.send({status: 1, data: result, token: token});
-        }
-      });
+      
+      const newUser = await registerNewUser(username, hashed_password, email);
+      
+      if(newUser > 0){
+        let token = jwt.sign({username}, 'secret')
+        res.send({status: 1, token: token, data:username});
+      } else {
+        res.send({status: 0, data: err});
+      }
     }
   } catch(error){
     console.log(error);
