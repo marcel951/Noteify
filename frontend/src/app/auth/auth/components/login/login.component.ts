@@ -32,7 +32,8 @@ export class LoginComponent implements OnInit {
         this._auth.setDataInLocalStorage('token', res.token);
         this._router.navigate(['']);
       }
-    })}
+    })
+  }
 
     isUserLogin(){
       if(this._auth.getUserDetails() != null){this.isLogin = true;

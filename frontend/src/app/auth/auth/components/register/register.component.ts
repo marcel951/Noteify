@@ -46,35 +46,43 @@ export class RegisterComponent implements OnInit {
     console.log("here");
     console.log(res);
 
-    this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
-      if (res.status) {
-        console.log(res);
-        this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
-        this._auth.setDataInLocalStorage('token', res.token);
-        this._router.navigate(['login']);
+    const app = document.getElementById("liveAlertPlaceholder")!;
+            //app?.classList.add("alert");   //add the class
+            //app?.classList.add("alert-primary");
+    
+    const appendAlert = (message: any, type: any) => {
+      const wrapper = document.createElement('div')
+      wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+      ].join('')
+
+      app.append(wrapper);
+    }
+
+    this._api.postTypeRequest('user/checkPW', form.value).subscribe((res: any) => {
+      if(res.score > 2){
+        this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
+          if (res.status) {
+            console.log(res);
+            this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
+            this._auth.setDataInLocalStorage('token', res.token);
+            this._router.navigate(['login']);
+          } else {
+            console.log(res);
+            appendAlert(res.msg, 'danger')
+          }
+        });
       } else {
-        console.log(res);
-        //alert(res.msg);
-
-        const app = document.getElementById("liveAlertPlaceholder")!;
-        //app?.classList.add("alert");   //add the class
-        //app?.classList.add("alert-primary");
-
-        const appendAlert = (message: any, type: any) => {
-          const wrapper = document.createElement('div')
-          wrapper.innerHTML = [
-            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-            `   <div>${message}</div>`,
-            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-            '</div>'
-          ].join('')
-
-          app.append(wrapper);
-        }
-
-        appendAlert(res.msg, 'danger')
+        appendAlert("Dein Passwort ist zu schwach.", 'danger');
+        appendAlert(res.feedback.warning, 'info');
+        console.log(res.feedback);
       }
     });
+
+    
   }
 
 

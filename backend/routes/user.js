@@ -13,6 +13,28 @@ const pool = mariadb.createPool({
     database: 'db_notes'
 });
 
+const {zxcvbn, zxcvbnOptions} = require("@zxcvbn-ts/core");
+const zxcvbnCommonPackage = require("@zxcvbn-ts/language-common");
+const zxcvbnEnPackage = require("@zxcvbn-ts/language-en");
+const zxcvbnDePackage = require("@zxcvbn-ts/language-de");
+
+// import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
+// import * as zxcvbnCommonPackage from "@zxcvbn-ts/language-common";
+// import * as zxcvbnEnPackage from "@zxcvbn-ts/language-en";
+// import * as zxcvbnDePackage from "@zxcvbn-ts/language-de";
+
+
+
+const options = {
+  translations: zxcvbnDePackage.translations,
+  graphs: zxcvbnCommonPackage.adjacencyGraphs,
+  dictionary: {
+    ...zxcvbnCommonPackage.dictionary,
+    ...zxcvbnEnPackage.dictionary,
+    ...zxcvbnDePackage.dictionary
+  },
+}
+
 async function asyncFunction() {
     let conn;
     try {
@@ -118,7 +140,7 @@ router.post('/login', async function (req, res, next) {
       if (isMatch) {
         console.log("generate Token start");
         const token = jwt.sign({ data: result }, '1337leet420');
-        console.log("Login Successful!!!!");
+        console.log("Login Successful!");
         res.send({ status: 1, data: result, token: token });
 
       } else {
@@ -132,6 +154,20 @@ router.post('/login', async function (req, res, next) {
   }
 });
 
+router.post('/checkPW', async function (req, res, next) {
+  zxcvbnOptions.setOptions(options);
+
+  try{
+    const {username, email, password} = req.body;
+    const zxcvbnResult = zxcvbn(password, [username, email]);
+    const score = zxcvbnResult.score;
+    const feedback = zxcvbnResult.feedback;
+    res.send({score:score, feedback:feedback});
+  } catch(error) {
+    res.send({ status: 0, error: error });
+  }
+ 
+});
 
 
 module.exports = router;
