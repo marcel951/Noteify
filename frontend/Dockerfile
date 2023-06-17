@@ -19,5 +19,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist/frontend /usr/share/nginx/html
 # Port freigeben
 EXPOSE 80
+EXPOSE 443
 # Nginx-Server starten
 CMD ["nginx", "-g", "daemon off;"]
