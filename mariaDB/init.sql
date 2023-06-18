@@ -9,7 +9,7 @@ CREATE TABLE notes (
     note_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT UNSIGNED,
     isPrivate BOOLEAN,
-    content VARCHAR(255),
+    content TEXT,
     titel VARCHAR(50),
     created DATETIME,
     lastChanged DATETIME,

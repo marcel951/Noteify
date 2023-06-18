@@ -4,6 +4,6 @@ export interface Note {
     titel : string,
     content : string,
     author : string,
-    created : Date,
-    lastChanged : Date,
+    created : string,
+    lastChanged : string,
 }
