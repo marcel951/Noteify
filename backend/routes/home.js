@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({
     //ACHTUNG!!!!!!!
-    host: 'localhost',// ==> Kein Container Betrieb !!!!!!
+    host: 'localhost', //==> Kein Container Betrieb !!!!!!
     //host: 'database', //==> Container Betrieb !!!!!!
     port: '3306',
     user:'admin', 

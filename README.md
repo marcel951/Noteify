@@ -1,4 +1,4 @@
-# Docker Commands
+# Docker Commands für Container betrieb
 ## Build && run
 sudo docker-compose up --build -d
 ### Das -d steht für Hintergrund
@@ -9,6 +9,14 @@ sudo docker-compose ps
 
 ## Stop
 sudo docker-compose down
+
+# Docker Comands für Dev betrieb
+## im Backend in der user.js && home.js den Datenbankhost auf localhost setzen
+
+* sudo docker-compose build database
+* sudo docker-compose up database -d
+* mariadb --host 127.0.0.1 -P 3306 --user admin -padmin ==> Testen der DB Verbindung
+* Es wird nur die Datenbank gestartet
 
 
 
