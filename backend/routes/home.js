@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken');
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({
     //ACHTUNG!!!!!!!
-    //host: 'localhost', ==> Kein Container Betrieb !!!!!!
-    host: 'database', //==> Container Betrieb !!!!!!
+    host: 'localhost',// ==> Kein Container Betrieb !!!!!!
+    //host: 'database', //==> Container Betrieb !!!!!!
     port: '3306',
     user:'admin', 
     password: 'admin',
@@ -104,11 +104,12 @@ router.get('/singlenote/:id', async function (req, res) {
 async function asyncFunctionNewNote(titel, isPrivate, content, authorId) {
   let conn;
   try {
-    const query = "INSERT INTO notes(titel, isPrivate,content, user_id) VALUES (?,?,?,?)"
+    const query = "INSERT INTO notes(titel, isPrivate,content, user_id, created, lastChanged) VALUES (?,?,?,?,?,?)"
     conn = await pool.getConnection();
     //TODO: get authorId aus JWT vorher verify
     console.log(authorId);
-    const note = await conn.query(query, [titel,isPrivate, content, authorId]);
+    const date = new Date().toISOString().slice(0, 19);
+    const note = await conn.query(query, [titel,isPrivate, content, authorId,date,date]);
     console.log(authorId); 
     const test = await conn.query("SELECT * FROM notes");
     //console.log(test);
@@ -130,15 +131,17 @@ router.post('/new',authenticateToken, async function (req, res) {
 async function asyncFunctionUpdate(id,titel,isPrivate,content,authorId,res) {
   let conn;
   try { 
-    const query = "UPDATE notes SET titel = ?, isPrivate = ?, content = ? WHERE note_id = ?"
+    const query = "UPDATE notes SET titel = ?, isPrivate = ?, content = ?, lastChanged = ? WHERE notes.note_id = ?"
     conn = await pool.getConnection();
     //TODO: get authorId aus JWT vorher verify
     const query2 = "SELECT user_id FROM notes WHERE note_id = ?";
     authorIdQuery = await conn.query(query2,[id]);
     await conn.release();
-
+    
     if(authorId == authorIdQuery[0].user_id){
-      const note = await conn.query(query, [titel,isPrivate, content, id]);
+      const date = new Date().toISOString.slice(0, 19);
+      //.toLocaleString("en-US", {timeZone: 'Europe/Berlin'})
+      const note = await conn.query(query, [titel,isPrivate, content,date, id]);
       console.log(note); 
       return note;
     }else{

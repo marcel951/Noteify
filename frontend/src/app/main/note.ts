@@ -3,5 +3,7 @@ export interface Note {
     isPrivate: boolean,
     titel : string,
     content : string,
-    author : string
+    author : string,
+    created : Date,
+    lastChanged : Date,
 }
