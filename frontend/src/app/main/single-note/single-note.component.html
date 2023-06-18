@@ -1,4 +1,4 @@
-<div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
+<!--<div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
     <div class="row">
         <div class="col"></div>
         <div class="col text-center">
@@ -16,4 +16,25 @@
     <span class="content fs-5" [innerHTML]="notes[0].content"></span> 
     </div>
 
+</div>
+-->
+<div class="card mx-5 mt-5">
+    <div class="card-header">
+        <div class="row">
+            <div class="col text-start fs-4">Author: {{notes[0].author}}</div>
+            <div class="col text-end">
+            <button type="button" class="editbutton btn mx-2" [routerLink]="['/update', notes[0].note_id]" *ngIf='this.author_id_user == this.author_id_note'>Edit</button> <!--*ngIf='this.author_id_user == this.author_id_note'-->
+            <button type="button" class="editbutton btn " (click)="deletNote(notes[0].note_id)" *ngIf='this.author_id_user == this.author_id_note'>Delete</button> <!--*ngIf='this.author_id_user == this.author_id_note'-->
+
+        </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{notes[0].titel}}</h5>
+        <p class="card-text" [innerHTML]="notes[0].content"></p>
+    </div>
+    <div class="card-footer">
+        <span class="fs-8">Created: {{notes[0].created}}</span> <br>
+        <span class="fs-8">Last Changed: {{notes[0].lastChanged}}</span> 
+    </div>
 </div>

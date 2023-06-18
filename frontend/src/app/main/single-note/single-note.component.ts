@@ -31,6 +31,7 @@ export class SingleNoteComponent implements OnInit{
 
     this.res = this.route.params.subscribe(para => {
       this.id = +para['id'];
+      //this.notes[0] = NOTES[this.id-1];
     })
     if(this.data != null) {
       this.author_id_user = JSON.parse(this.data).user_id;
@@ -73,6 +74,8 @@ export class SingleNoteComponent implements OnInit{
       console.log(ids);
   
       (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
+        elem.created = new Date(elem.created).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
+        elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
     });
   }
 
@@ -85,6 +88,9 @@ export class SingleNoteComponent implements OnInit{
   linkToPlayer(id:string):string{
     var res = `<youtube-player videoId="${id}" suggestedQuality="highres" [height]="250" [width]="500" [startSeconds]="4"[endSeconds]="8"></youtube-player>`;
     return res;
+  }
+   deletNote(note_id : number){
+    console.log("delete works"+note_id)
   }
 
 }
