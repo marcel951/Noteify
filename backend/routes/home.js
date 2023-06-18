@@ -190,4 +190,43 @@ router.post('/update/:id',authenticateToken, async function (req, res) {
 });
 
 
+async function searchNote(searchTerm, user_id) {
+    let conn;
+    try {
+        const query = "" +
+            "SELECT * " +
+            "FROM notes " +
+            "WHERE " +
+            "notes.titel LIKE ? OR notes.content LIKE ?" +
+            "AND notes.user_id = ?";
+        conn = await pool.getConnection();
+        const note = await conn.query(query, [searchTerm, searchTerm, user_id]);
+        return note;
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
+router.get('/search', authenticateToken, async (req, res) => {
+    const searchTerm = req.query.query;
+    let privNote = 0;
+    if(req.user =! null){
+        user_id = req.user;
+        privNote = 1;
+    }
+
+    try {
+        const result = await searchNote(searchTerm, user_id);
+        result.forEach(element => {
+            element.note_id = element.note_id.toString();
+            element.user_id = element.user_id.toString();
+        });
+        res.status(200).json(result);
+    } catch (err) {
+        console.error('Fehler bei der Datenbankabfrage:', err);
+        res.status(500).json({ error: 'Fehler bei der Datenbankabfrage' });
+    }
+});
+
+
 module.exports = router;

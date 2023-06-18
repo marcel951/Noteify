@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdateNoteComponent } from './main/update-note/update-note.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './services/interceptor-service.service';
+import { SearchComponent } from './main/search/search.component';
 
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { VideoComponent } from './main/video/video.component';
@@ -25,6 +26,7 @@ import { VideoComponent } from './main/video/video.component';
     SingleNoteComponent,
     NewNoteComponent,
     UpdateNoteComponent,
+    SearchComponent,
     VideoComponent
   ],
   imports: [
