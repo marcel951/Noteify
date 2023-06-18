@@ -101,6 +101,37 @@ router.get('/singlenote/:id', async function (req, res) {
   res.send({status : 1,data : data});
 });
 
+async function asyncFunctionSinglePageDel(id, authorId) {
+  let conn;
+  try {
+    const query = "DELETE FROM notes WHERE notes.note_id = ?"
+    conn = await pool.getConnection();
+    const query2 = "SELECT user_id FROM notes WHERE note_id = ?";
+
+    authorIdQuery = await conn.query(query2,[id]);
+    console.log(authorIdQuery)
+    if(authorId == authorIdQuery[0].user_id){
+
+      const note = await conn.query(query, [id]);
+      console.log(note); 
+      return note;
+    }else{
+        return -1;
+    }
+  } finally {
+    if (conn) conn.release(); //release to pool
+  }
+}
+router.delete('/singlenote/:id', authenticateToken, async function (req, res) {
+  console.log("delete SingleNote");
+  const data = await asyncFunctionSinglePageDel(req.params.id,req.user);
+
+  if(data === -1)res.status(401).send({ message: "Unauthorized" });
+  else {  
+    res.send({status : 1}); 
+  } 
+});
+
 async function asyncFunctionNewNote(titel, isPrivate, content, authorId) {
   let conn;
   try {
@@ -136,8 +167,6 @@ async function asyncFunctionUpdate(id,titel,isPrivate,content,authorId,res) {
     //TODO: get authorId aus JWT vorher verify
     const query2 = "SELECT user_id FROM notes WHERE note_id = ?";
     authorIdQuery = await conn.query(query2,[id]);
-    await conn.release();
-    
     if(authorId == authorIdQuery[0].user_id){
       const date = new Date().toISOString.slice(0, 19);
       //.toLocaleString("en-US", {timeZone: 'Europe/Berlin'})
@@ -149,7 +178,7 @@ async function asyncFunctionUpdate(id,titel,isPrivate,content,authorId,res) {
     }
 
   } finally {
-    //if (conn) conn.release(); //release to pool
+    if (conn) conn.release(); //release to pool
   }
 }
 router.post('/update/:id',authenticateToken, async function (req, res) {
