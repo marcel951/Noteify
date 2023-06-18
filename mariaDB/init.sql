@@ -11,6 +11,7 @@ CREATE TABLE notes (
     isPrivate BOOLEAN,
     content TEXT,
     titel VARCHAR(50),
+    youtube VARCHAR(100),
     created DATETIME,
     lastChanged DATETIME,
     FOREIGN KEY (user_id) REFERENCES `users` (user_id)
