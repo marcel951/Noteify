@@ -17,7 +17,6 @@ sudo docker-compose down
 * sudo docker-compose up database -d
 * mariadb --host 127.0.0.1 -P 3306 --user admin -padmin ==> Testen der DB Verbindung
 * Es wird nur die Datenbank gestartet
-* 
 
 
 
