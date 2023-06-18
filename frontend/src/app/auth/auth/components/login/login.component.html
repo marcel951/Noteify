@@ -10,5 +10,15 @@
     </div>
     <div class='col-md-4 offset-4 mt-5' *ngIf='this.isLogin'>
         <h1>You are logged in</h1><button class='btn btn-outline-info' (click)='logout()'>Log-out</button>
+
+        <!-- <youtube-player 
+        videoId="7Fncun4ObQk" 
+        suggestedQuality="highres" 
+        [height]="250" 
+        [width]="500" 
+        [startSeconds]="4"
+        [endSeconds]="8">
+        </youtube-player> -->
     </div>
 </div>
+<script src="https://www.youtube.com/iframe_api"></script>
