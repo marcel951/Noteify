@@ -13,8 +13,8 @@ sudo docker-compose down
 # Docker Comands für Dev betrieb
 ## im Backend in der user.js && home.js den Datenbankhost auf localhost setzen
 
-docker-compose up -d datenbank 
-Es wird nur die Datenbank gestartet
+* docker-compose up -d datenbank 
+* Es wird nur die Datenbank gestartet
 
 
 
