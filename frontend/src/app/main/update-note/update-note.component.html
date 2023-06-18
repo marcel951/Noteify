@@ -1,20 +1,27 @@
-<p>update-note works!</p>
 <div class='row m-0 w-100'>
     <div class='col-md-4 offset-4 mt-5'>
-        <h4>Update Note</h4>
+        <div class="card mx-5 mt-5">
+            <div class="card-header">
+                <h4>Update Note</h4>
+            </div>
         
-        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-            <input id="titel" type="text" formControlName="titel">
-            <br>
-
-
-            <textarea class="form-control" id="content" rows="10" formControlName="content"></textarea>
-            <br>
-            is Private : <input class="form-check-input" type="checkbox" value="" id="isPrivate" formControlName="isPrivate">
-            <br>
-            <input class='btn btn-outline-info' type="submit" value="UpdateNote">
-            
-        </form>
-          
+            <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                <div class="card-body">
+                    <input class="form-control" id="titel" type="text" formControlName="titel">
+                    <textarea class="form-control" id="content" rows="10" formControlName="content"></textarea>
+                </div>  
+                <div class="card-footer">
+                    <div class="row">
+                        <div class='col  text-start form-group form-check mx-3 my-2'>
+                            <input class="form-check-input" type="checkbox" value="" id="isPrivate" formControlName="isPrivate">
+                            <label class="form-check-label" for="flexCheckChecked">Note is private:</label>
+                        </div>
+                        <div class="col text-end">
+                            <input class='btn submitbutton' type="submit" value="UpdateNote">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>   
     </div>
 </div>
