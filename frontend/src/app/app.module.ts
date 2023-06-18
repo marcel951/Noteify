@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdateNoteComponent } from './main/update-note/update-note.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './services/interceptor-service.service';
+import { SearchComponent } from './main/search/search.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { InterceptorService } from './services/interceptor-service.service';
     HomeComponent,
     SingleNoteComponent,
     NewNoteComponent,
-    UpdateNoteComponent
+    UpdateNoteComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
