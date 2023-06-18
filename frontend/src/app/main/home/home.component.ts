@@ -3,6 +3,7 @@ import { NOTES } from '../mock-notes';
 import { Note } from '../note';
 import { ApiService } from 'src/app/services/api.service';
 import * as marked from 'marked';
+import { RouterTestingHarness } from '@angular/router/testing';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class HomeComponent implements OnInit{
   parse(){
       this.notes.forEach(elem => {
         (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
+        elem.created = new Date(elem.created).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
+        elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
     });
   }
 } 

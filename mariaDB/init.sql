@@ -9,8 +9,11 @@ CREATE TABLE notes (
     note_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT UNSIGNED,
     isPrivate BOOLEAN,
-    content VARCHAR(255),
+    content TEXT,
     titel VARCHAR(50),
+    youtube VARCHAR(100),
+    created DATETIME,
+    lastChanged DATETIME,
     FOREIGN KEY (user_id) REFERENCES `users` (user_id)
 );
 

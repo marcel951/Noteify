@@ -15,6 +15,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './services/interceptor-service.service';
 import { SearchComponent } from './main/search/search.component';
 
+import { YouTubePlayerModule } from '@angular/youtube-player';
+import { VideoComponent } from './main/video/video.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +26,8 @@ import { SearchComponent } from './main/search/search.component';
     SingleNoteComponent,
     NewNoteComponent,
     UpdateNoteComponent,
-    SearchComponent
+    SearchComponent,
+    VideoComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +35,8 @@ import { SearchComponent } from './main/search/search.component';
     RouterModule,
     AuthModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    YouTubePlayerModule
   ],
   exports : [
     NewNoteComponent,

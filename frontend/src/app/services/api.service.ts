@@ -18,4 +18,7 @@ import { map } from 'rxjs/operators';
     }))
       ;
   }
+  deleteTypeRequest(url: any){
+    return this._http.delete(`${this.baseUrl}${url}`).pipe(map(res => { return res; })); 
+  }
 }

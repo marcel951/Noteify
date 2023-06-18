@@ -1,30 +1,22 @@
-<!-- <h2>Public Notes</h2> -->
-<div *ngIf="notes.length > 0; else elseBlock">
-    <ul class="notes" style="list-style-type:none;">
-        <li *ngFor="let note of notes">
-            <a [routerLink]="['/note', note.note_id]">
-        <div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
-            <div class="row">
-                <div class="col"></div>
-                <div class="col text-center">
-                    <span class="titel fw-bold fs-2" >{{note.titel}} {{note.note_id}}</span>  
+<!--Src: https://getbootstrap.com/docs/5.3/components/card/-->
 
+<div class="notes row row-cols-1 row-cols-md-3 g-4 mt-3 mx-3 " *ngIf="notes.length > 0; else elseBlock">
+    <div *ngFor="let note of notes">
+        <div class="col">
+            <div class="card" [routerLink]="['/note', note.note_id]">
+                <div class="card-body">
+                    <h5 class="card-title">{{note.titel}}</h5>
+                    <p class="card-text" [innerHTML]="note.content"></p>
                 </div>
-                <div class="col text-end">
-                    <span class="titel  fs-4" >Author: {{note.author}}</span>  
+                <div class="card-footer">
+                    <span class="fs-8">Created: {{note.created}}</span> <br>
+                    <span class="fs-8">Last Changed: {{note.lastChanged}}</span> 
                 </div>
-                
-                
             </div>
-            <div class="row">
-            <span class="content fs-5" [innerHTML]="note.content"></span> 
-            </div>
-        
         </div>
-        </a>
-    </li>
-    </ul>
+    </div> 
 </div>
+
 <ng-template #elseBlock>
     No public Notes createt yet
 </ng-template>
