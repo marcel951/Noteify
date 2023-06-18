@@ -1,23 +1,39 @@
-<p>search works!</p>
-
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="input-group mb-3">
+      <div class="input-group">
         <input type="text" class="form-control" placeholder="Suche" [(ngModel)]="searchTerm">
         <div class="input-group-append">
           <button class="btn btn-primary" type="button" (click)="navigateToSearch()">Suchen</button>
         </div>
       </div>
-      <p class="text-muted" *ngIf="searchTerm">Suchbegriff: {{ searchTerm }}</p>
+      <p class="text-muted mt-3" *ngIf="searchTerm">Suchbegriff: {{ searchTerm }}</p>
 
       <div *ngIf="searchTerm" class="mt-4">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Suchergebnisse</h5>
-            <ul class="list-group">
-              <li class="list-group-item" *ngFor="let note of searchResults">
-                {{ note.title }}
+            <ul class="notes" style="list-style-type:none;">
+              <li *ngFor="let note of searchResults ">
+                <a [routerLink]="['/note', note.note_id]">
+                  <div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
+                    <div class="row">
+                      <div class="col"></div>
+                      <div class="col text-center">
+                        <span class="titel fw-bold fs-2" >{{note.titel}}</span>
+                      </div>
+                      <div class="col text-end">
+                        <span class="titel  fs-4" >Author: {{note.author}}</span>
+                      </div>
+
+
+                    </div>
+                    <div class="row">
+                      <span class="content fs-5" [innerHTML]="note.content"></span>
+                    </div>
+
+                  </div>
+                </a>
               </li>
             </ul>
           </div>
@@ -26,10 +42,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-

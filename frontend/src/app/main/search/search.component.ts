@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import {NOTES} from "../mock-notes";
 
 @Component({
   selector: 'app-search',
@@ -37,4 +38,6 @@ export class SearchComponent implements OnInit {
       this.router.navigate(['/search'], { queryParams: { q: this.searchTerm } });
     }
   }
+
+  protected readonly NOTES = NOTES;
 }
