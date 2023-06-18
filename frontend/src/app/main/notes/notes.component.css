@@ -23,3 +23,7 @@ body{
 .card-footer{
     background-color: #dfdfdf;
 }
+.newbutton{
+    background-color: #8be9fd;
+    border-color: #282a36;
+}
