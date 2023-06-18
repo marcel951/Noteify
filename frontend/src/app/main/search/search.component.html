@@ -1,1 +1,35 @@
 <p>search works!</p>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Suche" [(ngModel)]="searchTerm">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" (click)="navigateToSearch()">Suchen</button>
+        </div>
+      </div>
+      <p class="text-muted" *ngIf="searchTerm">Suchbegriff: {{ searchTerm }}</p>
+
+      <div *ngIf="searchTerm" class="mt-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Suchergebnisse</h5>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let note of searchResults">
+                {{ note.title }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
