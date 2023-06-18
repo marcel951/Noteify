@@ -1,20 +1,32 @@
-<p>new-note works!</p>
 <div class='row m-0 w-100'>
     <div class='col-md-4 offset-4 mt-5'>
-        <h4>New Note</h4>
+        <div class="card mx-5 mt-5">
+            <div class="card-header">
+                <h4>New Note:</h4>
+            </div>
         
         <form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
+            <div class="card-body">
             <div class='form-group'><input class='form-control' type="text" name="titel" placeholder="Titel" ngModel>
                 </div>
-            <div class='form-group'><input class='form-control' type="text" name="content" placeholder="Content" ngModel>
+            <div class='form-group'><textarea class='form-control' rows="10" name="content" placeholder="Content" ngModel></textarea>
                 </div>
-            <div class='form-group'><input class='form-control' type="text" name="content" placeholder="Content" ngModel>
+            <div class='form-group'><input class='form-control' type="text" name="youtube" placeholder="Youtube-Video" ngModel>
                 </div>
-            <div class='form-group'>
-                Note is private:<input class='' type="checkbox" value = "isPrivate" name="isPrivate" ngModel>
+            </div>
+            <div class="card-footer ">
+                <div class="row">
+            <div class='col text-start form-group form-check mx-3 my-2'>
+                <input class='form-check-input' type="checkbox" value = "isPrivate" name="isPrivate" ngModel>
+                <label class="form-check-label" for="flexCheckChecked">Note is private:</label>
             </div> 
-            <input class='btn btn-outline-info' type="submit" value="NewNote">
+            <div class="col text-end">
+                <input class='submitbutton btn' type="submit" value="NewNote">
+            </div>
+            </div>
+            </div>
         </form>
-          
+    
+    </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, UntypedFormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { NOTES } from '../mock-notes';
 import { Note } from '../note';
@@ -16,6 +16,7 @@ export class UpdateNoteComponent implements OnInit{
   constructor(
     private api : ApiService,
     private route : ActivatedRoute,
+    private router: Router,
     
   ){}
   private res: any;
@@ -50,5 +51,6 @@ export class UpdateNoteComponent implements OnInit{
     console.log(this.updateForm.value);
     this.api.postTypeRequest('home/update/'+this.id, this.updateForm.value).subscribe((res: any) => {
     });
+    this.router.navigate([""])
   } 
 }
