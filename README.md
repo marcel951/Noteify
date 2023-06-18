@@ -1,4 +1,4 @@
-# Docker Commands
+# Docker Commands für Container betrieb
 ## Build && run
 sudo docker-compose up --build -d
 ### Das -d steht für Hintergrund
@@ -9,6 +9,12 @@ sudo docker-compose ps
 
 ## Stop
 sudo docker-compose down
+
+# Docker Comands für Dev betrieb
+## im Backend in der user.js && home.js den Datenbankhost auf localhost setzen
+
+docker-compose up -d datenbank 
+Es wird nur die Datenbank gestartet
 
 
 
