@@ -177,7 +177,12 @@ async function searchNote(searchTerm, user_id) {
 
 router.get('/search', authenticateToken, async (req, res) => {
     const searchTerm = req.query.query;
-    user_id = req.user;
+    let privNote = 0;
+    if(req.user =! null){
+        user_id = req.user;
+        privNote = 1;
+    }
+
     try {
         const result = await searchNote(searchTerm, user_id);
         result.forEach(element => {
