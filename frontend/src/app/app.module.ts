@@ -14,6 +14,9 @@ import { UpdateNoteComponent } from './main/update-note/update-note.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './services/interceptor-service.service';
 
+import { YouTubePlayerModule } from '@angular/youtube-player';
+import { VideoComponent } from './main/video/video.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +24,8 @@ import { InterceptorService } from './services/interceptor-service.service';
     HomeComponent,
     SingleNoteComponent,
     NewNoteComponent,
-    UpdateNoteComponent
+    UpdateNoteComponent,
+    VideoComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,8 @@ import { InterceptorService } from './services/interceptor-service.service';
     RouterModule,
     AuthModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    YouTubePlayerModule
   ],
   exports : [
     NewNoteComponent,
