@@ -1,29 +1,19 @@
-<p>notes works!</p>
 <h2>My Notes</h2>
-<div *ngIf="notes.length > 0; else elseBlock">
-    <ul class="notes" style="list-style-type:none;">
-        <li *ngFor="let note of notes">
-        <div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
-            <div class="row">
-                <div class="col"></div>
-                <div class="col text-center">
-                    <span class="titel fw-bold fs-2" >{{note.titel}}</span>  
-
+<div class="notes row row-cols-1 row-cols-md-3 g-4 mt-3 mx-3 " *ngIf="notes.length > 0; else elseBlock">
+    <div *ngFor="let note of notes">
+        <div class="col">
+            <div class="card" [routerLink]="['/note', note.note_id]">
+                <div class="card-body">
+                    <h5 class="card-title">{{note.titel}}</h5>
+                    <p class="card-text" [innerHTML]="note.content"></p>
                 </div>
-                <div class="col text-end">
-                    <button type="button" class="btn btn-primary  mx-2 my-2 " (click)="updateNote(note.note_id)">Edit</button>
-                    <button type="button" class="btn btn-primary mx-2 mx-2 my-2" (click)="deletNote(note.note_id)">Remove</button>
+                <div class="card-footer">
+                    <span class="fs-8">Created: {{note.created}}</span> <br>
+                    <span class="fs-8">Last Changed: {{note.lastChanged}}</span> 
                 </div>
-                
-                
             </div>
-            <div class="row">
-            <span class="content fs-5" [innerHTML]="note.content"></span> 
-            </div>
-        
         </div>
-    </li>
-    </ul>
+    </div> 
 </div>
 <ng-template #elseBlock>You have no Notes yet
     <br>

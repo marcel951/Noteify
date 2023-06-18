@@ -26,6 +26,7 @@ export class SingleNoteComponent implements OnInit{
   ngOnInit(){
     this.res = this.route.params.subscribe(para => {
       this.id = +para['id'];
+      //this.notes[0] = NOTES[this.id-1];
     })
     if(this.data != null) {
       this.author_id_user = JSON.parse(this.data).user_id;
@@ -44,7 +45,11 @@ export class SingleNoteComponent implements OnInit{
   parse(){
       this.notes.forEach(elem => {
         (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
+        elem.created = new Date(elem.created).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
+        elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
     });
   }
-
+  deletNote(note_id : number){
+    console.log("delete works"+note_id)
+  }
 }
