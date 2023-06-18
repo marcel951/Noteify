@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import * as marked from 'marked';
@@ -21,6 +21,7 @@ export class SingleNoteComponent implements OnInit{
   constructor(
     private route: ActivatedRoute,
     private api: ApiService, 
+    private router : Router,
     ) {}
 
   ngOnInit(){
@@ -90,7 +91,11 @@ export class SingleNoteComponent implements OnInit{
     return res;
   }
    deletNote(note_id : number){
-    console.log("delete works"+note_id)
+     //Vorher You sure about that abfragen
+    this.api.deleteTypeRequest("home/singlenote/"+this.id).subscribe((res:any) => {
+
+    });
+    this.router.navigate([""]);
   }
 
 }
