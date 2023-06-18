@@ -14,27 +14,30 @@
           <div class="card-body">
             <h5 class="card-title">Suchergebnisse</h5>
             <ul class="notes" style="list-style-type:none;">
-              <li *ngFor="let note of searchResults ">
-                <a [routerLink]="['/note', note.note_id]">
-                  <div class="container-sm bg-primary-subtle border border-primary-subtle rounded-3 mb-3 p-2 ">
-                    <div class="row">
-                      <div class="col"></div>
-                      <div class="col text-center">
-                        <span class="titel fw-bold fs-2" >{{note.titel}}</span>
+
+              <div class="notes row row-cols-1 row-cols-md-3 g-4 mt-3 mx-3 " *ngIf="searchResults.length > 0; else elseBlock">
+                <div *ngFor="let note of searchResults">
+                  <div class="col">
+                    <div class="card" [routerLink]="['/note', note.note_id]">
+                      <div class="card-body">
+                        <h5 class="card-title">{{note.titel}}</h5>
+                        <p class="card-text" [innerHTML]="note.content"></p>
                       </div>
-                      <div class="col text-end">
-                        <span class="titel  fs-4" >Author: {{note.author}}</span>
+                      <div class="card-footer">
+                        <span class="fs-8">Created: {{note.author}}</span> <br>
+                        <span class="fs-8">Created: {{note.created}}</span> <br>
+                        <span class="fs-8">Last Changed: {{note.lastChanged}}</span>
                       </div>
-
-
                     </div>
-                    <div class="row">
-                      <span class="content fs-5" [innerHTML]="note.content"></span>
-                    </div>
-
                   </div>
-                </a>
-              </li>
+                </div>
+              </div>
+
+              <ng-template #elseBlock>
+                No public Notes createt yet
+              </ng-template>
+
+
             </ul>
           </div>
         </div>
