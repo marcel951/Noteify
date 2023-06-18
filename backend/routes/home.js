@@ -38,12 +38,11 @@ async function asyncFunction() {
       //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('1',TRUE,'private note1')");
       //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('2',FALSE,'public note 1')");
       //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('2',FALSE,'public note 1 Test für falschen Zuigriff')");
-      const rows = await conn.query("SELECT * FROM notes WHERE notes.isPrivate = FALSE");
+      const rows = await conn.query("SELECT notes.*,users.username FROM notes JOIN users ON notes.user_id = users.user_id WHERE notes.isPrivate = FALSE");
       console.log(rows); 
-      await conn.release(); 
       return rows;
     } finally {
-      //if (conn) conn.release(); //release to pool
+      if (conn) conn.release(); //release to pool
     }
 }
 router.get('/publicnotes', async function (req, res) {
@@ -60,7 +59,7 @@ async function asyncFunctionUserNotes(user_id) {
   let conn;
   try {
     conn = await pool.getConnection();
-    const query = "SELECT * FROM notes WHERE notes.user_id = ?";
+    const query = "SELECT notes.*,users.username FROM notes JOIN users ON notes.user_id = users.user_id WHERE notes.user_id = ?";
     const rows = await conn.query(query,[user_id]);
     console.log(rows); 
     await conn.release(); 
@@ -81,7 +80,7 @@ router.get('/usernotes',authenticateToken, async function (req, res) {
 async function asyncFunctionSinglePage(id) {
   let conn;
   try {
-    const query = "SELECT * FROM notes WHERE notes.note_id = ?"
+    const query = "SELECT notes.*,users.username AS author FROM notes JOIN users ON notes.user_id = users.user_id WHERE notes.note_id = ?"
     conn = await pool.getConnection();
     const note = await conn.query(query, [id]);
     console.log(note);  
