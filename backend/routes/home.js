@@ -168,8 +168,9 @@ async function asyncFunctionUpdate(id,titel,isPrivate,content,youtube,authorId,r
     const query2 = "SELECT user_id FROM notes WHERE note_id = ?";
     authorIdQuery = await conn.query(query2,[id]);
     if(authorId == authorIdQuery[0].user_id){
-      const date = new Date().toISOString.slice(0, 19);
+      const date = new Date().toISOString().slice(0, 19);
       //.toLocaleString("en-US", {timeZone: 'Europe/Berlin'})
+      if(youtube === undefined) youtube="";
       const note = await conn.query(query, [titel,isPrivate, content,date,youtube, id]);
       console.log(note); 
       return note;
