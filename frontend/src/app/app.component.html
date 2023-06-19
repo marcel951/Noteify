@@ -25,11 +25,14 @@
 
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink] = "['login']" routerLinkActive = "active">Login</a>
+                <li class="nav-item" *ngIf='!this.isLogin'>
+                    <a class="nav-link" [routerLink] = "['login']" routerLinkActive = "active" (click)='update()'>Login</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink] = "['register']" routerLinkActive = "active" >Register</a>
+                <li class="nav-item" *ngIf='!this.isLogin'>
+                    <a class="nav-link" [routerLink] = "['register']" routerLinkActive = "active" (click)='update()'>Register</a>
+                </li>
+                <li class="nav-item" *ngIf='this.isLogin'>
+                    <button class='btn btn-outline-info' (click)='logout()'>Log-out</button>
                 </li>
             </ul>
         </div>
