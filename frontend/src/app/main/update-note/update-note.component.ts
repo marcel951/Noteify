@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { NOTES } from '../mock-notes';
 import { Note } from '../note';
 import { FormGroup, FormControl } from '@angular/forms';
+import { AppComponent } from 'src/app/app.component';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class UpdateNoteComponent implements OnInit{
     private api : ApiService,
     private route : ActivatedRoute,
     private router: Router,
-    
+    private logout : AppComponent
   ){}
   private res: any;
   private id = 0;
@@ -50,7 +51,10 @@ export class UpdateNoteComponent implements OnInit{
   onSubmit() {
     console.log(this.updateForm.value);
     this.api.postTypeRequest('home/update/'+this.id, this.updateForm.value).subscribe((res: any) => {
+      if (res.message === 'Token expired') {
+        this.logout.logout('login');
+      }
     });
-    this.router.navigate([""])
+    this.router.navigate(["notes"])
   } 
 }

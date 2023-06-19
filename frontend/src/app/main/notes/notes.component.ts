@@ -3,6 +3,7 @@ import { NOTES } from '../mock-notes';
 import { Note } from '../note';
 import * as marked from 'marked';
 import { ApiService } from 'src/app/services/api.service';
+import { AppComponent } from 'src/app/app.component';
 
 
 //declare const marked: any;
@@ -14,14 +15,20 @@ import { ApiService } from 'src/app/services/api.service';
 export class NotesComponent implements OnInit {
   constructor(
     private api : ApiService,
+    private logout : AppComponent,
   ){}
   notes = NOTES;
   ngOnInit(){
     //Hier API Req für alle public notes
     this.api.getTypeRequest("home/usernotes").subscribe((res:any) => {
       //console.log(res);
-      this.notes = res.data;
-      this.parse();
+      if (res.message === 'Token expired') {
+        this.logout.logout("login");
+      }else{
+        this.notes = res.data;
+        this.parse();        
+      }
+
     });
     
   }
