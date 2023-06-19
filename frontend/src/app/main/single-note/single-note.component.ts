@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import * as marked from 'marked';
 import { NOTES } from '../mock-notes';
+import { AppComponent } from 'src/app/app.component';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class SingleNoteComponent implements OnInit{
     private route: ActivatedRoute,
     private api: ApiService, 
     private router : Router,
+    private logout: AppComponent
     ) {}
 
   ngOnInit(){
@@ -39,12 +41,16 @@ export class SingleNoteComponent implements OnInit{
     }
     console.log(this.author_id_user)
     this.api.getTypeRequest("home/singlenote/"+this.id).subscribe((res:any) => {
-      console.log(res);
-      this.notes = res.data;
-      console.log(res.data)
-      this.author_id_note = res.data[0].user_id;
-      console.log(this.author_id_note)
-      this.parse();
+      if (res.message === 'Token expired') {
+        this.logout.logout("login");
+      }else{
+        console.log(res);
+        this.notes = res.data;
+        console.log(res.data)
+        this.author_id_note = res.data[0].user_id;
+        console.log(this.author_id_note)
+        this.parse();
+      }
     });
   }
   parse(){

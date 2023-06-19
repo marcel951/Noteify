@@ -24,7 +24,8 @@ function authenticateToken(req, res, next){
             console.log(req.user);
             next()
         }else{
-            res.status(401).send({ message: "Unauthorized" })
+          if(err.name === 'TokenExpiredError') res.send({ message: "Token expired" });
+          else  res.status(401).send({ message: "Unauthorized" });
         }
     })
   }
