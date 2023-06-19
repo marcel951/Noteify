@@ -4,7 +4,7 @@ import { Note } from '../note';
 import { ApiService } from 'src/app/services/api.service';
 import * as marked from 'marked';
 import { RouterTestingHarness } from '@angular/router/testing';
-
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit{
   notes = NOTES;
   constructor(
     private api: ApiService, 
+    private app: AppComponent
   ) { }
 
   ngOnInit(){
@@ -22,6 +23,7 @@ export class HomeComponent implements OnInit{
       console.log(res);
       this.notes = res.data;
       this.parse();
+      this.app.update();
     });
     
   }
