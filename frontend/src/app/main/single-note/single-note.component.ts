@@ -6,6 +6,7 @@ import * as marked from 'marked';
 import { NOTES } from '../mock-notes';
 import { AppComponent } from 'src/app/app.component';
 
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-single-note',
@@ -23,7 +24,8 @@ export class SingleNoteComponent implements OnInit{
     private route: ActivatedRoute,
     private api: ApiService, 
     private router : Router,
-    private logout: AppComponent
+    private logout: AppComponent,
+    private sanitized: DomSanitizer
     ) {}
 
   ngOnInit(){
@@ -57,45 +59,34 @@ export class SingleNoteComponent implements OnInit{
     this.notes.forEach(elem => {
       let regex = new RegExp(/(https:\/\/www\.youtube\.com\/[^\s]*)|(https:\/\/youtu\.be\/[^\s]*)/, "i");
 
-      console.log('youtube Video:');
-      //console.log(regex.test(elem.content));
-      //console.log(regex.exec(elem.content));
-
-      //console.log(this.youtube_parser("https://www.youtube.com/watch?v=JepMpjhkt-4"));
-
-      let links = elem.content.match(/(https:\/\/www\.youtube\.com\/[^\s]*)|(https:\/\/youtu\.be\/[^\s]*)/g);
-      let ids = new Array<string>();
-      let i = 0;
-      if(links != null){
-        links.forEach( (value) => {
-          ids[i] = this.youtube_parser(value);
-          i++;
-        }); 
-        i = 0;
-        links.forEach( (value) => {
-          elem.content = elem.content.split(value).join(this.linkToPlayer(ids[i]));
-          i++;
-        }); 
+      let youtubeid = this.youtube_parser(elem.youtube);
+      if(youtubeid.length > 1){
+        youtubeid = this.idToPlayer(youtubeid);
       }
-      console.log(links);
-      console.log(ids);
   
       (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
         elem.created = new Date(elem.created).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
         elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
+        //elem.youtube=youtubeid;
+        const safeHtml = this.sanitized.bypassSecurityTrustHtml(youtubeid)
+        elem.youtube=youtubeid;
+
+        console.log(elem.youtube);
+        //sanitizer.bypassSecurityTrustHtml();
     });
   }
 
   youtube_parser(url:any){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return (match&&match[7].length==11)? match[7] : false;
+    return (match&&match[7].length==11)? match[7] : "";
   }
 
-  linkToPlayer(id:string):string{
+  idToPlayer(id:string):string{
     var res = `<youtube-player videoId="${id}" suggestedQuality="highres" [height]="250" [width]="500" [startSeconds]="4"[endSeconds]="8"></youtube-player>`;
     return res;
   }
+
    deletNote(note_id : number){
      //Vorher You sure about that abfragen
     this.api.deleteTypeRequest("home/singlenote/"+this.id).subscribe((res:any) => {
