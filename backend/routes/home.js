@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-
+const { v4: uuidv4 } = require('uuid');
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({
     //ACHTUNG!!!!!!!
@@ -93,6 +93,7 @@ async function asyncFunctionSinglePage(id) {
 }
 router.get('/singlenote/:id', async function (req, res) {
   console.log("get SingleNote");
+  console.log(req.params.id)
   const data = await asyncFunctionSinglePage(req.params.id);
   data.forEach(element => {
       element.note_id = element.note_id.toString();
@@ -135,12 +136,12 @@ router.delete('/singlenote/:id', authenticateToken, async function (req, res) {
 async function asyncFunctionNewNote(titel, isPrivate, content, youtube, authorId) {
   let conn;
   try {
-    const query = "INSERT INTO notes(titel, isPrivate,content, user_id, created, lastChanged, youtube) VALUES (?,?,?,?,?,?,?)"
+    const query = "INSERT INTO notes(note_id,titel, isPrivate,content, user_id, created, lastChanged, youtube) VALUES (?,?,?,?,?,?,?,?)"
     conn = await pool.getConnection();
     //TODO: get authorId aus JWT vorher verify
     console.log(authorId);
     const date = new Date().toISOString().slice(0, 19);
-    const note = await conn.query(query, [titel,isPrivate, content, authorId,date,date,youtube]);
+    const note = await conn.query(query, [uuidv4(),titel,isPrivate, content, authorId,date,date,youtube]);
     console.log(authorId); 
     const test = await conn.query("SELECT * FROM notes");
     //console.log(test);

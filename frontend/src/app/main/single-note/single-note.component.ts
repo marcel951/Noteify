@@ -35,7 +35,9 @@ export class SingleNoteComponent implements OnInit{
 
 
     this.res = this.route.params.subscribe(para => {
-      this.id = +para['id'];
+      this.id = para['id'];
+
+      console.log("Id:"+this.id)
       //this.notes[0] = NOTES[this.id-1];
     })
     if(this.data != null) {
@@ -84,7 +86,7 @@ export class SingleNoteComponent implements OnInit{
     return res;
   }
 
-   deletNote(note_id : number){
+   deletNote(){
      //Vorher You sure about that abfragen
     this.api.deleteTypeRequest("home/singlenote/"+this.id).subscribe((res:any) => {
 
