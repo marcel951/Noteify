@@ -26,6 +26,7 @@ export class UpdateNoteComponent implements OnInit{
   updateForm = new FormGroup({
     titel: new FormControl(''),
     content: new FormControl(''),
+    youtube: new FormControl(''),
     isPrivate: new UntypedFormControl,
   })
   ngOnInit(){
@@ -45,6 +46,7 @@ export class UpdateNoteComponent implements OnInit{
        this.updateForm.setValue({
       titel: this.note.titel,
       content: this.note.content,
+      youtube: this.note.youtube,
       isPrivate: this.note.isPrivate
    })
   }
