@@ -6,7 +6,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE notes (
-    note_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    note_id UUID PRIMARY KEY,
     user_id BIGINT UNSIGNED,
     isPrivate BOOLEAN,
     content TEXT,

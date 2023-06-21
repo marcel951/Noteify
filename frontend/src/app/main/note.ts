@@ -1,6 +1,6 @@
 export interface Note {
     youtube: string;
-    note_id : number,
+    note_id : string,
     isPrivate: boolean,
     titel : string,
     content : string,
