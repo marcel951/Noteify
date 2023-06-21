@@ -60,15 +60,12 @@ export class SingleNoteComponent implements OnInit{
       let regex = new RegExp(/(https:\/\/www\.youtube\.com\/[^\s]*)|(https:\/\/youtu\.be\/[^\s]*)/, "i");
 
       let youtubeid = this.youtube_parser(elem.youtube);
-      if(youtubeid.length > 1){
-        youtubeid = this.idToPlayer(youtubeid);
-      }
+      
   
       (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
         elem.created = new Date(elem.created).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
         elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
         //elem.youtube=youtubeid;
-        const safeHtml = this.sanitized.bypassSecurityTrustHtml(youtubeid)
         elem.youtube=youtubeid;
 
         console.log(elem.youtube);
