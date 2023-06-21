@@ -31,7 +31,7 @@ export class UpdateNoteComponent implements OnInit{
   })
   ngOnInit(){
     this.res = this.route.params.subscribe(para => {
-      this.id = +para['id'];
+      this.id = para['id'];
     })
     this.note = NOTES[this.id-1];
     this.api.getTypeRequest('home/singlenote/'+this.id).subscribe((res:any) => {
