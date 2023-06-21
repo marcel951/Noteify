@@ -126,7 +126,7 @@ router.post('/register', async function (req, res, next) {
       if(newUser > 0){
         const query = "SELECT user_id FROM users WHERE username = ?";
         userIdQuery = await conn.query(query,username);
-        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420')
+        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420',{ expiresIn: '1h' })
         res.send({status: 1, token: token, data:{username,user_id: userIdQuery[0].user_id.toString()}});
       } else {
         res.send({status: 0, data: err});
@@ -158,9 +158,10 @@ router.post('/login', async function (req, res, next) {
       console.log("isMatch: ", isMatch);
       if (isMatch) {
         console.log("generate Token start");
-        const query = "SELECT user_id FROM users WHERE username = ?";
-        userIdQuery = await conn.query(query,username);
-        const token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420')
+        const query = `SELECT user_id FROM users WHERE username = ?`;
+        userIdQuery = await con.query(query, [username]);
+        console.log(userIdQuery)
+        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420',{ expiresIn: '1h' })
         console.log("Login Successful!");
         res.send({ status:1, data:{username,user_id: userIdQuery[0].user_id.toString()}, token:token });
       } else {
