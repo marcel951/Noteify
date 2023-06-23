@@ -36,11 +36,7 @@ async function asyncFunction() {
     let conn;
     try {
       conn = await pool.getConnection();
-      //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('1',TRUE,'private note1')");
-      //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('2',FALSE,'public note 1')");
-      //conn.query("INSERT INTO notes(user_id, isPrivate,content) VALUES ('2',FALSE,'public note 1 Test für falschen Zuigriff')");
       const rows = await conn.query("SELECT notes.*,users.username FROM notes JOIN users ON notes.user_id = users.user_id WHERE notes.isPrivate = FALSE");
-      console.log(rows); 
       return rows;
     } finally {
       if (conn) conn.release(); //release to pool
@@ -62,11 +58,9 @@ async function asyncFunctionUserNotes(user_id) {
     conn = await pool.getConnection();
     const query = "SELECT notes.*,users.username FROM notes JOIN users ON notes.user_id = users.user_id WHERE notes.user_id = ?";
     const rows = await conn.query(query,[user_id]);
-    console.log(rows); 
-    await conn.release(); 
     return rows;
   } finally {
-    //if (conn) conn.release(); //release to pool
+    if (conn) conn.release(); //release to pool
   }
 }
 router.get('/usernotes',authenticateToken, async function (req, res) {
@@ -84,11 +78,9 @@ async function asyncFunctionSinglePage(id) {
     const query = "SELECT notes.*,users.username AS author FROM notes JOIN users ON notes.user_id = users.user_id WHERE notes.note_id = ?"
     conn = await pool.getConnection();
     const note = await conn.query(query, [id]);
-    console.log(note);  
-    await conn.release();
     return note;
   } finally {
-    //if (conn) conn.release(); //release to pool
+    if (conn) conn.release(); //release to pool
   }
 }
 router.get('/singlenote/:id', async function (req, res) {
@@ -108,13 +100,10 @@ async function asyncFunctionSinglePageDel(id, authorId) {
     const query = "DELETE FROM notes WHERE notes.note_id = ?"
     conn = await pool.getConnection();
     const query2 = "SELECT user_id FROM notes WHERE note_id = ?";
-
     authorIdQuery = await conn.query(query2,[id]);
     console.log(authorIdQuery)
     if(authorId == authorIdQuery[0].user_id){
-
       const note = await conn.query(query, [id]);
-      console.log(note); 
       return note;
     }else{
         return -1;
@@ -126,7 +115,6 @@ async function asyncFunctionSinglePageDel(id, authorId) {
 router.delete('/singlenote/:id', authenticateToken, async function (req, res) {
   console.log("delete SingleNote");
   const data = await asyncFunctionSinglePageDel(req.params.id,req.user);
-
   if(data === -1)res.status(401).send({ message: "Unauthorized" });
   else {  
     res.send({status : 1}); 
@@ -138,24 +126,17 @@ async function asyncFunctionNewNote(titel, isPrivate, content, youtube, authorId
   try {
     const query = "INSERT INTO notes(note_id,titel, isPrivate,content, user_id, created, lastChanged, youtube) VALUES (?,?,?,?,?,?,?,?)"
     conn = await pool.getConnection();
-    //TODO: get authorId aus JWT vorher verify
-    console.log(authorId);
     const date = new Date().toISOString().slice(0, 19);
     const note = await conn.query(query, [uuidv4(),titel,isPrivate, content, authorId,date,date,youtube]);
-    console.log(authorId); 
-    const test = await conn.query("SELECT * FROM notes");
-    //console.log(test);
-    await conn.release();  
     return note;
   } finally {
-    //if (conn) conn.release(); //release to pool
+    if (conn) conn.release(); //release to pool
   }
 }
 
 router.post('/new',authenticateToken, async function (req, res) {
   console.log("post new note");
   const {titel, content, isPrivate, youtube} = req.body;
-  //console.log(req.headers);
   console.log(youtube);
   const data = await asyncFunctionNewNote(titel, isPrivate, content,youtube, req.user);
   res.send({status : 1});
@@ -166,15 +147,12 @@ async function asyncFunctionUpdate(id,titel,isPrivate,content,youtube,authorId,r
   try { 
     const query = "UPDATE notes SET titel = ?, isPrivate = ?, content = ?,  lastChanged = ?, youtube = ? WHERE notes.note_id = ?"
     conn = await pool.getConnection();
-    //TODO: get authorId aus JWT vorher verify
     const query2 = "SELECT user_id FROM notes WHERE note_id = ?";
     authorIdQuery = await conn.query(query2,[id]);
     if(authorId == authorIdQuery[0].user_id){
       const date = new Date().toISOString().slice(0, 19);
-      //.toLocaleString("en-US", {timeZone: 'Europe/Berlin'})
       if(youtube === undefined) youtube="";
       const note = await conn.query(query, [titel,isPrivate, content,date,youtube, id]);
-      console.log(note); 
       return note;
     }else{
         return -1;
@@ -192,39 +170,75 @@ router.post('/update/:id',authenticateToken, async function (req, res) {
   else res.send({status : 1});  
 });
 
-
-async function searchNote(searchTerm, user_id) {
+async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
     let conn;
     try {
-        const query = "" +
-            "SELECT * " +
-            "FROM notes " +
-            "WHERE " +
-            "notes.titel LIKE ? OR notes.content LIKE ?" +
-            "AND notes.user_id = ?";
+        const query =
+            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id WHERE (notes.titel LIKE CONCAT('%',?,'%') OR notes.content LIKE CONCAT('%',?,'%') OR users.username LIKE CONCAT('%',?,'%')) and notes.isPrivate = 0";
         conn = await pool.getConnection();
-        const note = await conn.query(query, [searchTerm, searchTerm, user_id]);
-        return note;
+        const result = await conn.query(query, [
+            searchTitle,
+            searchContent,
+            searchAuthor
+        ]);
+        console.log("DEBUG: "+result);
+        const notes = Array.from(result); // Konvertierung in ein Array
+        console.log("PublicSearch:");
+        notes.forEach((note) => {
+            console.log(note); // Ausgabe jedes einzelnen Ergebnisses
+        });
+        console.log("PublicSearchEnd");
+        return result;
     } finally {
         if (conn) conn.release();
     }
 }
 
-router.get('/search', authenticateToken, async (req, res) => {
-    const searchTerm = req.query.query;
-    let privNote = 0;
-    if(req.user =! null){
-        user_id = req.user;
-        privNote = 1;
-    }
-
+async function searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor) {
+    let conn;
     try {
-        const result = await searchNote(searchTerm, user_id);
-        result.forEach(element => {
-            element.note_id = element.note_id.toString();
-            element.user_id = element.user_id.toString();
+        const query = "SELECT * FROM notes WHERE (notes.titel LIKE ? OR notes.content LIKE ?) AND notes.user_id = ? AND notes.isPrivate =1";
+        conn = await pool.getConnection();
+        const result1 = await conn.query(query, [`%${searchTitle}%`, `%${searchContent}%`, `%${user_id}%`]);
+        const notes = Array.from(result1); // Konvertierung in ein Array
+        console.log("PrivateSearchUser_ID: "+user_id);
+
+        console.log("PrivateSearch:");
+        notes.forEach((note) => {
+            console.log(note); // Ausgabe jedes einzelnen Ergebnisses
         });
-        res.status(200).json(result);
+        console.log("PrivateSearchEnd");;
+        return notes;
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
+router.get('/search',authenticateToken, async (req, res) => {
+    const searchTerm = req.query.query;
+    let result;
+    const searchTermArr = searchTerm.split("|");
+
+    const searchTitle = searchTermArr[0];
+    const searchContent = searchTermArr[1];
+    const searchAuthor = searchTermArr[2];
+    const searchPrivate = searchTermArr[3];
+    const searchPublic = searchTermArr[4];
+    console.log("searchTerm: "+searchTerm);
+    try {
+        if(searchPrivate === "true") {
+            let user_id = authenticateToken.user_id;
+            result = result + await searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor);
+        }
+        if(searchPublic === "true") {
+            result =  await searchPublicFunc(searchTitle, searchContent, searchAuthor);
+            result.forEach(element => {
+                element.note_id = element.note_id.toString();
+                element.user_id = element.user_id.toString();
+            });
+        }
+        console.log("result: "+result);
+        res.send({status : 200,data : result});
     } catch (err) {
         console.error('Fehler bei der Datenbankabfrage:', err);
         res.status(500).json({ error: 'Fehler bei der Datenbankabfrage' });

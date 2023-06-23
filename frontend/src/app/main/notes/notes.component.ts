@@ -1,5 +1,4 @@
 import { Component, makeEnvironmentProviders, OnInit } from '@angular/core';
-import { NOTES } from '../mock-notes';
 import { Note } from '../note';
 import * as marked from 'marked';
 import { ApiService } from 'src/app/services/api.service';
@@ -17,7 +16,7 @@ export class NotesComponent implements OnInit {
     private api : ApiService,
     private logout : AppComponent,
   ){}
-  notes = NOTES;
+  notes : Note[] = [];
   ngOnInit(){
     //Hier API Req für alle public notes
     this.api.getTypeRequest("home/usernotes").subscribe((res:any) => {
