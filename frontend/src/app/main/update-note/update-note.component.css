@@ -3,6 +3,8 @@
     background-color: #f8f8f2;
 }
 .submitbutton{
-    background-color: #8be9fd;
-    border-color: #6272a4;
+    border-color: #50fa7b;
+}
+.submitbutton:hover{
+    background-color: #50fa7b;
 }

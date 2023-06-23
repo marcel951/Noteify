@@ -24,7 +24,7 @@
             <div class="col text-start fs-4">Author: {{notes[0].author}}</div>
             <div class="col text-end">
             <button type="button" class="editbutton btn mx-2" [routerLink]="['/update', notes[0].note_id]" *ngIf='this.author_id_user == this.author_id_note'>Edit</button> <!--*ngIf='this.author_id_user == this.author_id_note'-->
-            <button type="button" class="editbutton btn " (click)="deletNote()" *ngIf='this.author_id_user == this.author_id_note'>Delete</button> <!--*ngIf='this.author_id_user == this.author_id_note'-->
+            <button type="button" class="delbutton btn " (click)="deletNote()" *ngIf='this.author_id_user == this.author_id_note'>Delete</button> <!--*ngIf='this.author_id_user == this.author_id_note'-->
 
         </div>
         </div>
