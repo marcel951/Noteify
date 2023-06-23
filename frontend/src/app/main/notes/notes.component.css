@@ -27,11 +27,14 @@ body{
 .card-footer{
     background-color: #dfdfdf;
 }
-.newbutton{
-    margin-right: 0;
-    background-color: #8be9fd;
-    border-color: #282a36;
-}
 .elseBlock{
     color: #f8f8f2;
+}
+.newbutton{
+    border-color: #50fa7b;
+    color: #50fa7b;
+}
+.newbutton:hover{
+    background-color: #50fa7b;
+    color: black;
 }
