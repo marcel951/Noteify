@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import {NOTES} from "../mock-notes";
 import {AuthService} from "../../services/auth.service";
-import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-search',
@@ -11,19 +9,22 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  
   searchTerm: string = '';
 
-  isLogin: boolean = false;
-  searchTitle: string ='';
-  searchContent: string ='';
-  searchAuthor: string ='';
-  searchPrivate: string ='';
-  searchPublic: string ='';
-  searchResults: any= [];
 
+  isLogin: boolean = false;
+  searchTitle: string | null ='';
+  searchContent: string | null ='';
+  searchAuthor: string | null ='';
+  searchPrivate: boolean | null = false;
+  searchPublic: boolean | null = false;
+
+  searchObj: any;
+
+  searchResults:any = [];
 
   // Ergebnisse der API-Suche
-
 
   constructor(
     private route: ActivatedRoute,
@@ -33,32 +34,50 @@ export class SearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.searchTerm = params['q'] || '';
-      this.search();
-    });
-    this.isUserLogin();
+    this.route.queryParamMap
+      .subscribe(params => {
+          console.log(params); // { order: "popular" }
+          this.searchTitle = params.get("title");
+          this.searchContent= params.get("content");
+          this.searchAuthor= params.get("author");
+          this.searchPrivate = params.get("searchPrivate")=="true";
+          this.searchPublic= params.get("searchPublic")=="true";
+        }
+      );
+    this.search();
   }
-
   isUserLogin(){
     if(this._auth.getUserDetails() != null){this.isLogin = true;
-    }}
+    }
+  }
+
   search() {
-    this.apiService.getTypeRequest(`home/search?query=${this.searchTerm}`)
-      .subscribe((results:any) => {
+    console.log("Debug:API"+`home/search?titel=`+this.searchTitle+'&content='+this.searchContent+'&author='+this.searchAuthor+'&searchPrivate='+this.searchPrivate+'&searchPublic='+this.searchPublic);
+
+    this.apiService.getTypeRequest(`home/search?titel=`
+      +this.searchObj.title+'&content='
+      +this.searchObj.content+'&author='
+      +this.searchObj.author +'&searchPrivate='
+      +this.searchObj.searchPrivate+'&searchPublic='
+      +this.searchObj.searchPublic).subscribe((results:any) => {
         const notes = Array.from(results.data);
         this.searchResults = notes;
         console.log(notes);
       });
   }
 
-  navigateToSearch() {
-    this.searchTerm = this.searchTitle + "|" + this.searchContent + "|" + this.searchAuthor + "|" + this.searchPrivate + "|" + this.searchPublic;
-    if (this.searchTerm) {
-      this.router.navigate(['/search'], { queryParams: { q: this.searchTerm } });
-    }
+
+navigateToSearch() {
+    this.router.navigate(['/search'],
+      { queryParams: {
+          title: this.searchTitle,
+          content: this.searchContent,
+          author: this.searchAuthor,
+          privateNotes: this.searchPrivate,
+          publicNotes: this.searchPublic
+          }
+      }
+    );
     this.search();
   }
-
-  protected readonly Title = Title;
 }
