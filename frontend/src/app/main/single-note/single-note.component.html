@@ -21,7 +21,7 @@
 <div class="card mx-5 mt-5">
     <div class="card-header">
         <div class="row">
-            <div class="col text-start fs-4">Author: {{notes[0].author}}</div>
+            <div class="col text-start fs-4">{{notes[0].titel}}</div>
             <div class="col text-end">
             <button type="button" class="editbutton btn mx-2" [routerLink]="['/update', notes[0].note_id]" *ngIf='this.author_id_user == this.author_id_note'>Edit</button> <!--*ngIf='this.author_id_user == this.author_id_note'-->
             <button type="button" class="delbutton btn " (click)="deletNote()" *ngIf='this.author_id_user == this.author_id_note'>Delete</button> <!--*ngIf='this.author_id_user == this.author_id_note'-->
@@ -29,16 +29,21 @@
         </div>
         </div>
     </div>
-    <div class="card-body">
-        <h5 class="card-title">{{notes[0].titel}}</h5>
+    <div class="card-body">    
         <p class="card-text" [innerHTML]="notes[0].content"></p>
         <br>
-        <!-- <div [innerHTML]="notes[0].youtube"></div> -->
-        <!-- <span [innerHTML]="notes[0].youtube"></span> -->
         <youtube-player videoId="{{notes[0].youtube}}" suggestedQuality="highres" [height]="360" [width]="640"></youtube-player>
     </div>
     <div class="card-footer">
-        <span class="fs-8">Created: {{notes[0].created}}</span> <br>
-        <span class="fs-8">Last Changed: {{notes[0].lastChanged}}</span> 
+        <div class="row">
+            <div class="col">
+                <span class="fs-8"><b>Created by: </b>{{notes[0].username}}</span> 
+            </div>
+            <div class="text-end col">
+                <span class="fs-8"><b>Created: </b>{{notes[0].created}}</span> <br>
+                <span class="fs-8"><b>Last Changed:</b> {{notes[0].lastChanged}}</span> 
+            </div>            
+        </div>
+
     </div>
 </div>
