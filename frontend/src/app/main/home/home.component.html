@@ -4,13 +4,18 @@
     <div *ngFor="let note of notes">
         <div class="col">
             <div class="card" [routerLink]="['/note', note.note_id]">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col text-start fs-5">{{note.titel}}</div>
+                        <div class="col text-end">By {{note.username}}</div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{note.titel}}</h5>
                     <p class="card-text" [innerHTML]="note.content"></p>
                 </div>
                 <div class="card-footer">
-                    <span class="fs-8">Created: {{note.created}}</span> <br>
-                    <span class="fs-8">Last Changed: {{note.lastChanged}}</span> 
+                    <span class="fs-8"><b>Created:</b> {{note.created}}</span> <br>
+                    <span class="fs-8"><b>Last Changed:</b> {{note.lastChanged}}</span> 
                 </div>
             </div>
         </div>

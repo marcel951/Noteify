@@ -3,10 +3,9 @@ import { Router, RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import * as marked from 'marked';
-import { NOTES } from '../mock-notes';
 import { AppComponent } from 'src/app/app.component';
-
 import { DomSanitizer } from '@angular/platform-browser';
+import { Note } from '../note';
 
 @Component({
   selector: 'app-single-note',
@@ -16,7 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class SingleNoteComponent implements OnInit{
   id  = 0;
   private res: any;
-  notes = NOTES;
+  notes : Note[] = [];
   author_id_user = -1;
   author_id_note = -2;
   data = localStorage.getItem("userData");

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NOTES } from '../mock-notes';
 import { Note } from '../note';
 import { ApiService } from 'src/app/services/api.service';
 import * as marked from 'marked';
-import { RouterTestingHarness } from '@angular/router/testing';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
@@ -12,7 +10,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-  notes = NOTES;
+  notes : Note[] = [];
   constructor(
     private api: ApiService, 
     private app: AppComponent

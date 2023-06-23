@@ -9,6 +9,9 @@ import {AuthService} from "../../services/auth.service";
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  
+  searchTerm: string = '';
+
 
   isLogin: boolean = false;
   searchTitle: string | null ='';

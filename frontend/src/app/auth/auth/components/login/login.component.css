@@ -2,3 +2,9 @@
     border-width: 0.25em;
     background-color: #f8f8f2;
 }
+.loginbtn{
+    border-color: #8be9fd;
+}
+.loginbtn:hover{
+    background-color: #8be9fd;
+}
