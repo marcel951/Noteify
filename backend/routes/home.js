@@ -174,14 +174,14 @@ async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
     let conn;
     try {
         const query =
-            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id WHERE (notes.titel LIKE CONCAT('%',?,'%') OR notes.content LIKE CONCAT('%',?,'%') OR users.username LIKE CONCAT('%',?,'%')) and notes.isPrivate = 0";
+            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id = users.id WHERE (notes.title LIKE CONCAT('%', ?, '%') OR notes.content LIKE CONCAT('%', ?, '%') OR users.username LIKE CONCAT('%', ?, '%')) AND notes.isPrivate = 0";
         conn = await pool.getConnection();
         const result = await conn.query(query, [
             searchTitle,
             searchContent,
-            searchAuthor
+            searchAuthor,
         ]);
-        console.log("DEBUG: "+result);
+        console.log("DEBUG: " + result);
         const notes = Array.from(result); // Konvertierung in ein Array
         console.log("PublicSearch:");
         notes.forEach((note) => {
@@ -194,55 +194,75 @@ async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
     }
 }
 
-async function searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor) {
+async function searchPrivateFunc(user_id, searchTitle, searchContent, searchAuthor) {
     let conn;
     try {
-        const query = "SELECT * FROM notes WHERE (notes.titel LIKE ? OR notes.content LIKE ?) AND notes.user_id = ? AND notes.isPrivate =1";
+        const query =
+            "SELECT * FROM notes WHERE (notes.title LIKE ? OR notes.content LIKE ?) AND notes.user_id = ? AND notes.isPrivate = 1";
         conn = await pool.getConnection();
-        const result1 = await conn.query(query, [`%${searchTitle}%`, `%${searchContent}%`, `%${user_id}%`]);
+        const result1 = await conn.query(query, [
+            `%${searchTitle}%`,
+            `%${searchContent}%`,
+            user_id,
+        ]);
         const notes = Array.from(result1); // Konvertierung in ein Array
-        console.log("PrivateSearchUser_ID: "+user_id);
+        console.log("PrivateSearchUser_ID: " + user_id);
 
         console.log("PrivateSearch:");
         notes.forEach((note) => {
             console.log(note); // Ausgabe jedes einzelnen Ergebnisses
         });
-        console.log("PrivateSearchEnd");;
+        console.log("PrivateSearchEnd");
         return notes;
     } finally {
         if (conn) conn.release();
     }
 }
 
-router.get('/search',authenticateToken, async (req, res) => {
-    const searchTerm = req.query.query;
-    console.log("Query: "+ searchTerm);
+router.get('/search', authenticateToken, async (req, res) => {
+    const searchTitle = req.query.title || '';
+    const searchPrivate = req.query.privateNotes === 'true';
+    const searchPublic = req.query.publicNotes === 'true';
+    const searchContent = ''; // Setzen Sie hier den gewünschten Wert für den Inhaltssuchparameter ein
+    const searchAuthor = ''; // Setzen Sie hier den gewünschten Wert für den Autorsuchparameter ein
 
-    console.log(searchTerm);
+    console.log("Query: " + searchTitle);
+    console.log("Search Private: " + searchPrivate);
+    console.log("Search Public: " + searchPublic);
 
-
-
-    let result;
+    let result = [];
 
     try {
-        if(searchPrivate === "true") {
-            let user_id = authenticateToken.user_id;
-            result = result + await searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor);
+        if (searchPrivate) {
+            const user_id = authenticateToken.user_id;
+            const privateResult = await searchPrivateFunc(
+                user_id,
+                searchTitle,
+                searchContent,
+                searchAuthor
+            );
+            result = result.concat(privateResult);
         }
-        if(searchPublic === "true") {
-            result =  await searchPublicFunc(searchTitle, searchContent, searchAuthor);
-            result.forEach(element => {
+        if (searchPublic) {
+            const publicResult = await searchPublicFunc(
+                searchTitle,
+                searchContent,
+                searchAuthor
+            );
+            result = result.concat(publicResult);
+            result.forEach((element) => {
                 element.note_id = element.note_id.toString();
                 element.user_id = element.user_id.toString();
             });
         }
-        console.log("result: "+result);
-        res.send({status : 200,data : result});
+        console.log("result: " + result);
+        res.send({ status: 200, data: result });
     } catch (err) {
         console.error('Fehler bei der Datenbankabfrage:', err);
         res.status(500).json({ error: 'Fehler bei der Datenbankabfrage' });
     }
 });
+
 
 
 module.exports = router;
