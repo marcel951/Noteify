@@ -22,7 +22,7 @@ export class UpdateNoteComponent implements OnInit{
   ){}
   private res: any;
   private id = 0;
-  note : Note ={note_id : "",isPrivate: false, titel: "",youtube:"", created: "",lastChanged: "",author: "", content: ""};
+  note : Note ={note_id : "",isPrivate: false, titel: "",youtube:"", created: "",lastChanged: "",username: "", content: ""};
   updateForm = new FormGroup({
     titel: new FormControl(''),
     content: new FormControl(''),

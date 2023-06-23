@@ -2,3 +2,9 @@
     border-width: 0.25em;
     background-color: #f8f8f2;
 }
+.regbtn{
+    border-color: #8be9fd;
+}
+.regbtn:hover{
+    background-color: #8be9fd;
+}

@@ -75,7 +75,7 @@ router.get('/usernotes',authenticateToken, async function (req, res) {
 async function asyncFunctionSinglePage(id) {
   let conn;
   try {
-    const query = "SELECT notes.*,users.username AS author FROM notes JOIN users ON notes.user_id = users.user_id WHERE notes.note_id = ?"
+    const query = "SELECT notes.*,users.username FROM notes JOIN users ON notes.user_id = users.user_id WHERE notes.note_id = ?"
     conn = await pool.getConnection();
     const note = await conn.query(query, [id]);
     return note;
