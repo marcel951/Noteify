@@ -14,14 +14,10 @@ export class SearchComponent implements OnInit {
   searchTitle: string | null ='';
   searchContent: string | null ='';
   searchAuthor: string | null ='';
-  searchPrivate: boolean | null = false;
-  searchPublic: boolean | null = false;
-
-  searchObj: any;
+  searchPrivate: boolean = false;
+  searchPublic: boolean = false;
 
   searchResults:any = [];
-
-  // Ergebnisse der API-Suche
 
   constructor(
     private route: ActivatedRoute,
@@ -49,17 +45,16 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
-    console.log("Debug:API"+`home/search?titel=`+this.searchTitle+'&content='+this.searchContent+'&author='+this.searchAuthor+'&searchPrivate='+this.searchPrivate+'&searchPublic='+this.searchPublic);
 
-    this.apiService.getTypeRequest(`home/search?titel=`
-      +this.searchObj.title+'&content='
-      +this.searchObj.content+'&author='
-      +this.searchObj.author +'&searchPrivate='
-      +this.searchObj.searchPrivate+'&searchPublic='
-      +this.searchObj.searchPublic).subscribe((results:any) => {
-        const notes = Array.from(results.data);
-        this.searchResults = notes;
-        console.log(notes);
+    this.apiService.getTypeRequest(
+      `home/search?titel=` +this.searchTitle+
+      '&content=' +this.searchContent
+      +'&author=' +this.searchAuthor +
+      '&searchPrivate=' +this.searchPrivate+
+      '&searchPublic=' +this.searchPublic).subscribe((results:any) => {
+        //const notes = Array.from(results.data);
+        //this.searchResults = notes;
+        //console.log(notes);
       });
   }
 
