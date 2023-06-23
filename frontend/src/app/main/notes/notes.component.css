@@ -2,6 +2,10 @@ html { background-color: #44475a; }
 body{
     background-color: #44475a;
 }
+.head{
+    width: 100%;
+    margin-left: 0;
+}
 .notes{
     background-color:  #44475a;
 }
@@ -24,6 +28,7 @@ body{
     background-color: #dfdfdf;
 }
 .newbutton{
+    margin-right: 0;
     background-color: #8be9fd;
     border-color: #282a36;
 }

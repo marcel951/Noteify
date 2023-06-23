@@ -1,0 +1,8 @@
+.btn-outline-info{
+    color: #ff79c6;
+    border-color: #ff79c6;
+}
+.btn-outline-info:hover{
+    color:black;
+    background-color: #ff79c6;
+}
