@@ -11,6 +11,8 @@ import {NOTES} from "../mock-notes";
 export class SearchComponent implements OnInit {
   searchTerm: string = '';
   searchResults: any[]= []; // Ergebnisse der API-Suche
+  
+  username: string = '';
 
   constructor(
     private route: ActivatedRoute,

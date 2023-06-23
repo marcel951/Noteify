@@ -41,6 +41,18 @@ export class RegisterComponent implements OnInit {
     zxcvbnOptions.setOptions(options);
   }
 
+  // ngAfterViewInit():void{
+  //   this.form.valueChanges?.subscribe(username => console.log(username))
+  // }
+
+  // onChange(form: NgForm) {
+  //   let username = (<HTMLInputElement>document.getElementById("username")).value;
+  //   console.log(username);
+  //   console.log("onchange");
+  // }
+
+
+  
   onSubmit(form: NgForm) {
     const app = document.getElementById("liveAlertPlaceholder")!;
             //app?.classList.add("alert");   //add the class
