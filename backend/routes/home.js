@@ -196,26 +196,25 @@ async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
     let conn;
     try {
         const query =
-            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id WHERE (notes.titel LIKE ? OR notes.content LIKE ? OR users.username LIKE ?) and notes.isPrivate = 0";
+            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id WHERE (notes.titel LIKE CONCAT('%',?,'%') OR notes.content LIKE CONCAT('%',?,'%') OR users.username LIKE CONCAT('%',?,'%')) and notes.isPrivate = 0";
         conn = await pool.getConnection();
         const result = await conn.query(query, [
-            `%${searchTitle}%`,
-            `%${searchContent}%`,
-            `%${searchAuthor}%`,
+            searchTitle,
+            searchContent,
+            searchAuthor
         ]);
+        console.log("DEBUG: "+result);
         const notes = Array.from(result); // Konvertierung in ein Array
-
         console.log("PublicSearch:");
         notes.forEach((note) => {
             console.log(note); // Ausgabe jedes einzelnen Ergebnisses
         });
         console.log("PublicSearchEnd");
-        return notes;
+        return result;
     } finally {
         if (conn) conn.release();
     }
 }
-
 
 async function searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor) {
     let conn;
@@ -237,10 +236,9 @@ async function searchPrivateFunc(user_id,searchTitle, searchContent, searchAutho
     }
 }
 
-
 router.get('/search',authenticateToken, async (req, res) => {
     const searchTerm = req.query.query;
-    let result=[];
+    let result;
     const searchTermArr = searchTerm.split("|");
 
     const searchTitle = searchTermArr[0];
@@ -255,9 +253,14 @@ router.get('/search',authenticateToken, async (req, res) => {
             result = result + await searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor);
         }
         if(searchPublic === "true") {
-            result = result + await searchPublicFunc(searchTitle, searchContent, searchAuthor);
+            result =  await searchPublicFunc(searchTitle, searchContent, searchAuthor);
+            result.forEach(element => {
+                element.note_id = element.note_id.toString();
+                element.user_id = element.user_id.toString();
+            });
         }
-        res.status(200).json(result);
+        console.log("result: "+result);
+        res.send({status : 200,data : result});
     } catch (err) {
         console.error('Fehler bei der Datenbankabfrage:', err);
         res.status(500).json({ error: 'Fehler bei der Datenbankabfrage' });

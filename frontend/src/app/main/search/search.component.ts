@@ -18,10 +18,11 @@ export class SearchComponent implements OnInit {
   searchAuthor: string ='';
   searchPrivate: string ='';
   searchPublic: string ='';
+  searchResults: any= [];
 
 
   // Ergebnisse der API-Suche
-  searchResults: any= [];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -44,12 +45,9 @@ export class SearchComponent implements OnInit {
   search() {
     this.apiService.getTypeRequest(`home/search?query=${this.searchTerm}`)
       .subscribe((results:any) => {
-        this.searchResults = results;
-
-        const notes = Array.from(results);
-        notes.forEach((tmp:any) => {
-          console.log(tmp); // Ausgabe jedes einzelnen Ergebnisses
-        });
+        const notes = Array.from(results.data);
+        this.searchResults = notes;
+        console.log(notes);
       });
   }
 
