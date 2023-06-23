@@ -28,7 +28,7 @@ const zxcvbnDePackage = require("@zxcvbn-ts/language-de");
 
 
 const options = {
-  translations: zxcvbnDePackage.translations,
+  translations: zxcvbnEnPackage.translations,
   graphs: zxcvbnCommonPackage.adjacencyGraphs,
   dictionary: {
     ...zxcvbnCommonPackage.dictionary,

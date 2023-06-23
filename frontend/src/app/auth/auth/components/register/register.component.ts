@@ -74,8 +74,10 @@ export class RegisterComponent implements OnInit {
       if(resCheck.score > 2){
         this.registerNewUser(form);
       } else {
-        appendAlert("Dein Passwort ist zu schwach.", 'danger');
-        appendAlert(resCheck.feedback.warning, 'info');
+        appendAlert("Your password is too weak.", 'danger');
+        if(resCheck.feedback.warning){
+          appendAlert(resCheck.feedback.warning, 'info');
+        }
         console.log(resCheck.feedback);
       }
     });
