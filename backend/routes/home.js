@@ -238,15 +238,14 @@ async function searchPrivateFunc(user_id,searchTitle, searchContent, searchAutho
 
 router.get('/search',authenticateToken, async (req, res) => {
     const searchTerm = req.query.query;
-    let result;
-    const searchTermArr = searchTerm.split("|");
+    console.log("Query: "+ searchTerm);
 
-    const searchTitle = searchTermArr[0];
-    const searchContent = searchTermArr[1];
-    const searchAuthor = searchTermArr[2];
-    const searchPrivate = searchTermArr[3];
-    const searchPublic = searchTermArr[4];
-    console.log("searchTerm: "+searchTerm);
+    console.log(searchTerm);
+
+
+
+    let result;
+
     try {
         if(searchPrivate === "true") {
             let user_id = authenticateToken.user_id;
