@@ -105,8 +105,9 @@ async function registerNewUser(username, password){
 
 /* GET users listing. */
 router.post('/register', async function (req, res, next) {
+  const conn = await pool.getConnection();
   try {
-    const conn = await pool.getConnection();
+   
     const {username, password} = req.body;
     const hashed_password = await argon.hash(password.toString());
     console.log(password);
@@ -138,6 +139,8 @@ router.post('/register', async function (req, res, next) {
   } catch(error){
     console.log(error);
     res.send({status:0 , error: 'Registration failed'});
+  } finally {
+    if (conn) conn.release(); //release to pool
   }
 });
 
@@ -175,6 +178,8 @@ router.post('/login', async function (req, res, next) {
     }
   } catch (error) {
     res.send({ status: 0, error: error });
+  } finally {
+    if (con) con.release(); //release to pool
   }
 });
 
