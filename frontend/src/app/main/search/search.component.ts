@@ -12,6 +12,7 @@ import {Title} from "@angular/platform-browser";
 })
 export class SearchComponent implements OnInit {
   searchTerm: string = '';
+
   isLogin: boolean = false;
   searchTitle: string ='';
   searchContent: string ='';

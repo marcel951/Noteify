@@ -72,28 +72,28 @@ async function checkIfUserExists(username){
   }
 }
 
-async function checkIfEmailExists(email){
-  const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE email = ?';
+// async function checkIfEmailExists(email){
+//   const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE email = ?';
+
+//   try{
+//     const conn = await pool.getConnection();
+//     const result = await conn.query(checkUsername, [email]);
+//     conn.release();
+
+//     const count = result[0].count;
+//     return count > 0;
+//   } catch(error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }
+
+async function registerNewUser(username, password){
+  const newUser ='INSERT INTO users (username, pass) VALUES (?, ?)';
 
   try{
     const conn = await pool.getConnection();
-    const result = await conn.query(checkUsername, [email]);
-    conn.release();
-
-    const count = result[0].count;
-    return count > 0;
-  } catch(error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-async function registerNewUser(username, password, email){
-  const newUser ='INSERT INTO users (username, pass, email) VALUES (?, ?, ?)';
-
-  try{
-    const conn = await pool.getConnection();
-    const result = await conn.query(newUser, [username, password, email]);
+    const result = await conn.query(newUser, [username, password]);
     conn.release();
 
     return 1;
@@ -107,21 +107,23 @@ async function registerNewUser(username, password, email){
 router.post('/register', async function (req, res, next) {
   try {
     const conn = await pool.getConnection();
-    const {username, email, password} = req.body;
+    const {username, password} = req.body;
     const hashed_password = await argon.hash(password.toString());
+    console.log(password);
 
-    
-
+    if(username.length < 5){
+      res.send({status: 0, error: 'username too short', msg:'Your username is too short. Use at least 5 letters.'});
+    }else{
     const userExists = await checkIfUserExists(username);
-    const emailExists = await checkIfEmailExists(email);
-
+    // const emailExists = await checkIfEmailExists(email);
+      const emailExists = false;
     if(userExists){
-      res.send({status:0, error: 'username already taken', msg:'This username is already taken'});
+      res.send({status:0, error: 'username or email already taken', msg:'Your username or email is already taken.'});
     }else if(emailExists){
-      res.send({status:0, error: 'email already taken', msg:'This email is already taken'});
+      res.send({status:0, error: 'username or email already taken', msg:'Your username or email is already taken.'});
     } else {
       
-      const newUser = await registerNewUser(username, hashed_password, email);
+      const newUser = await registerNewUser(username, hashed_password);
       
       if(newUser > 0){
         const query = "SELECT user_id FROM users WHERE username = ?";
@@ -131,6 +133,7 @@ router.post('/register', async function (req, res, next) {
       } else {
         res.send({status: 0, data: err});
       }
+    }
     }
   } catch(error){
     console.log(error);
@@ -179,8 +182,8 @@ router.post('/checkPW', async function (req, res, next) {
   zxcvbnOptions.setOptions(options);
 
   try{
-    const {username, email, password} = req.body;
-    const zxcvbnResult = zxcvbn(password, [username, email]);
+    const {username, password} = req.body;
+    const zxcvbnResult = zxcvbn(password, [username]);
     const score = zxcvbnResult.score;
     const feedback = zxcvbnResult.feedback;
     res.send({score:score, feedback:feedback});
