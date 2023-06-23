@@ -192,39 +192,75 @@ router.post('/update/:id',authenticateToken, async function (req, res) {
   else res.send({status : 1});  
 });
 
-
-async function searchNote(searchTerm, user_id) {
+async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
     let conn;
     try {
-        const query = "" +
-            "SELECT * " +
-            "FROM notes " +
-            "WHERE " +
-            "notes.titel LIKE ? OR notes.content LIKE ?" +
-            "AND notes.user_id = ?";
+        const query =
+            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id WHERE (notes.titel LIKE CONCAT('%',?,'%') OR notes.content LIKE CONCAT('%',?,'%') OR users.username LIKE CONCAT('%',?,'%')) and notes.isPrivate = 0";
         conn = await pool.getConnection();
-        const note = await conn.query(query, [searchTerm, searchTerm, user_id]);
-        return note;
+        const result = await conn.query(query, [
+            searchTitle,
+            searchContent,
+            searchAuthor
+        ]);
+        console.log("DEBUG: "+result);
+        const notes = Array.from(result); // Konvertierung in ein Array
+        console.log("PublicSearch:");
+        notes.forEach((note) => {
+            console.log(note); // Ausgabe jedes einzelnen Ergebnisses
+        });
+        console.log("PublicSearchEnd");
+        return result;
     } finally {
         if (conn) conn.release();
     }
 }
 
-router.get('/search', authenticateToken, async (req, res) => {
-    const searchTerm = req.query.query;
-    let privNote = 0;
-    if(req.user =! null){
-        user_id = req.user;
-        privNote = 1;
-    }
-
+async function searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor) {
+    let conn;
     try {
-        const result = await searchNote(searchTerm, user_id);
-        result.forEach(element => {
-            element.note_id = element.note_id.toString();
-            element.user_id = element.user_id.toString();
+        const query = "SELECT * FROM notes WHERE (notes.titel LIKE ? OR notes.content LIKE ?) AND notes.user_id = ? AND notes.isPrivate =1";
+        conn = await pool.getConnection();
+        const result1 = await conn.query(query, [`%${searchTitle}%`, `%${searchContent}%`, `%${user_id}%`]);
+        const notes = Array.from(result1); // Konvertierung in ein Array
+        console.log("PrivateSearchUser_ID: "+user_id);
+
+        console.log("PrivateSearch:");
+        notes.forEach((note) => {
+            console.log(note); // Ausgabe jedes einzelnen Ergebnisses
         });
-        res.status(200).json(result);
+        console.log("PrivateSearchEnd");;
+        return notes;
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
+router.get('/search',authenticateToken, async (req, res) => {
+    const searchTerm = req.query.query;
+    let result;
+    const searchTermArr = searchTerm.split("|");
+
+    const searchTitle = searchTermArr[0];
+    const searchContent = searchTermArr[1];
+    const searchAuthor = searchTermArr[2];
+    const searchPrivate = searchTermArr[3];
+    const searchPublic = searchTermArr[4];
+    console.log("searchTerm: "+searchTerm);
+    try {
+        if(searchPrivate === "true") {
+            let user_id = authenticateToken.user_id;
+            result = result + await searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor);
+        }
+        if(searchPublic === "true") {
+            result =  await searchPublicFunc(searchTitle, searchContent, searchAuthor);
+            result.forEach(element => {
+                element.note_id = element.note_id.toString();
+                element.user_id = element.user_id.toString();
+            });
+        }
+        console.log("result: "+result);
+        res.send({status : 200,data : result});
     } catch (err) {
         console.error('Fehler bei der Datenbankabfrage:', err);
         res.status(500).json({ error: 'Fehler bei der Datenbankabfrage' });
