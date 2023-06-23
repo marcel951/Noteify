@@ -192,38 +192,55 @@ router.post('/update/:id',authenticateToken, async function (req, res) {
   else res.send({status : 1});  
 });
 
-
-
 async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
     let conn;
     try {
-        const query = "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id WHERE notes.titel LIKE ? OR notes.content LIKE ? OR users.username LIKE ?";
+        const query =
+            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id WHERE (notes.titel LIKE ? OR notes.content LIKE ? OR users.username LIKE ?) and notes.isPrivate = 0";
         conn = await pool.getConnection();
-        const note = await conn.query(query, [`%${searchTitle}%`, `%${searchContent}%` , `%${searchAuthor}%`]);
+        const result = await conn.query(query, [
+            `%${searchTitle}%`,
+            `%${searchContent}%`,
+            `%${searchAuthor}%`,
+        ]);
+        const notes = Array.from(result); // Konvertierung in ein Array
 
-        return note;
+        console.log("PublicSearch:");
+        notes.forEach((note) => {
+            console.log(note); // Ausgabe jedes einzelnen Ergebnisses
+        });
+        console.log("PublicSearchEnd");
+        return notes;
     } finally {
         if (conn) conn.release();
     }
 }
 
-async function searchPrivateFunc(searchTitle, searchContent, searchAuthor, user_id) {
+
+async function searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor) {
     let conn;
     try {
-        const query = "SELECT * FROM notes WHERE (notes.titel LIKE ? OR notes.content LIKE ?) AND notes.user_id = ?";
+        const query = "SELECT * FROM notes WHERE (notes.titel LIKE ? OR notes.content LIKE ?) AND notes.user_id = ? AND notes.isPrivate =1";
         conn = await pool.getConnection();
-        const note = await conn.query(query, [`%${searchTitle}%`, `%${searchContent}%`, user_id]);
-        return note;
+        const result1 = await conn.query(query, [`%${searchTitle}%`, `%${searchContent}%`, `%${user_id}%`]);
+        const notes = Array.from(result1); // Konvertierung in ein Array
+        console.log("PrivateSearchUser_ID: "+user_id);
+
+        console.log("PrivateSearch:");
+        notes.forEach((note) => {
+            console.log(note); // Ausgabe jedes einzelnen Ergebnisses
+        });
+        console.log("PrivateSearchEnd");;
+        return notes;
     } finally {
         if (conn) conn.release();
     }
 }
 
 
-router.get('/search', authenticateToken, async (req, res) => {
+router.get('/search',authenticateToken, async (req, res) => {
     const searchTerm = req.query.query;
-    let result = [];
-    console.log("SearchTerm: "+searchTerm);
+    let result=[];
     const searchTermArr = searchTerm.split("|");
 
     const searchTitle = searchTermArr[0];
@@ -231,29 +248,15 @@ router.get('/search', authenticateToken, async (req, res) => {
     const searchAuthor = searchTermArr[2];
     const searchPrivate = searchTermArr[3];
     const searchPublic = searchTermArr[4];
-
-
-    if(searchPrivate === "true"){
-        let user_id = req.user;
-        console.log("Private: "+user_id);
-    }
-
+    console.log("searchTerm: "+searchTerm);
     try {
         if(searchPrivate === "true") {
-            let user_id = req.user;
-            const result = await searchPrivateFunc(searchTitle, searchContent, searchAuthor, user_id);
-            console.log(result);
-        } else if(searchPublic === "true") {
-            const result = await searchPublicFunc(searchTitle, searchContent, searchAuthor);
-        }else if(searchPrivate === "true" && searchPublic === "true"){
-            let result = await searchPublic(searchTitle, searchContent, searchAuthor);
-            result += await searchPrivate(searchTitle, searchContent, searchAuthor, user_id);
+            let user_id = authenticateToken.user_id;
+            result = result + await searchPrivateFunc(user_id,searchTitle, searchContent, searchAuthor);
         }
-        result.forEach(element => {
-            element.note_id = element.note_id.toString();
-            element.user_id = element.user_id.toString();
-        });
-        console.log(result);
+        if(searchPublic === "true") {
+            result = result + await searchPublicFunc(searchTitle, searchContent, searchAuthor);
+        }
         res.status(200).json(result);
     } catch (err) {
         console.error('Fehler bei der Datenbankabfrage:', err);
