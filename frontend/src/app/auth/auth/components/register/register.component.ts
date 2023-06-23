@@ -74,6 +74,7 @@ export class RegisterComponent implements OnInit {
       if(resCheck.score > 2){
         this.registerNewUser(form);
       } else {
+        app.innerHTML ='';
         appendAlert("Your password is too weak.", 'danger');
         if(resCheck.feedback.warning){
           appendAlert(resCheck.feedback.warning, 'info');
@@ -110,6 +111,7 @@ export class RegisterComponent implements OnInit {
         console.log("Registration successfull");
       } else {
         console.log(res);
+        app.innerHTML='';
         appendAlert(res.msg, 'danger')
       }
     });
