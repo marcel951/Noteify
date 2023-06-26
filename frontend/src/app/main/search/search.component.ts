@@ -9,13 +9,12 @@ import {AuthService} from "../../services/auth.service";
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-
   isLogin: boolean = false;
   searchTitle: string | null ='';
   searchContent: string | null ='';
   searchAuthor: string | null ='';
   searchPrivate: boolean = false;
-  searchPublic: boolean = false;
+  searchPublic: boolean = true;
 
   searchResults:any = [];
 
@@ -27,16 +26,19 @@ export class SearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isUserLogin();
     this.route.queryParamMap
       .subscribe(params => {
           console.log(params); // { order: "popular" }
           this.searchTitle = params.get("title");
           this.searchContent= params.get("content");
           this.searchAuthor= params.get("author");
-          this.searchPrivate = params.get("searchPrivate")=="true";
-          this.searchPublic= params.get("searchPublic")=="true";
+          this.searchPrivate = params.get("searchPrivate") === "true";
+          this.searchPublic= params.get("searchPublic")==="true";
         }
       );
+    console.log("Search übergabe private: "+this.searchPrivate);
+
     this.search();
   }
   isUserLogin(){
@@ -45,28 +47,30 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
-
     this.apiService.getTypeRequest(
       `home/search?titel=` +this.searchTitle+
-      '&content=' +this.searchContent
-      +'&author=' +this.searchAuthor +
+      '&content=' +this.searchContent +
+      '&author=' +this.searchAuthor +
       '&searchPrivate=' +this.searchPrivate+
       '&searchPublic=' +this.searchPublic).subscribe((results:any) => {
-        //const notes = Array.from(results.data);
-        //this.searchResults = notes;
-        //console.log(notes);
+        const notes = Array.from(results.data);
+        this.searchResults = notes;
+        console.log(notes);
       });
   }
 
 
 navigateToSearch() {
+  if(!this.isLogin){
+    this.searchPublic = true;
+  }
     this.router.navigate(['/search'],
       { queryParams: {
           title: this.searchTitle,
           content: this.searchContent,
           author: this.searchAuthor,
-          privateNotes: this.searchPrivate,
-          publicNotes: this.searchPublic
+          searchPrivate: this.searchPrivate,
+          searchPublic: this.searchPublic
           }
       }
     );
