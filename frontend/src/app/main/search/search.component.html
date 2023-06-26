@@ -11,7 +11,7 @@
         <input type="text" class="form-control" placeholder="Suche nach Autor" [(ngModel)]="searchAuthor">
       </div>
 
-      <div class="form-check mb-3" *ngIf="isLogin">
+      <div class="form-check mb-3" *ngIf="this.isLogin">
         <input class="form-check-input" type="checkbox" [(ngModel)]="searchPublic">
         <label class="form-check-label">Öffentliche Notizen</label>
         <br>

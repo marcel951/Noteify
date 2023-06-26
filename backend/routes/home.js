@@ -13,16 +13,17 @@ const pool = mariadb.createPool({
     database: 'db_notes'
 });
 
-
-function authenticateToken(req, res, next){
+let userID;
+function authenticateToken(req, res, next, search=false){
   if (!req.headers.authorization) {
     res.status(401).send({ message: "Unauthorized" })
   } else {
     jwt.verify(req.headers.authorization, "1337leet420", function (err, decoded) {
         if(decoded){
-            req.user = decoded.user_id
-            console.log(req.user);
-            next()
+            req.user = decoded.user_id;
+            userID = decoded.user_id;
+            console.log("Debug authenticateToken: "+req.user);
+            if(!search){next();}
         }else{
           if(err.name === 'TokenExpiredError') res.send({ message: "Token expired" });
           else  res.status(401).send({ message: "Unauthorized" });
@@ -174,7 +175,7 @@ async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
     let conn;
     try {
         const query =
-            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id = users.id WHERE (notes.title LIKE CONCAT('%', ?, '%') OR notes.content LIKE CONCAT('%', ?, '%') OR users.username LIKE CONCAT('%', ?, '%')) AND notes.isPrivate = 0";
+            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id = users.user_id WHERE (notes.titel LIKE CONCAT('%', ?, '%') OR notes.content LIKE CONCAT('%', ?, '%') OR users.username LIKE CONCAT('%', ?, '%')) AND notes.isPrivate = 0";
         conn = await pool.getConnection();
         const result = await conn.query(query, [
             searchTitle,
@@ -198,7 +199,7 @@ async function searchPrivateFunc(user_id, searchTitle, searchContent, searchAuth
     let conn;
     try {
         const query =
-            "SELECT * FROM notes WHERE (notes.title LIKE ? OR notes.content LIKE ?) AND notes.user_id = ? AND notes.isPrivate = 1";
+            "SELECT * FROM notes WHERE (notes.titel LIKE ? OR notes.content LIKE ?) AND notes.user_id = ? AND notes.isPrivate = 1";
         conn = await pool.getConnection();
         const result1 = await conn.query(query, [
             `%${searchTitle}%`,
@@ -206,9 +207,7 @@ async function searchPrivateFunc(user_id, searchTitle, searchContent, searchAuth
             user_id,
         ]);
         const notes = Array.from(result1); // Konvertierung in ein Array
-        console.log("PrivateSearchUser_ID: " + user_id);
 
-        console.log("PrivateSearch:");
         notes.forEach((note) => {
             console.log(note); // Ausgabe jedes einzelnen Ergebnisses
         });
@@ -219,22 +218,25 @@ async function searchPrivateFunc(user_id, searchTitle, searchContent, searchAuth
     }
 }
 
-router.get('/search', authenticateToken, async (req, res) => {
+router.get('/search',async (req, res, next) => {
     const searchTitle = req.query.title || '';
-    const searchPrivate = req.query.privateNotes === 'true';
-    const searchPublic = req.query.publicNotes === 'true';
-    const searchContent = ''; // Setzen Sie hier den gewünschten Wert für den Inhaltssuchparameter ein
-    const searchAuthor = ''; // Setzen Sie hier den gewünschten Wert für den Autorsuchparameter ein
+    const searchPrivate = req.query.searchPrivate === 'true';
+    const searchPublic = req.query.searchPublic === 'true';
+    const searchContent = req.query.content;
+    const searchAuthor = req.query.author;
 
     console.log("Query: " + searchTitle);
-    console.log("Search Private: " + searchPrivate);
+    console.log("Search Private: " +req.query.privateNotes +" | "+ searchPrivate);
     console.log("Search Public: " + searchPublic);
 
     let result = [];
 
     try {
+        let user_id;
         if (searchPrivate) {
-            const user_id = authenticateToken.user_id;
+            authenticateToken(req,res,next,true);
+            user_id = userID;
+            if(user_id !== undefined){
             const privateResult = await searchPrivateFunc(
                 user_id,
                 searchTitle,
@@ -242,6 +244,7 @@ router.get('/search', authenticateToken, async (req, res) => {
                 searchAuthor
             );
             result = result.concat(privateResult);
+            }
         }
         if (searchPublic) {
             const publicResult = await searchPublicFunc(
@@ -256,10 +259,12 @@ router.get('/search', authenticateToken, async (req, res) => {
             });
         }
         console.log("result: " + result);
-        res.send({ status: 200, data: result });
+        if(user_id !== undefined && searchPrivate==true) {
+            res.send({status: 200, data: result});
+        }
     } catch (err) {
         console.error('Fehler bei der Datenbankabfrage:', err);
-        res.status(500).json({ error: 'Fehler bei der Datenbankabfrage' });
+        //res.status(500).json({ error: 'Fehler bei der Datenbankabfrage' });
     }
 });
 
