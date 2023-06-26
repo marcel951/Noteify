@@ -22,7 +22,7 @@ export class UpdateNoteComponent implements OnInit{
   ){}
   private res: any;
   private id = 0;
-  note = NOTES[0];
+  note : Note ={note_id : "",isPrivate: false, titel: "",youtube:"", created: "",lastChanged: "",username: "", content: ""};
   updateForm = new FormGroup({
     titel: new FormControl(''),
     content: new FormControl(''),
@@ -33,7 +33,6 @@ export class UpdateNoteComponent implements OnInit{
     this.res = this.route.params.subscribe(para => {
       this.id = para['id'];
     })
-    this.note = NOTES[this.id-1];
     this.api.getTypeRequest('home/singlenote/'+this.id).subscribe((res:any) => {
       this.note = res.data[0];
       console.log(this.note);

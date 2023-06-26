@@ -28,7 +28,7 @@ const zxcvbnDePackage = require("@zxcvbn-ts/language-de");
 
 
 const options = {
-  translations: zxcvbnDePackage.translations,
+  translations: zxcvbnEnPackage.translations,
   graphs: zxcvbnCommonPackage.adjacencyGraphs,
   dictionary: {
     ...zxcvbnCommonPackage.dictionary,
@@ -72,28 +72,28 @@ async function checkIfUserExists(username){
   }
 }
 
-async function checkIfEmailExists(email){
-  const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE email = ?';
+// async function checkIfEmailExists(email){
+//   const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE email = ?';
+
+//   try{
+//     const conn = await pool.getConnection();
+//     const result = await conn.query(checkUsername, [email]);
+//     conn.release();
+
+//     const count = result[0].count;
+//     return count > 0;
+//   } catch(error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }
+
+async function registerNewUser(username, password){
+  const newUser ='INSERT INTO users (username, pass) VALUES (?, ?)';
 
   try{
     const conn = await pool.getConnection();
-    const result = await conn.query(checkUsername, [email]);
-    conn.release();
-
-    const count = result[0].count;
-    return count > 0;
-  } catch(error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-async function registerNewUser(username, password, email){
-  const newUser ='INSERT INTO users (username, pass, email) VALUES (?, ?, ?)';
-
-  try{
-    const conn = await pool.getConnection();
-    const result = await conn.query(newUser, [username, password, email]);
+    const result = await conn.query(newUser, [username, password]);
     conn.release();
 
     return 1;
@@ -105,23 +105,26 @@ async function registerNewUser(username, password, email){
 
 /* GET users listing. */
 router.post('/register', async function (req, res, next) {
+  const conn = await pool.getConnection();
   try {
-    const conn = await pool.getConnection();
-    const {username, email, password} = req.body;
+   
+    const {username, password} = req.body;
     const hashed_password = await argon.hash(password.toString());
+    console.log(password);
 
-    
-
+    if(username.length < 5){
+      res.send({status: 0, error: 'username too short', msg:'Your username is too short. Use at least 5 letters.'});
+    }else{
     const userExists = await checkIfUserExists(username);
-    const emailExists = await checkIfEmailExists(email);
-
+    // const emailExists = await checkIfEmailExists(email);
+      const emailExists = false;
     if(userExists){
-      res.send({status:0, error: 'username already taken', msg:'This username is already taken'});
+      res.send({status:0, error: 'username or email already taken', msg:'Your username or email is already taken.'});
     }else if(emailExists){
-      res.send({status:0, error: 'email already taken', msg:'This email is already taken'});
+      res.send({status:0, error: 'username or email already taken', msg:'Your username or email is already taken.'});
     } else {
       
-      const newUser = await registerNewUser(username, hashed_password, email);
+      const newUser = await registerNewUser(username, hashed_password);
       
       if(newUser > 0){
         const query = "SELECT user_id FROM users WHERE username = ?";
@@ -132,9 +135,12 @@ router.post('/register', async function (req, res, next) {
         res.send({status: 0, data: err});
       }
     }
+    }
   } catch(error){
     console.log(error);
     res.send({status:0 , error: 'Registration failed'});
+  } finally {
+    if (conn) conn.release(); //release to pool
   }
 });
 
@@ -172,6 +178,8 @@ router.post('/login', async function (req, res, next) {
     }
   } catch (error) {
     res.send({ status: 0, error: error });
+  } finally {
+    if (con) con.release(); //release to pool
   }
 });
 
@@ -179,8 +187,8 @@ router.post('/checkPW', async function (req, res, next) {
   zxcvbnOptions.setOptions(options);
 
   try{
-    const {username, email, password} = req.body;
-    const zxcvbnResult = zxcvbn(password, [username, email]);
+    const {username, password} = req.body;
+    const zxcvbnResult = zxcvbn(password, [username]);
     const score = zxcvbnResult.score;
     const feedback = zxcvbnResult.feedback;
     res.send({score:score, feedback:feedback});
