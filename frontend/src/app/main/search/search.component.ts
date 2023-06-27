@@ -16,6 +16,8 @@ export class SearchComponent implements OnInit {
   searchAuthor: string | null ='';
   searchPrivate: boolean = false;
   searchPublic: boolean = true;
+  searchterm: string ='';
+  tmp : string|null ="";
 
   searchResults:any = [];
 
@@ -28,19 +30,19 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.isUserLogin();
+    this.searchResults = [];   
     this.route.queryParamMap
       .subscribe(params => {
           console.log(params); // { order: "popular" }
-          this.searchTitle = params.get("title");
-          this.searchContent= params.get("content");
-          this.searchAuthor= params.get("author");
-          this.searchPrivate = params.get("searchPrivate") === "true";
-          this.searchPublic= params.get("searchPublic")==="true";
+          this.tmp= params.get("searchterm");
+          if(this.tmp == null)this.tmp = "";
+          this.searchterm =this.tmp;
+          this.searchPrivate = (params.get("searchPrivate") === "true");
+          this.searchPublic= (params.get("searchPublic")==="true");
+          this.search();
         }
       );
     console.log("Search übergabe private: "+this.searchPrivate);
-
-    this.search();
   }
   isUserLogin(){
     if(this._auth.getUserDetails() != null){this.isLogin = true;
@@ -49,14 +51,13 @@ export class SearchComponent implements OnInit {
 
   search() {
     this.apiService.getTypeRequest(
-      `home/search?titel=` +this.searchTitle+
-      '&content=' +this.searchContent +
-      '&author=' +this.searchAuthor +
+      `home/search?searchterm=` +this.searchterm+
       '&searchPrivate=' +this.searchPrivate+
       '&searchPublic=' +this.searchPublic).subscribe((results:any) => {
+        console.log("res"+results.data);
         const notes = Array.from(results.data);
         this.searchResults = notes;
-        console.log(notes);
+        console.log("notes:"+notes);
       });
   }
 
@@ -67,14 +68,11 @@ navigateToSearch() {
   }
     this.router.navigate(['/search'],
       { queryParams: {
-          title: this.searchTitle,
-          content: this.searchContent,
-          author: this.searchAuthor,
+          searchterm: this.searchterm,
           searchPrivate: this.searchPrivate,
           searchPublic: this.searchPublic
           }
       }
     );
-    this.search();
   }
 }

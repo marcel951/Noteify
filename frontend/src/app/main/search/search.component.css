@@ -6,8 +6,7 @@ body{
   background-color:  #44475a;
 }
 .card:hover{
-  border-color: #50fa7b;
-  cursor: pointer;
+
 }
 .card{
   border-width: 0.25em;
@@ -23,4 +22,17 @@ body{
 .card-footer{
   background-color: #dfdfdf;
 }
-
+.button{
+  border-color: #50fa7b;
+}
+.button:hover{
+  background-color: #50fa7b;
+}
+.cardRes:hover{
+  border-color: #50fa7b;
+  cursor: pointer;
+}
+.cardRes{
+  border-width: 0.25em;
+  background-color: #f8f8f2;
+}

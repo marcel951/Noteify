@@ -14,6 +14,7 @@ const pool = mariadb.createPool({
 });
 
 let userID;
+let isAuthenticated = true;
 function authenticateToken(req, res, next, search=false){
   if (!req.headers.authorization) {
     res.status(401).send({ message: "Unauthorized" })
@@ -26,7 +27,7 @@ function authenticateToken(req, res, next, search=false){
             if(!search){next();}
         }else{
           if(err.name === 'TokenExpiredError') res.send({ message: "Token expired" });
-          else  res.status(401).send({ message: "Unauthorized" });
+          else  {res.status(401).send({ message: "Unauthorized" }); isAuthenticated = false;}
         }
     })
   }
@@ -171,16 +172,17 @@ router.post('/update/:id',authenticateToken, async function (req, res) {
   else res.send({status : 1});  
 });
 
-async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
+async function searchPublicFunc(searchTerm, searchContent, searchAuthor) {
     let conn;
+    console.log("----------------------------\n\n")
+    console.log("term:"+searchTerm)
     try {
-        const query =
-            "SELECT notes.*, users.username FROM notes JOIN users on notes.user_id = users.user_id WHERE (notes.titel LIKE CONCAT('%', ?, '%') OR notes.content LIKE CONCAT('%', ?, '%') OR users.username LIKE CONCAT('%', ?, '%')) AND notes.isPrivate = 0";
+        const query ="SELECT notes.* from notes JOIN users ON notes.user_id = users.user_id WHERE (notes.titel LIKE CONCAT('%', ?, '%') OR notes.content LIKE CONCAT('%', ?, '%') OR users.username LIKE CONCAT('%', ?, '%')) AND notes.isPrivate = 0";
         conn = await pool.getConnection();
         const result = await conn.query(query, [
-            searchTitle,
-            searchContent,
-            searchAuthor,
+            searchTerm,
+            searchTerm,
+            searchTerm,
         ]);
         console.log("DEBUG: " + result);
         const notes = Array.from(result); // Konvertierung in ein Array
@@ -195,40 +197,33 @@ async function searchPublicFunc(searchTitle, searchContent, searchAuthor) {
     }
 }
 
-async function searchPrivateFunc(user_id, searchTitle, searchContent, searchAuthor) {
+async function searchPrivateFunc(user_id, searchTerm) {
     let conn;
     try {
-        const query =
-            "SELECT * FROM notes WHERE (notes.titel LIKE ? OR notes.content LIKE ?) AND notes.user_id = ? AND notes.isPrivate = 1";
+        const query ="SELECT notes.* from notes JOIN users ON notes.user_id = users.user_id WHERE ((notes.titel LIKE CONCAT('%', ?, '%') OR notes.content LIKE CONCAT('%', ?, '%') OR users.username LIKE CONCAT('%', ?, '%')) AND notes.isPrivate = 1) AND users.user_id = ?";
         conn = await pool.getConnection();
+        console.log(user_id)
         const result1 = await conn.query(query, [
-            `%${searchTitle}%`,
-            `%${searchContent}%`,
-            user_id,
+            searchTerm,
+            searchTerm,
+            searchTerm,
+            user_id
         ]);
         const notes = Array.from(result1); // Konvertierung in ein Array
-
         notes.forEach((note) => {
             console.log(note); // Ausgabe jedes einzelnen Ergebnisses
         });
-        console.log("PrivateSearchEnd");
         return notes;
     } finally {
         if (conn) conn.release();
     }
 }
 
-router.get('/search',async (req, res, next) => {
-    const searchTitle = req.query.title || '';
+router.get('/search',async (req, res, next) => {   
+    let searchTerm = req.query.searchterm;
+
     const searchPrivate = req.query.searchPrivate === 'true';
     const searchPublic = req.query.searchPublic === 'true';
-    const searchContent = req.query.content;
-    const searchAuthor = req.query.author;
-
-    console.log("Query: " + searchTitle);
-    console.log("Search Private: " +req.query.privateNotes +" | "+ searchPrivate);
-    console.log("Search Public: " + searchPublic);
-
     let result = [];
 
     try {
@@ -239,28 +234,26 @@ router.get('/search',async (req, res, next) => {
             if(user_id !== undefined){
             const privateResult = await searchPrivateFunc(
                 user_id,
-                searchTitle,
-                searchContent,
-                searchAuthor
+                searchTerm,
             );
             result = result.concat(privateResult);
             }
         }
         if (searchPublic) {
             const publicResult = await searchPublicFunc(
-                searchTitle,
-                searchContent,
-                searchAuthor
+                searchTerm,
             );
             result = result.concat(publicResult);
-            result.forEach((element) => {
-                element.note_id = element.note_id.toString();
-                element.user_id = element.user_id.toString();
-            });
-        }
-        console.log("result: " + result);
-        if(user_id !== undefined && searchPrivate==true) {
+        }            
+        result.forEach((element) => {
+            element.note_id = element.note_id.toString();
+            element.user_id = element.user_id.toString();
+        });
+        if(searchPrivate) {
+          if(user_id != undefined)
             res.send({status: 200, data: result});
+        }else{
+          res.send({status: 200, data: result});
         }
     } catch (err) {
         console.error('Fehler bei der Datenbankabfrage:', err);
