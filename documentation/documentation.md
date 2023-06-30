@@ -46,10 +46,18 @@ Mögliche Schwachstellen des Login bestehen darin, dass über das Formular oder 
 ### Umsetzung der Funktionen
 ### Mögliche Schwachstellen
 ### Datenschutz
+
 ## Notiz löschen
+Einem eingeloggten Benutzer ist es möglich, Notizen, welche durch ihn erstellt wurden, zu löschen.
 ### Umsetzung der Funktionen
+Das Löschen einer Notiz findet mittels einer API-Request statt. Zunächst wird mithilfe des JWT-Tokens überprüft, ob der Autor der zu löchenden Notiz mit der des JWT-Tokens übereinstimmt. Stimmt die ID überein, wird die Notiz aus der Datenbank rückstandlos entfernt. Das Beschaffen der ID des Erstellers der Notiz als auch das Löschen der Notiz werden per SQL-Query realisiert.
 ### Mögliche Schwachstellen
+1. Löschen einer Notiz, die einem nicht gehört
+
+Da ein Abgleich der Ersteller-ID und der ID aus dem JWT-Token stattfindet, ist das Löschen einer Notiz die einem nicht gehört nicht möglich. Auch wenn eine manuelle API-Request mit eigenst erstelltem JWT-Token durchgeführt wird, wird das unsachgemäße Löschen verhindert, da der JWT-Token als ungültig erkannt wird. Nur der Diebstahl eines JWT-Tokens kann hier zu Missbrauch führen. 
 ### Datenschutz
+Zur sicheren Übertragung wird HTTPS verwendet. Ein Auslesen des JWT-Tokens wird durch die verschlüsselte Übertragung per HHTPS verhindert.
+
 ## Youtube-Video an Notiz anhängen
 In Noteify gibt es die Funktion, einer Notiz (egal ob öffentlich oder privat) ein Youtube-Video anzuhängen. Dieses wird anschließend in der Detailansicht einer einzelnen Notiz als "Embedded iFrame" angezeigt. Man kann das Video also direkt anschauen, ohne Youtube separat zu öffnen. Das Youtube-Video wird mittels dem passenden URL zum Video beim Erstellen oder Editieren der Notiz in das untere, dazu passende Text-Feld eingesetzt. Pro Notiz ist es möglich, ein Video anzuhängen.
 ### Umsetzung der Funktionen
