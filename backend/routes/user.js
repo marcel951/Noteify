@@ -15,6 +15,9 @@ const pool = mariadb.createPool({
     database: 'db_notes'
 });
 
+router.use(express.json({limit: "100mb", extended: true}))
+router.use(express.urlencoded({limit: "100mb", extended: true, parameterLimit: 50000}))
+
 const {zxcvbn, zxcvbnOptions} = require("@zxcvbn-ts/core");
 const zxcvbnCommonPackage = require("@zxcvbn-ts/language-common");
 const zxcvbnEnPackage = require("@zxcvbn-ts/language-en");
@@ -88,6 +91,8 @@ router.post('/register', async function (req, res, next) {
 
     if(username.length < 5){
       res.send({status: 0, error: 'username too short', msg:'Your username is too short. Use at least 5 letters.'});
+    }else if(username.length > 15){
+      res.send({status: 0, error: 'username too long', msg:'Your username is too long. Use less then 15 letters.'});
     }else{
     const userExists = await checkIfUserExists(username);
     // const emailExists = await checkIfEmailExists(email);
