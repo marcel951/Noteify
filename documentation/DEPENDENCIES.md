@@ -1,20 +1,33 @@
 <details>
 <summary>zxcvbn</summary>
   
+## Zxcvbn 
+  
 [![@zxcvbn-ts/core](/advisor/npm-package/@zxcvbn-ts/core/badge.svg)](/advisor/npm-package/@zxcvbn-ts/core)
 
 Zxcvbn berechnet die Stärke eines Passworts und wird von OWASP für diesen Zweck empfohlen.
 
-License: MIT<br>
-Letzter Commit (stand 30.06): Vor 10 Tagen <br>
-Letzter Release (stand 30.06): 24 Tage <br>
-Aktivität: Wie dem GitHub Repository zu entnehmen, wird das Projekt aktiv weiter entwickelt. Issues werden bearbeitet.<br>
-Community: 60 Contributers<br>
-Dowloads (stand 30.06): 68,759 pro Woche <br>
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: Vor 10 Tagen <br>
+- **Letzter Release**: 24 Tage <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, wird das Projekt aktiv weiter entwickelt. Issues werden bearbeitet.<br>
+- **Community**: 60 Contributers<br>
+- **Dowloads**: 68,759 pro Woche <br>
 
-Depndencies:
+### Depndencies
 
 [![fastest-levenshtein](/advisor/npm-package/fastest-levenshtein/badge.svg)](/advisor/npm-package/fastest-levenshtein)
+
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/fastest-levenshtein) <br>
+ > [NPM](https://www.npmjs.com/package/fastest-levenshtein) <br>
+ > [Github](https://github.com/ka-weihe/fastest-levenshtein) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, der guten nachvollziehbaren Aktivität, der recht hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
 
 <details>
