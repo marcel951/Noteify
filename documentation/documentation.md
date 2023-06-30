@@ -18,15 +18,43 @@ Im Backend kommt Express.js zum Einsatz, sowie eine Datenbank in form von MariaD
 ## Verwendete IDE
 Visual Studio Code
 ## Struktur des Entwicklungsprozesses
+Der Entwicklungsprozess wurde strukturiert durch ein Trello Board, vielen Absprachen über Discord sowie einigen Github Issues.
 
 # Funktionen
-## Umsetzung der Funktionen
-### Registrierung
-### Login
-### Notiz anlegen
-### Notiz Editieren
-### Notiz löschen
-### Youtube-Video an Notiz anhängen
-### Suche von Notizen
-## Mögliche Schwachstellen
-## Datenschutz
+
+## Registrierung
+### Umsetzung der Funktionen
+Die Registrierung ermöglicht es einem Benutzer einen Account anzulegen. Im Frontend wird dafür in einem Formular ein gewünschter Benutzername sowie ein Passwort abgefragt. Bei Absenden des Formulars wird eine API-Anfrage vom Frontend an das Backend gestellt, die die Passwortstärke sowie die länge des überprüft. Im Backend wird dafür zxcvbn verwendet. Sollte diese Anfrage ergeben, dass das Passwort zu schwach ist wird dies im Frotend ausgegeben mit einer Begründung warum dies der Fall ist. Andernfalls wird im Backend die  die Länge des Benutzernamen überprüft sowie ob es bereits einen Nutzer mit diesem Namen gibt. Werden diese Überprüfungen auch bestanden, wird das Passwort gesalted und mit Argon2id gehasht und der Benutzer mit Benutzernamen und gehashtem Passwort in der Datenbank abgespeichert. Für das Hashing und den Salt wird die node-argon library genutzt. Nach der Erfolgreichen Registrierung wird der Benutzer automatisch eingeloggt (siehe login).
+### Mögliche Schwachstellen
+Bei der Registrierung hat ein Angreifer die Möglichkeit über das im Frontend bereitgestellte Formular oder direkt über API-Anfragen eigenen Text an das Backend zu geben welches diesen dann an eine Datenbank-query weitergibt. Hier entsteht insbesondere die Gefahr einer SQL Injection. Zudem wird das Passwort vom Frontend an das Backend übertragen, diese Übertragung könnte theoretisch abgefangen/ mit gelesen werden. Auch der nach dem login zurückkommenden JWT muss könnte mitgelesen werden. Um jegliche SQL-Injections zu verhindern greift das Backend auf sogenannte Prepared Statements zurück. So wird kein Userinput je compiliert und damit auch nicht ausgeführt werden. Die Übertragung der API-Anfrage sowie ihrer Antwort muss durch HTTPS verschlüsselt werden um ein auslesen Sicherheitsrelevanter Daten zu verhindern.
+### Datenschutz
+Die Registrierung ist Datenschutrelevant, da hier mit dem Benutzernamen und dem Passwort besonders sensibele Daten behandelt werden. Zur sicheren Übertragung wird HTTPS verwendet. Das Passwort wird gehasht in der Datenbank gespeichert, so dass bei einer komprimitierung der Datenbank dennoch nicht direkt die Passwörter bekannt werden. Die benutzernamen werden im Klartext gespeichert.
+
+## Login
+### Umsetzung der Funktionen
+Beim Login hat ein Benutzer die Möglichkeit sich in einen bereits bestehenden Account einzuloggen. Im Frontend wird dem Benutzer dafür ein Fromular zur Verfügung gestellt, in welchem ein Benutzername und ein Passwort eingegeben werden kann. Bei Absenden des Formulars wird eine POST API-Anfrage an den Backendserver gesendet. Dieser holt sich zunächst das zum Benutzernamen passende gehashte Passwort aus der Datenbank. Mit der zur library gehörenden Funktion verify wird überprüft ob die Passwörter übereinstimmen. Stimmen die Passwörter überein wird ein JSON Web Token erstellt. In diesem werden die Benutzer ID und der Benutzername gespeichert. Der JWT sowie der Benutzername und die Benutzer ID werden im Erfolgsfall zurück an das Frontend gesendet. Im Fehlerfall wird immer der gleiche Statuscode mit gleicher Fehlermeldung zurückgegeben, diese wird im Frontend dem Nutzer als Fehler angezeigt.
+### Mögliche Schwachstellen
+Mögliche Schwachstellen des Login bestehen darin, dass über das Formular oder über direkte API-Anfragen Nutzer Input an das Backend gegeben wird 
+### Datenschutz
+
+## Notiz anlegen
+### Umsetzung der Funktionen
+### Mögliche Schwachstellen
+### Datenschutz
+## Notiz Editieren
+### Umsetzung der Funktionen
+### Mögliche Schwachstellen
+### Datenschutz
+## Notiz löschen
+### Umsetzung der Funktionen
+### Mögliche Schwachstellen
+### Datenschutz
+## Youtube-Video an Notiz anhängen
+### Umsetzung der Funktionen
+### Mögliche Schwachstellen
+### Datenschutz
+## Suche von Notizen
+### Umsetzung der Funktionen
+### Mögliche Schwachstellen
+### Datenschutz
+
