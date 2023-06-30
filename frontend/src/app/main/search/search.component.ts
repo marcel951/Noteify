@@ -33,7 +33,6 @@ export class SearchComponent implements OnInit {
     this.searchResults = [];   
     this.route.queryParamMap
       .subscribe(params => {
-          console.log(params); // { order: "popular" }
           this.tmp= params.get("searchterm");
           if(this.tmp == null)this.tmp = "";
           this.searchterm =this.tmp;
@@ -42,7 +41,6 @@ export class SearchComponent implements OnInit {
           this.search();
         }
       );
-    console.log("Search übergabe private: "+this.searchPrivate);
   }
   isUserLogin(){
     if(this._auth.getUserDetails() != null){this.isLogin = true;
@@ -54,10 +52,8 @@ export class SearchComponent implements OnInit {
       `home/search?searchterm=` +this.searchterm+
       '&searchPrivate=' +this.searchPrivate+
       '&searchPublic=' +this.searchPublic).subscribe((results:any) => {
-        console.log("res"+results.data);
         const notes = Array.from(results.data);
         this.searchResults = notes;
-        console.log("notes:"+notes);
       });
   }
 

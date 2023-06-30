@@ -19,7 +19,6 @@ export class NewNoteComponent implements OnInit{
       
   }
   onSubmit(form: NgForm) {
-    console.log(form.value);
     if(form.value.isPrivate ==='') form.value.isPrivate = false;
     this.api.postTypeRequest('home/new', form.value).subscribe((res: any) => {
     });

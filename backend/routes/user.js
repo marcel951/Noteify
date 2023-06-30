@@ -20,13 +20,6 @@ const zxcvbnCommonPackage = require("@zxcvbn-ts/language-common");
 const zxcvbnEnPackage = require("@zxcvbn-ts/language-en");
 const zxcvbnDePackage = require("@zxcvbn-ts/language-de");
 
-// import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
-// import * as zxcvbnCommonPackage from "@zxcvbn-ts/language-common";
-// import * as zxcvbnEnPackage from "@zxcvbn-ts/language-en";
-// import * as zxcvbnDePackage from "@zxcvbn-ts/language-de";
-
-
-
 const options = {
   translations: zxcvbnEnPackage.translations,
   graphs: zxcvbnCommonPackage.adjacencyGraphs,
@@ -35,25 +28,6 @@ const options = {
     ...zxcvbnEnPackage.dictionary,
     ...zxcvbnDePackage.dictionary
   },
-}
-
-async function asyncFunction() {
-    let conn;
-    try {
-  
-      conn = await pool.getConnection();
-      //conn.query("INSERT INTO users(username, pass) VALUES ('benjamin','fpv')");
-      //conn.query("INSERT INTO user(username, pass) VALUES ('jonathan','420')");
-      const rows = await conn.query("SELECT * from users");
-      // rows: [ {val: 1}, meta: ... ]
-      console.log(new Date());
-      console.log(rows);
-      //const res = await conn.query("INSERT INTO myTable value (?, ?)", [1, "mariadb"]);
-      // res: { affectedRows: 1, insertId: 1, warningStatus: 0 }
-  
-    } finally {
-      //if (conn) conn.release(); //release to pool
-    }
 }
 
 async function checkIfUserExists(username){
@@ -144,31 +118,21 @@ router.post('/register', async function (req, res, next) {
   }
 });
 
-
-
-
 router.post('/login', async function (req, res, next) {
   const con = await pool.getConnection();
   const argon2 = require('argon2');
-  console.log("login");
   try {
     const { username, password } = req.body;
 
     const sql = `SELECT * FROM users WHERE username = ?`;
-    console.log("username: ", username);
     const result = await con.query(sql, [username]);
-    console.log("result: ", result[0].pass);
     if (result.length > 0) {
       const hashedPassword = result[0].pass;
       const isMatch = await argon2.verify(hashedPassword, password.toString());
-      console.log("isMatch: ", isMatch);
       if (isMatch) {
-        console.log("generate Token start");
         const query = `SELECT user_id FROM users WHERE username = ?`;
         userIdQuery = await con.query(query, [username]);
-        console.log(userIdQuery)
         let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420',{ expiresIn: '1h' })
-        console.log("Login Successful!");
         res.send({ status:1, data:{username,user_id: userIdQuery[0].user_id.toString()}, token:token });
       } else {
         res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});

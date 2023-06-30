@@ -23,7 +23,6 @@ function authenticateToken(req, res, next, search=false){
         if(decoded){
             req.user = decoded.user_id;
             userID = decoded.user_id;
-            console.log("Debug authenticateToken: "+req.user);
             if(!search){next();}
         }else{
           if(err.name === 'TokenExpiredError') res.send({ message: "Token expired" });
@@ -86,8 +85,6 @@ async function asyncFunctionSinglePage(id) {
   }
 }
 router.get('/singlenote/:id', async function (req, res) {
-  console.log("get SingleNote");
-  console.log(req.params.id)
   const data = await asyncFunctionSinglePage(req.params.id);
   data.forEach(element => {
       element.note_id = element.note_id.toString();
@@ -103,7 +100,6 @@ async function asyncFunctionSinglePageDel(id, authorId) {
     conn = await pool.getConnection();
     const query2 = "SELECT user_id FROM notes WHERE note_id = ?";
     authorIdQuery = await conn.query(query2,[id]);
-    console.log(authorIdQuery)
     if(authorId == authorIdQuery[0].user_id){
       const note = await conn.query(query, [id]);
       return note;
@@ -115,7 +111,6 @@ async function asyncFunctionSinglePageDel(id, authorId) {
   }
 }
 router.delete('/singlenote/:id', authenticateToken, async function (req, res) {
-  console.log("delete SingleNote");
   const data = await asyncFunctionSinglePageDel(req.params.id,req.user);
   if(data === -1)res.status(401).send({ message: "Unauthorized" });
   else {  
@@ -137,9 +132,7 @@ async function asyncFunctionNewNote(titel, isPrivate, content, youtube, authorId
 }
 
 router.post('/new',authenticateToken, async function (req, res) {
-  console.log("post new note");
   const {titel, content, isPrivate, youtube} = req.body;
-  console.log(youtube);
   const data = await asyncFunctionNewNote(titel, isPrivate, content,youtube, req.user);
   res.send({status : 1});
 });
@@ -165,7 +158,6 @@ async function asyncFunctionUpdate(id,titel,isPrivate,content,youtube,authorId,r
   }
 }
 router.post('/update/:id',authenticateToken, async function (req, res) {
-  console.log("post update note");
   const {titel, content, isPrivate, youtube} = req.body;
   const data = await asyncFunctionUpdate(req.params.id,titel,isPrivate, content,youtube,req.user,res);
   if(data === -1)res.status(401).send({ message: "Unauthorized" });
@@ -174,8 +166,6 @@ router.post('/update/:id',authenticateToken, async function (req, res) {
 
 async function searchPublicFunc(searchTerm, searchContent, searchAuthor) {
     let conn;
-    console.log("----------------------------\n\n")
-    console.log("term:"+searchTerm)
     try {
         const query ="SELECT notes.* from notes JOIN users ON notes.user_id = users.user_id WHERE (notes.titel LIKE CONCAT('%', ?, '%') OR notes.content LIKE CONCAT('%', ?, '%') OR users.username LIKE CONCAT('%', ?, '%')) AND notes.isPrivate = 0";
         conn = await pool.getConnection();
@@ -184,13 +174,9 @@ async function searchPublicFunc(searchTerm, searchContent, searchAuthor) {
             searchTerm,
             searchTerm,
         ]);
-        console.log("DEBUG: " + result);
         const notes = Array.from(result); // Konvertierung in ein Array
-        console.log("PublicSearch:");
         notes.forEach((note) => {
-            console.log(note); // Ausgabe jedes einzelnen Ergebnisses
         });
-        console.log("PublicSearchEnd");
         return result;
     } finally {
         if (conn) conn.release();
@@ -202,7 +188,6 @@ async function searchPrivateFunc(user_id, searchTerm) {
     try {
         const query ="SELECT notes.* from notes JOIN users ON notes.user_id = users.user_id WHERE ((notes.titel LIKE CONCAT('%', ?, '%') OR notes.content LIKE CONCAT('%', ?, '%') OR users.username LIKE CONCAT('%', ?, '%')) AND notes.isPrivate = 1) AND users.user_id = ?";
         conn = await pool.getConnection();
-        console.log(user_id)
         const result1 = await conn.query(query, [
             searchTerm,
             searchTerm,
@@ -211,7 +196,6 @@ async function searchPrivateFunc(user_id, searchTerm) {
         ]);
         const notes = Array.from(result1); // Konvertierung in ein Array
         notes.forEach((note) => {
-            console.log(note); // Ausgabe jedes einzelnen Ergebnisses
         });
         return notes;
     } finally {

@@ -35,7 +35,6 @@ export class UpdateNoteComponent implements OnInit{
     })
     this.api.getTypeRequest('home/singlenote/'+this.id).subscribe((res:any) => {
       this.note = res.data[0];
-      console.log(this.note);
       this.updateThisForm();
     });
 
@@ -50,7 +49,6 @@ export class UpdateNoteComponent implements OnInit{
    })
   }
   onSubmit() {
-    console.log(this.updateForm.value);
     this.api.postTypeRequest('home/update/'+this.id, this.updateForm.value).subscribe((res: any) => {
       if (res.message === 'Token expired') {
         this.logout.logout('login');

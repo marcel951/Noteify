@@ -35,23 +35,16 @@ export class SingleNoteComponent implements OnInit{
 
     this.res = this.route.params.subscribe(para => {
       this.id = para['id'];
-
-      console.log("Id:"+this.id)
-      //this.notes[0] = NOTES[this.id-1];
     })
     if(this.data != null) {
       this.author_id_user = JSON.parse(this.data).user_id;
     }
-    console.log(this.author_id_user)
     this.api.getTypeRequest("home/singlenote/"+this.id).subscribe((res:any) => {
       if (res.message === 'Token expired') {
         this.logout.logout("login");
       }else{
-        console.log(res);
         this.notes = res.data;
-        console.log(res.data)
         this.author_id_note = res.data[0].user_id;
-        console.log(this.author_id_note)
         this.parse();
       }
     });
@@ -66,11 +59,7 @@ export class SingleNoteComponent implements OnInit{
       (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
         elem.created = new Date(elem.created).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
         elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
-        //elem.youtube=youtubeid;
         elem.youtube=youtubeid;
-
-        console.log(elem.youtube);
-        //sanitizer.bypassSecurityTrustHtml();
     });
   }
 
@@ -86,11 +75,8 @@ export class SingleNoteComponent implements OnInit{
   }
 
    deletNote(){
-     //Vorher You sure about that abfragen
     this.api.deleteTypeRequest("home/singlenote/"+this.id).subscribe((res:any) => {
-
     });
     this.router.navigate([""]);
   }
-
 }
