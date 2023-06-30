@@ -25,7 +25,7 @@
     "@zxcvbn-ts/language-en": "^3.0.1",
     "bootstrap": "^5.3.0",
     "jquery": "^3.7.0",
-    "marked": "^5.0.5",
+    "marked": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.6.0",
     "zone.js": "~0.13.0"
