@@ -1,4 +1,4 @@
-name: Express Backend Test
+name: Backend-Test
 
 on:
   #push:
