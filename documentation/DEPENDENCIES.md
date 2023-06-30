@@ -1,26 +1,70 @@
 <details>
 <summary>zxcvbn</summary>
   
-[![@zxcvbn-ts/core](/advisor/npm-package/@zxcvbn-ts/core/badge.svg)](/advisor/npm-package/@zxcvbn-ts/core)
+## Zxcvbn 
+  
+[![@zxcvbn-ts/core](https://snyk.io/advisor/npm-package/@zxcvbn-ts/core/badge.svg)](/advisor/npm-package/@zxcvbn-ts/core)
+
+
 
 Zxcvbn berechnet die Stärke eines Passworts und wird von OWASP für diesen Zweck empfohlen.
 
-License: MIT<br>
-Letzter Commit (stand 30.06): Vor 10 Tagen <br>
-Letzter Release (stand 30.06): 24 Tage <br>
-Aktivität: Wie dem GitHub Repository zu entnehmen, wird das Projekt aktiv weiter entwickelt. Issues werden bearbeitet.<br>
-Community: 60 Contributers<br>
-Dowloads (stand 30.06): 68,759 pro Woche <br>
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: Vor 10 Tagen <br>
+- **Letzter Release**: 24 Tage <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, wird das Projekt aktiv weiter entwickelt. Issues werden bearbeitet.<br>
+- **Community**: 60 Contributers<br>
+- **Dowloads**: 68,759 pro Woche <br>
 
-Depndencies:
+### Dependencies
 
-[![fastest-levenshtein](/advisor/npm-package/fastest-levenshtein/badge.svg)](/advisor/npm-package/fastest-levenshtein)
+fastest-levenshtein: [![fastest-levenshtein](https://snyk.io/advisor/npm-package/fastest-levenshtein/badge.svg)](/advisor/npm-package/fastest-levenshtein)
+
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/fastest-levenshtein) <br>
+ > [NPM](https://www.npmjs.com/package/fastest-levenshtein) <br>
+ > [Github](https://github.com/ka-weihe/fastest-levenshtein) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, der guten nachvollziehbaren Aktivität, der recht hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
 
 <details>
 <summary>argon2</summary>
-<br>
-This is how you dropdown.
+  
+## Node-argon2
+  
+[![argon2](https://snyk.io/advisor/npm-package/argon2/badge.svg)](/advisor/npm-package/argon2)
+
+Node Argon2 implementiert Argon2id, den von OWASP empfohlen Algorithmus zum Hashen von Passwörtern. Zudem hängt Node-argon2 den Passwörtern automatisch einen Salt an. 
+
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: 4 Monate <br>
+- **Letzter Release**: 6 Monate <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, hat das Projekt keine offenen Pullrequests oder Issues. Issues werden beantwortet. Insgesamt ist das Projekt aber nicht sehr aktiv.<br>
+- **Community**: 40 Contributers<br>
+- **Dowloads**: 131,487 pro Woche <br>
+
+### Dependencies
+
+- @mapbox/node-pre-gyp: [![@mapbox/node-pre-gyp](https://snyk.io/advisor/npm-package/@mapbox/node-pre-gyp/badge.svg)](/advisor/npm-package/@mapbox/node-pre-gyp)
+
+- @phc/format: [![@phc/format](https://snyk.io/advisor/npm-package/@phc/format/badge.svg)](/advisor/npm-package/@phc/format)
+
+- node-addon-api [![node-addon-api](https://snyk.io/advisor/npm-package/node-addon-api/badge.svg)](/advisor/npm-package/node-addon-api)
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/argon2) <br>
+ > [NPM](https://www.npmjs.com/package/argon2) <br>
+ > [Github](https://github.com/ranisalt/node-argon2) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
 
 <details>
@@ -37,8 +81,36 @@ This is how you dropdown.
 
 <details>
 <summary>jsonwebtoken</summary>
-<br>
-This is how you dropdown.
+## Jsonwebtoken
+  
+[![argon2](https://snyk.io/advisor/npm-package/argon2/badge.svg)](/advisor/npm-package/argon2)
+
+Node Argon2 implementiert Argon2id, den von OWASP empfohlen Algorithmus zum Hashen von Passwörtern. Zudem hängt Node-argon2 den Passwörtern automatisch einen Salt an. 
+
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: 4 Monate <br>
+- **Letzter Release**: 6 Monate <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, hat das Projekt keine offenen Pullrequests oder Issues. Issues werden beantwortet. Insgesamt ist das Projekt aber nicht sehr aktiv.<br>
+- **Community**: 40 Contributers<br>
+- **Dowloads**: 131,487 pro Woche <br>
+
+### Dependencies
+
+- @mapbox/node-pre-gyp: [![@mapbox/node-pre-gyp](https://snyk.io/advisor/npm-package/@mapbox/node-pre-gyp/badge.svg)](/advisor/npm-package/@mapbox/node-pre-gyp)
+
+- @phc/format: [![@phc/format](https://snyk.io/advisor/npm-package/@phc/format/badge.svg)](/advisor/npm-package/@phc/format)
+
+- node-addon-api [![node-addon-api](https://snyk.io/advisor/npm-package/node-addon-api/badge.svg)](/advisor/npm-package/node-addon-api)
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/argon2) <br>
+ > [NPM](https://www.npmjs.com/package/argon2) <br>
+ > [Github](https://github.com/ranisalt/node-argon2) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
 
 <details>
