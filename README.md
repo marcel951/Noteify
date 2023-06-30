@@ -1,24 +1,25 @@
 # Noteify
 [![BackendTest](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml)
 [![FontendTest.yml ](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml)
+
 Noteify stellt das Abschlussprojekt des Wahlpflichtmodul "Secure Software Engineering" an der Technischen Hochschule Mittelhessen in Gießen der Gruppe L da.
-Am Projekt beteiligt waren:
-- Marcel Kaiser
-- Jonathan Rech
-- Benjamin Wirth
 
 Die App ermöglicht es, im Browser Notizen anzulegen. Diese Notizen können privat und öffentlich geschaltet werden. Außerdem ist es möglich jeder Notiz ein Youtube-Video anzuhängen.
 
-
-CODEQL
-BACKENDTEST
-ETC
+## Important
+Dieses Projekt ist nicht für den realen Betrieb gedacht. Es wird nicht mehr aktualisiert und gepflegt, da das Abschlussprojekt abgeschlossen ist.
 
 ## Das Projekt in Betrieb nehmen
 ### Mittels Docker
 ### Entwickler-Modus
 
 
+## Contributors
+Am Projekt beteiligt waren alle Mitglieder der "Gruppe L".
+
+* [@marcel951 (Marcel Kaiser)](https://github.com/marcel951)
+* [@JonathanRech (Jonathan Rech)](https://github.com/JonathanRech)
+* [@wrth1337 (Benjamin Wirth)](https://github.com/wrth1337)
 
 # Intern
 
