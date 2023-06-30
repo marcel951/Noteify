@@ -117,26 +117,35 @@ Jsonwebtoken implemetiert JSON Web Tokens. Erstellt die von uns für die Loginau
 Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der sehr hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
 
-<details>
-<summary>mariadb</summary>
-<br>
-This is how you dropdown.
-</details>
-
-<details>
-<summary>nodemon</summary>
-<br>
-This is how you dropdown.
-</details>
-
-<details>
-<summary>util</summary>
-<br>
-This is how you dropdown.
-</details>
 
 <details>
 <summary>uuid</summary>
-<br>
-This is how you dropdown.
+
+## Uuid
+  
+[![uuid](https://snyk.io/advisor/npm-package/uuid/badge.svg)](/advisor/npm-package/uuid)
+
+UUID implementiert RFC4122 UUIDs in den Versionen 1-5. In diesem Projekt wird Version v4 benutzt um Notizen eindeutige nicht erratbare IDs zu geben. Dies ermöglicht, dass sichere teilen von Notitzen über die ID zB in Links.
+
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: 2 Monate <br>
+- **Letzter Release**: 10 Monate <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, hat das Projekt einige offene Pullrequests und Issues.<br>
+- **Community**: 60 Contributers<br>
+- **Dowloads**: 88,496,267 pro Woche <br>
+
+### Dependencies
+
+Keine Dependecies
+
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/uuid) <br>
+ > [NPM](https://www.npmjs.com/package/uuid) <br>
+ > [Github](https://github.com/uuidjs/uuid) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der extrem hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
