@@ -4,9 +4,9 @@
 
 ## Entwickler
 Die Anwendung wurde von Gruppe L entwickelt.
-- Marcel Kaiser
-- Jonathan Rech
-- Benjamin Wirth
+* [@marcel951 (Marcel Kaiser)](https://github.com/marcel951)
+* [@JonathanRech (Jonathan Rech)](https://github.com/JonathanRech)
+* [@wrth1337 (Benjamin Wirth)](https://github.com/wrth1337)
 
 ## Verwendete Technologien
 Im Frontend wird das Framework "Angular" in Verbindung mit dem CSS-Framework "Bootstrap" verwendet.
