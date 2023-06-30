@@ -1,4 +1,6 @@
 # Noteify
+[![BackendTest](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml)
+[![FontendTest.yml ](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml)
 Noteify stellt das Abschlussprojekt des Wahlpflichtmodul "Secure Software Engineering" an der Technischen Hochschule Mittelhessen in Gießen der Gruppe L da.
 Am Projekt beteiligt waren:
 - Marcel Kaiser
@@ -7,9 +9,6 @@ Am Projekt beteiligt waren:
 
 Die App ermöglicht es, im Browser Notizen anzulegen. Diese Notizen können privat und öffentlich geschaltet werden. Außerdem ist es möglich jeder Notiz ein Youtube-Video anzuhängen.
 
-## Aktueller Status des Projekts
-[![BackendTest](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml)
-[![FontendTest.yml ](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml)
 
 CODEQL
 BACKENDTEST
