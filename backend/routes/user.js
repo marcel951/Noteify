@@ -83,40 +83,47 @@ async function registerNewUser(username, password){
 /* GET users listing. */
 router.post('/register', async function (req, res, next) {
   const conn = await pool.getConnection();
-  try {
-   
-    const {username, password} = req.body;
-    const hashed_password = await argon.hash(password.toString());
-    console.log(password);
+  zxcvbnOptions.setOptions(options);
 
-    if(username.length < 5){
-      res.send({status: 0, error: 'username too short', msg:'Your username is too short. Use at least 5 letters.'});
-    }else if(username.length > 15){
-      res.send({status: 0, error: 'username too long', msg:'Your username is too long. Use less then 15 letters.'});
+  try {
+    const {username, password} = req.body;
+    const zxcvbnResult = zxcvbn(password, [username]);
+    const score = zxcvbnResult.score;
+    const feedback = zxcvbnResult.feedback;
+    if (score <= 2){
+      res.send({status:2, score:score, feedback:feedback});
     }else{
-    const userExists = await checkIfUserExists(username);
-    // const emailExists = await checkIfEmailExists(email);
-      const emailExists = false;
-    if(userExists){
-      res.send({status:0, error: 'username or email already taken', msg:'Your username or email is already taken.'});
-    }else if(emailExists){
-      res.send({status:0, error: 'username or email already taken', msg:'Your username or email is already taken.'});
-    } else {
-      
-      const newUser = await registerNewUser(username, hashed_password);
-      
-      if(newUser > 0){
-        const query = "SELECT user_id FROM users WHERE username = ?";
-        userIdQuery = await conn.query(query,username);
-        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420',{ expiresIn: '1h' })
-        res.send({status: 1, token: token, data:{username,user_id: userIdQuery[0].user_id.toString()}});
-      } else {
-        res.send({status: 0, data: err});
+      const hashed_password = await argon.hash(password.toString());
+
+      if(username.length < 5){
+        res.send({status: 0, error: 'username too short', msg:'Your username is too short. Use at least 5 letters.'});
+      }else if(username.length > 15){
+        res.send({status: 0, error: 'username too long', msg:'Your username is too long. Use less then 15 letters.'});
+      }else{
+        const userExists = await checkIfUserExists(username);
+        // const emailExists = await checkIfEmailExists(email);
+          const emailExists = false;
+        if(userExists){
+          res.send({status:0, error: 'username or email already taken', msg:'Your username or email is already taken.'});
+        }else if(emailExists){
+          res.send({status:0, error: 'username or email already taken', msg:'Your username or email is already taken.'});
+        } else {
+          
+          const newUser = await registerNewUser(username, hashed_password);
+          
+          if(newUser > 0){
+            const query = "SELECT user_id FROM users WHERE username = ?";
+            userIdQuery = await conn.query(query,username);
+            let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420',{ expiresIn: '1h' })
+            res.send({status: 1, token: token, data:{username,user_id: userIdQuery[0].user_id.toString()}});
+          } else {
+            res.send({status: 0, data: err});
+          }
+        }
       }
     }
-    }
   } catch(error){
-    console.log(error);
+    //console.log(error);
     res.send({status:0 , error: 'Registration failed'});
   } finally {
     if (conn) conn.release(); //release to pool
@@ -152,20 +159,20 @@ router.post('/login', async function (req, res, next) {
   }
 });
 
-router.post('/checkPW', async function (req, res, next) {
-  zxcvbnOptions.setOptions(options);
+// router.post('/checkPW', async function (req, res, next) {
+//   zxcvbnOptions.setOptions(options);
 
-  try{
-    const {username, password} = req.body;
-    const zxcvbnResult = zxcvbn(password, [username]);
-    const score = zxcvbnResult.score;
-    const feedback = zxcvbnResult.feedback;
-    res.send({score:score, feedback:feedback});
-  } catch(error) {
-    res.send({ status: 0, error: error });
-  }
+//   try{
+//     const {username, password} = req.body;
+//     const zxcvbnResult = zxcvbn(password, [username]);
+//     const score = zxcvbnResult.score;
+//     const feedback = zxcvbnResult.feedback;
+//     res.send({score:score, feedback:feedback});
+//   } catch(error) {
+//     res.send({ status: 0, error: error });
+//   }
  
-});
+// });
 
 
 module.exports = router;
