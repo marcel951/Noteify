@@ -16,7 +16,7 @@ Im Backend kommt Express.js zum Einsatz, sowie eine Datenbank in form von MariaD
 # Infrastruktur
 ## CI/CD
 ## Verwendete IDE
-Visual Studio Code
+Zum entwickeln der Angular-Komponenten, sowie der API-Abfragen in Express wurde von allen drei Gruppenmitgliedern "Visual Studio Code" inklusive der passenden Erweiterungen zu den jeweiligen Sprachen verwendet. 
 ## Struktur des Entwicklungsprozesses
 Der Entwicklungsprozess wurde strukturiert durch ein Trello Board, vielen Absprachen über Discord sowie einigen Github Issues.
 Mithilfe von Trello wurden Aufgaben konzipiert und anschließend an die drei Gruppenmitglieder verteilt. Sobald eine Aufgabe (Meist ein Feature oder Bugfix) erledigt wurde, wurden diese als Erledigt markiert. Damit eine Aufgabe als vollständig erledigt galt, musste ein weiteres Gruppenmitglied die Aufgabe kontrollieren und sich den dazugehörigen Code anschauen. Erst nach dieser Kontrolle wurde die Aufgabe als erledigt markiert und anschließend auf einen Branch auf Github gepusht. Der anschließende Pull-Request und der daraus resultierende Merge wurde mithilfe von diversen Github-Actions überprüft.
