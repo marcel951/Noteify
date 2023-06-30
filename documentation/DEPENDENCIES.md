@@ -1,6 +1,7 @@
 <details>
 <summary>zxcvbn</summary>
 <br>
+[![zxcvbn](https://snyk.io/advisor/npm-package/zxcvbn/badge.svg)](https://snyk.io/advisor/npm-package/zxcvbn)
 This is how you dropdown.
 </details>
 
