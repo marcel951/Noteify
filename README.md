@@ -8,6 +8,9 @@ Am Projekt beteiligt waren:
 Die App ermöglicht es, im Browser Notizen anzulegen. Diese Notizen können privat und öffentlich geschaltet werden. Außerdem ist es möglich jeder Notiz ein Youtube-Video anzuhängen.
 
 ## Aktueller Status des Projekts
+![BackendTest](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml/badge.svg)
+![FontendTest.yml ](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml/badge.svg)
+
 CODEQL
 BACKENDTEST
 ETC
