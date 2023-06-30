@@ -50,11 +50,25 @@ Mögliche Schwachstellen des Login bestehen darin, dass über das Formular oder 
 ### Mögliche Schwachstellen
 ### Datenschutz
 ## Youtube-Video an Notiz anhängen
+In Noteify gibt es die Funktion, einer Notiz (egal ob öffentlich oder privat) ein Youtube-Video anzuhängen. Dieses wird anschließend in der Detailansicht einer einzelnen Notiz als "Embedded iFrame" angezeigt. Man kann das Video also direkt anschauen, ohne Youtube separat zu öffnen. Das Youtube-Video wird mittels dem passenden URL zum Video beim Erstellen oder Editieren der Notiz in das untere, dazu passende Text-Feld eingesetzt. Pro Notiz ist es möglich, ein Video anzuhängen.
 ### Umsetzung der Funktionen
+Allgemein wird zum anzeigen des Youtube-Videos die von Angular zur Verfügung gestellte Funktion "Youtube-Player" verwendet. Hier wird ein neues HTML-Tag hinzugefügt. Mit einer validen Video-ID wird ein passender iFrame durch Angular gerendert.
+Die Video-ID zu dem angegebenen Youtube-Video wird mittels einer Regex aus dem URL gefiltert. ```((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*) ```
+
+Die Regex filter zu allen möglichen URL-Formatierungen die passende ID. Die ID wird anschließend per Typescript in die HTML-Seite der Single-Note eingesetzt. Das Ergebnis ist ein eingebettetes Youtube-Video.
 ### Mögliche Schwachstellen
+1. Mehrere URLs angeben
+   
+   Werden mehrere URLs angegeben, wird lediglich immer das erste passende Youtube-Video eingesetzt.
+2. Schadcode angeben
+   
+   Sobald die Regex zur Erkennung der Youtube-URLs keinen validen URL erkennt wird nichts/null zurückgegeben. Im Frontend wird nichts gerendert, da keine valide ID zur Verfügung gestellt wird. Das Rendern/Ausführen von Schadcode wird dadurch verhindert.
+3. Falsche URLs angeben
+   
+   Werden falsche URLs (z.B. URLs anderer Domains) oder Youtube-URLs mit fehlerhaften IDs angegeben, wird kein Youtube-Video gerendert, da keine valide ID zur Verfügung gestellt wird.
 ### Datenschutz
+Ggf. Youtube-Cookies. Noch überprüfen.
 ## Suche von Notizen
 ### Umsetzung der Funktionen
 ### Mögliche Schwachstellen
 ### Datenschutz
-
