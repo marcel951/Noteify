@@ -5,8 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({
     //ACHTUNG!!!!!!!
-    host: 'localhost', //==> Kein Container Betrieb !!!!!!
-    //host: 'database', //==> Container Betrieb !!!!!!
+    //host: 'localhost', //==> Kein Container Betrieb !!!!!!
+    host: 'database', //==> Container Betrieb !!!!!!
     port: '3306',
     user:'admin', 
     password: 'admin',

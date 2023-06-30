@@ -20,8 +20,8 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./cert/zertifikat.crt:/etc/nginx/ssl/cert.crt
-            - ./cert/private.key:/etc/nginx/ssl/cert.key
+            - ./certs/cert.pem:/etc/nginx/ssl/cert.pem
+            - ./certs/key.pem:/etc/nginx/ssl/key.pem
     database:
         container_name: database
         build:
