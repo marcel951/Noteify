@@ -1,8 +1,20 @@
 <details>
 <summary>zxcvbn</summary>
-<br>
-[![zxcvbn](https://snyk.io/advisor/npm-package/zxcvbn/badge.svg)](https://snyk.io/advisor/npm-package/zxcvbn)
-This is how you dropdown.
+  
+[![@zxcvbn-ts/core](/advisor/npm-package/@zxcvbn-ts/core/badge.svg)](/advisor/npm-package/@zxcvbn-ts/core)
+
+Zxcvbn berechnet die Stärke eines Passworts und wird von OWASP für diesen Zweck empfohlen.
+
+License: MIT<br>
+Letzter Commit (stand 30.06): Vor 10 Tagen <br>
+Letzter Release (stand 30.06): 24 Tage <br>
+Aktivität: Wie dem GitHub Repository zu entnehmen, wird das Projekt aktiv weiter entwickelt. Issues werden bearbeitet.<br>
+Community: 60 Contributers<br>
+Dowloads (stand 30.06): 68,759 pro Woche <br>
+
+Depndencies:
+
+[![fastest-levenshtein](/advisor/npm-package/fastest-levenshtein/badge.svg)](/advisor/npm-package/fastest-levenshtein)
 </details>
 
 <details>
