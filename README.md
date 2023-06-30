@@ -1,3 +1,25 @@
+# Noteify
+Noteify stellt das Abschlussprojekt des Wahlpflichtmodul "Secure Software Engineering" an der Technischen Hochschule Mittelhessen in Gießen der Gruppe L da.
+Am Projekt beteiligt waren:
+- Marcel Kaiser
+- Jonathan Rech
+- Benjamin Wirth
+
+Die App ermöglicht es, im Browser Notizen anzulegen. Diese Notizen können privat und öffentlich geschaltet werden. Außerdem ist es möglich jeder Notiz ein Youtube-Video anzuhängen.
+
+## Aktueller Status des Projekts
+CODEQL
+BACKENDTEST
+ETC
+
+## Das Projekt in Betrieb nehmen
+### Mittels Docker
+### Entwickler-Modus
+
+
+
+# Intern
+
 # Docker Commands für Container betrieb
 ## Build && run
 sudo docker-compose up --build -d
