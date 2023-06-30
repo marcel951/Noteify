@@ -69,8 +69,36 @@ Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der hohen Verbreitu
 
 <details>
 <summary>cors</summary>
-<br>
-This is how you dropdown.
+
+## Cors
+  
+[![cors](https://snyk.io/advisor/npm-package/cors/badge.svg)](/advisor/npm-package/cors)
+
+Cors implementiert eine Middleware, die Cross origin Ressource sharing ermöglicht, damit das Frontend auf Ressourcen des Servers zugegreiffen kann.
+
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: 1 Jahr <br>
+- **Letzter Release**: 5 Jahre <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, hat das Projekt in jüngerer Vergangeheit keine Aktivität.<br>
+- **Community**: 40 Contributers<br>
+- **Dowloads**: 10,152,038 pro Woche <br>
+
+### Dependencies
+
+- object-assign: [![object-assign](https://snyk.io/advisor/npm-package/object-assign/badge.svg)](/advisor/npm-package/object-assign)
+
+- vary: [![vary](https://snyk.io/advisor/npm-package/vary/badge.svg)](/advisor/npm-package/vary)
+
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/vary) <br>
+ > [NPM](https://www.npmjs.com/package/vary) <br>
+ > [Github](https://github.com/jshttp/vary) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, trotz der sehr geringen Aktivität, der hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
 
 <details>
