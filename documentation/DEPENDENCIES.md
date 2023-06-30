@@ -81,36 +81,40 @@ This is how you dropdown.
 
 <details>
 <summary>jsonwebtoken</summary>
+  
 ## Jsonwebtoken
   
-[![argon2](https://snyk.io/advisor/npm-package/argon2/badge.svg)](/advisor/npm-package/argon2)
+[![jsonwebtoken](https://snyk.io/advisor/npm-package/jsonwebtoken/badge.svg)](/advisor/npm-package/jsonwebtoken)
 
-Node Argon2 implementiert Argon2id, den von OWASP empfohlen Algorithmus zum Hashen von Passwörtern. Zudem hängt Node-argon2 den Passwörtern automatisch einen Salt an. 
+Jsonwebtoken implemetiert JSON Web Tokens. Erstellt die von uns für die Loginauthentifizierung genutzten JWTs und verifiziert diese.
 
 ### Alle Daten stand 30.06.23
 - **License**: MIT<br>
-- **Letzter Commit**: 4 Monate <br>
+- **Letzter Commit**: 3 Monate <br>
 - **Letzter Release**: 6 Monate <br>
-- **Aktivität**: Wie dem GitHub Repository zu entnehmen, hat das Projekt keine offenen Pullrequests oder Issues. Issues werden beantwortet. Insgesamt ist das Projekt aber nicht sehr aktiv.<br>
-- **Community**: 40 Contributers<br>
-- **Dowloads**: 131,487 pro Woche <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, hat das Projekt etwas Aktivität in letzter Zeit.<br>
+- **Community**: 90 Contributers<br>
+- **Dowloads**: 12,511,182 pro Woche <br>
 
 ### Dependencies
 
-- @mapbox/node-pre-gyp: [![@mapbox/node-pre-gyp](https://snyk.io/advisor/npm-package/@mapbox/node-pre-gyp/badge.svg)](/advisor/npm-package/@mapbox/node-pre-gyp)
+- jws: [![jws](https://snyk.io/advisor/npm-package/jws/badge.svg)](/advisor/npm-package/jws)
 
-- @phc/format: [![@phc/format](https://snyk.io/advisor/npm-package/@phc/format/badge.svg)](/advisor/npm-package/@phc/format)
+- lodash: [![lodash](https://snyk.io/advisor/npm-package/lodash/badge.svg)](/advisor/npm-package/lodash)
 
-- node-addon-api [![node-addon-api](https://snyk.io/advisor/npm-package/node-addon-api/badge.svg)](/advisor/npm-package/node-addon-api)
+- ms: [![ms](https://snyk.io/advisor/npm-package/ms/badge.svg)](/advisor/npm-package/ms)
+
+- semver: [![semver](https://snyk.io/advisor/npm-package/semver/badge.svg)](/advisor/npm-package/semver)
+
 
 ### Links
- > [Snyk](https://snyk.io/advisor/npm-package/argon2) <br>
- > [NPM](https://www.npmjs.com/package/argon2) <br>
- > [Github](https://github.com/ranisalt/node-argon2) <br>
+ > [Snyk](https://snyk.io/advisor/npm-package/jsonwebtoken) <br>
+ > [NPM](https://www.npmjs.com/package/jsonwebtoken) <br>
+ > [Github](https://github.com/auth0/node-jsonwebtoken) <br>
  
 
 ### Begründung
-Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
+Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der sehr hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
 
 <details>
