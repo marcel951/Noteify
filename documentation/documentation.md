@@ -89,6 +89,34 @@ Die Regex filter zu allen möglichen URL-Formatierungen die passende ID. Die ID 
 ### Datenschutz
 Ggf. Youtube-Cookies. Noch überprüfen.
 ## Suche von Notizen
+Das Suchen von Notizen ermöglicht es einem Benutzer mit einem Suchbegriff nach nach Übereinstimmungen dessen mit Titel, Author und Inhalt anderer Notizen zu suchen. Dabei können eigene oder alle öffentlichen Notizen durchsucht werden. Diese Funktion kann auch von Benutzern genutzt werden, welche nicht eingeloggt sind. Diese können dann alle öffentlichen Notizen durchsuchen. Die Parameter der Suche befinden sich in der URL als Query. Damit könnte die Suche über die URL geteilt werden.
 ### Umsetzung der Funktionen
+Das Frontend stellt ein Formular bereit, bei welchem der Suchbegriff eingegeben, sowie ausgewählt werden kann ob nach privaten und/oder öffentlich zugänglichen Notizen gesucht werden soll. Beim Absenden des Formulars leitet das Frontend den Benutzer auf die selbe Seite und gibt denm Suchbegriff sowie die anderen Optionen als Query in die URL. Dann sendet das Frontend beim neuen initialisieren der Seite eine POST API-Anfrage an das Backend und nimmt dabei die Parameter der Query. An diese wird, falls der Nutzer eingeloggt ist, sein JWT angehangen. Das Backend prüft zunächst ob auch nach privaten Notizen gesucht wird. Ist dies der Fall wird der JWT geprüft und der Nutzer ausgelesen. Dann werden durch eine Query alle Ergebnise, die den Suchbegriff enthalten, privat sind und als Author den Nutzer beinhalten zurückgegeben. Danach prüft das Backend ob auch öffentliche Notizen durchsucht werden sollen. ist dies der Fall werden alle Notizen, welche den Suchbegriff enthalten und öffentlich sind zurückgegeben und gegebenenfalls an die Ergebnise der vorherigen Suche angehangen. Möchte ein Benutzer nur nach öffentlichen Notizen suchen wird der erste Schritt übersprungen. Es wird also auch keine Authentifizierung überprüft. Das Frontend bekommt die Notizen und zeigt diese als Ergebnis an.
 ### Mögliche Schwachstellen
+Mögliche Schwachstellen bei der Suchfunktion sind sind, dass die Übertragung des JWT ausgelesen werden könnte dies wird verhindert, indem die Kommunikation über HTTPS abläuft. Eine weitere Schwachstelle ist, dass Benutzer Notizen zurück bekommen, welche sie nicht sehen dürften. Also private Notizen anderer Nutzer. Dies wird im Backend verhindert in dem der JWT überprüft und der Nutzer aus dem JWT ausgelesen wird. So kann nur jemand mit einem gültigen JWT die Notizen des dazugehörigen Nutzers bekommen. Da Nutzereingaben durch das Backend an die Datenbank gegeben werden besteht die Gefahr einer SQL-Injection, diese wird über Prepared Statements abgefangen.
 ### Datenschutz
+Wichtig beim Datenschutz bei der Suchfunktion ist primär das Benutzern keine Notizen angezeigt werden können welche privat und anderen Nutzern gehören, da diese vertraulich sein müssen.  
+## Anzeigen der öffentlichen Notizen
+In Home werden alle öffentlichen Notizen angezeigt. Diese Seite ist jedem frei zugängich.
+### Umsetzung der Funktionen
+Das Frontend sendet eine API-Anfrage an das Backend. Dieses gibt alle Notizen zurück welche in der Datenbank als öffentlich vermerkt wurden.
+### Mögliche Schwachstellen
+Da es keine Nutzereingaben oder private Daten in diesem Vorgang gibt entstehen keine Schwachstellen.
+### Datenschutz
+Bei dieser Funktion wird nichts Datenschutzrelevantes durchgeführt.
+## Anzeigen der eigenen Notizen
+In Notes werden alle Notizen des eingeloggten Benutzers angezeigt.
+### Umsetzung der Funktionen
+Das Frontend sendet eine API-Anfrage an das Backend. An diese Anfrage wird ein JWT angehängt. Das backend prüft zunächst ob der JWT gültig ist. Ist dies der Fall wird der Benutzer ausgelesen und in der Datenbank nach allen Notizen des Benutzers gesucht. Diese werden dann zurückgegeben.
+### Mögliche Schwachstellen
+Mögliche Schwachstellen sind hier das abfangen und auslesen der Übertragung, welche über HTTPS verhindert wird. Zudem darf kein Nutzer die Möglichkeit haben auf Notizen eines anderen Benutzers zuzugreifen. Dies wird verhindert in dem im Backend der JWT überprüft und der Nutzer daraus ausgelesen wird.
+### Datenschutz
+Für den Datenschutz ist hier relevant, dass auch auf private und damit vetrauliche Notizen angezeigt werden. Da diese nur dem richtigen Benutzer angezeigt werden entseht hier kein Problem.
+## Anzeigen einzelner Notizen
+Ein Benutzer kann sich einzelne Notizen anhand ihrer ID anzeigen lassen. Diese sind über die URL jedem zugänglich egal ob der Benutzer eigeloggt ist oder nicht. So können Notizen per Link geteilt werden. Dies gilt auch für private Notizen.
+### Umsetzung der Funktionen
+Das Frontend sendet eine GET API-Anfrage an das Backend mit der ID der Notiz. Dieses gibt die Notiz mit der dazugehörigen ID zurück. Wenn der Benutzer und der Author der Notiz identisch sind wird im Frontend die Option für Editieren und Löschen angezeigt. Beide werden im Backend ein weiteres mal überprüft bevor sie ausgeführt werden würden.
+### Mögliche Schwachstellen
+Eine Mögliche Schwachstelle ist, dass ein Benutzer die ID einer anderen Notiz erraten könnte zum Beispiel weil diese fortzlaufend vergeben werden. Da auch private Notizen angezeigt werden ohne Prüfung ob der aufrufende Benutzer die Berechtigung dazu hat könnten so private Notizen durch andere Benutzer aufgerufen werden. Dies wird verhindert indem die IDs der Notizen UUIDs sind welche mit der uuid library generiert werden. Diese sind einmalig und nicht zu erraten und sehr aufwändig zu bruteforcen. Eine weiter mögliche Schwachstellen ist das Abfangen und Auslesen der Übertragung, was über HTTPS verhindert wird.
+### Datenschutz
+Beim anzeigen einzelner Notizen ist für den Datenschutz nur relevant, dass auch private Notizen von anderen Nutzern angesehen werden können, falls diese den Link oder die ID haben. Daher sollten Benutzer mit diesen vorsichtig umgehen und sie nicht mit fremden teilen.
