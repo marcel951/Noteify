@@ -237,3 +237,35 @@ Keine Dependecies
 ### Begründung
 Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der extrem hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
 </details>
+
+<details>
+<summary>Dotenv</summary>
+
+## dotenv
+  
+[![dotenv](https://snyk.io/advisor/npm-package/dotenv/badge.svg)](/advisor/npm-package/dotenv)
+
+Dotenv ermöglicht das Laden von .env files in
+
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: 2 Monate <br>
+- **Letzter Release**: 10 Monate <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, hat das Projekt einige offene Pullrequests und Issues.<br>
+- **Community**: 60 Contributers<br>
+- **Dowloads**: 88,496,267 pro Woche <br>
+
+### Dependencies
+
+Keine Dependecies
+
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/uuid) <br>
+ > [NPM](https://www.npmjs.com/package/uuid) <br>
+ > [Github](https://github.com/uuidjs/uuid) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der extrem hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
+</details>
