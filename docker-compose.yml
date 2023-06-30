@@ -8,6 +8,7 @@ services:
             dockerfile: Dockerfile
         depends_on:
             - database
+        restart: unless-stopped
         ports:
             - "4000:4000"
     frontend:
@@ -19,8 +20,8 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./cert.crt:/etc/nginx/ssl/cert.crt
-            - ./cert.key:/etc/nginx/ssl/cert.key
+            - ./cert/zertifikat.crt:/etc/nginx/ssl/cert.crt
+            - ./cert/private.key:/etc/nginx/ssl/cert.key
     database:
         container_name: database
         build:
