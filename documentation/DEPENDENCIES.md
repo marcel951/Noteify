@@ -1,4 +1,70 @@
 <details>
+<summary>marked</summary>
+  
+## Marked
+  
+[![marked](https://snyk.io/advisor/npm-package/marked/badge.svg)](/advisor/npm-package/marked)
+
+Marked parsed in markdown geschriebenen Text zu HTML.
+
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: 4 Tage <br>
+- **Letzter Release**: 20 Tage <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, wird das Projekt sehr aktiv weiter entwickelt.<br>
+- **Community**: 160 Contributers<br>
+- **Dowloads**: 6,195,795 pro Woche <br>
+
+### Dependencies
+
+Keine Dependecies
+
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/marked) <br>
+ > [NPM](https://www.npmjs.com/package/marked) <br>
+ > [Github](https://github.com/markedjs/marked) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, der sehr hohen nachvollziehbaren Aktivität, der sehr froßen und aktiven Community, der hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
+</details>
+
+<details>
+<summary>argon2</summary>
+  
+## Node-argon2
+  
+[![argon2](https://snyk.io/advisor/npm-package/argon2/badge.svg)](/advisor/npm-package/argon2)
+
+Node Argon2 implementiert Argon2id, den von OWASP empfohlen Algorithmus zum Hashen von Passwörtern. Zudem hängt Node-argon2 den Passwörtern automatisch einen Salt an. 
+
+### Alle Daten stand 30.06.23
+- **License**: MIT<br>
+- **Letzter Commit**: 4 Monate <br>
+- **Letzter Release**: 6 Monate <br>
+- **Aktivität**: Wie dem GitHub Repository zu entnehmen, hat das Projekt keine offenen Pullrequests oder Issues. Issues werden beantwortet. Insgesamt ist das Projekt aber nicht sehr aktiv.<br>
+- **Community**: 40 Contributers<br>
+- **Dowloads**: 131,487 pro Woche <br>
+
+### Dependencies
+
+- @mapbox/node-pre-gyp: [![@mapbox/node-pre-gyp](https://snyk.io/advisor/npm-package/@mapbox/node-pre-gyp/badge.svg)](/advisor/npm-package/@mapbox/node-pre-gyp)
+
+- @phc/format: [![@phc/format](https://snyk.io/advisor/npm-package/@phc/format/badge.svg)](/advisor/npm-package/@phc/format)
+
+- node-addon-api [![node-addon-api](https://snyk.io/advisor/npm-package/node-addon-api/badge.svg)](/advisor/npm-package/node-addon-api)
+
+### Links
+ > [Snyk](https://snyk.io/advisor/npm-package/argon2) <br>
+ > [NPM](https://www.npmjs.com/package/argon2) <br>
+ > [Github](https://github.com/ranisalt/node-argon2) <br>
+ 
+
+### Begründung
+Aufgrund der passenden Lizenz, der ausreichenden Aktivität, der hohen Verbreitung sowie keinen bekannten Sicherheitslücken haben wir uns für diese Dependency entschieden.
+</details>
+<details>
 <summary>zxcvbn</summary>
   
 ## Zxcvbn 
