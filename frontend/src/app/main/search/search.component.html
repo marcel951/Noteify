@@ -1,5 +1,4 @@
-<div class=" mt-5">
-  
+<div class=" mt-5"> 
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
@@ -25,9 +24,8 @@
     </div>
   </div>
       <div class="mt-4 row">
-<hr>
+        <hr>
             <ul class="notes" style="list-style-type:none;">
-
               <div class="notes row row-cols-1 row-cols-md-3 g-4 mt-3 mx-3 " *ngIf="this.searchResults.length > 0; else elseBlock">
                 <div *ngFor="let note of searchResults">
                   <div class="col">
@@ -45,14 +43,11 @@
                   </div>
                 </div>
               </div>
-
-              <ng-template #elseBlock>
-                No public Notes created yet
+              <ng-template #elseBlock >
+                <div class="elseBlock text-center">
+                  No search results found
+                </div>
               </ng-template>
-
-
             </ul>
           </div>
-    
-  
 </div>

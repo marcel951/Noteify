@@ -18,9 +18,7 @@ export class NotesComponent implements OnInit {
   ){}
   notes : Note[] = [];
   ngOnInit(){
-    //Hier API Req für alle public notes
     this.api.getTypeRequest("home/usernotes").subscribe((res:any) => {
-      //console.log(res);
       if (res.message === 'Token expired') {
         this.logout.logout("login");
       }else{
@@ -38,16 +36,4 @@ export class NotesComponent implements OnInit {
         elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
     });
   }
-  
-
-  //Potenziell in eigenen Service auslagern 
-  //Nur möglich falls logged in
-  updateNote(note_id : number){
-    console.log("update works"+note_id)
-  }
-  deletNote(note_id : number){
-    console.log("delete works"+note_id)
-  }
-
-
 }
