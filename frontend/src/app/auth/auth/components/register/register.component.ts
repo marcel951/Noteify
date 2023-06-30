@@ -70,52 +70,74 @@ export class RegisterComponent implements OnInit {
       app.append(wrapper);
     }
 
-    this._api.postTypeRequest('user/checkPW', form.value).subscribe((resCheck: any) => {
-      if(resCheck.score > 2){
-        this.registerNewUser(form);
-      } else {
-        app.innerHTML ='';
-        appendAlert("Your password is too weak.", 'danger');
-        if(resCheck.feedback.warning){
-          appendAlert(resCheck.feedback.warning, 'info');
-        }
-        console.log(resCheck.feedback);
-      }
-    });
-  }
-
-  registerNewUser(form:any){
-    const app = document.getElementById("liveAlertPlaceholder")!;
-            //app?.classList.add("alert");   //add the class
-            //app?.classList.add("alert-primary");
-    
-    const appendAlert = (message: any, type: any) => {
-      const wrapper = document.createElement('div')
-      wrapper.innerHTML = [
-        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-        `   <div>${message}</div>`,
-        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-        '</div>'
-      ].join('')
-
-      app.append(wrapper);
-    }
-
+    // this._api.postTypeRequest('user/checkPW', form.value).subscribe((resCheck: any) => {
+    //   if(resCheck.score > 2){
+    //     this.registerNewUser(form);
+    //   } else {
+    //     app.innerHTML ='';
+    //     appendAlert("Your password is too weak.", 'danger');
+    //     if(resCheck.feedback.warning){
+    //       appendAlert(resCheck.feedback.warning, 'info');
+    //     }
+    //     console.log(resCheck.feedback);
+    //   }
+    // });
 
     this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
-      if (res.status) {
-        //console.log(res);
-        this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
-        this._auth.setDataInLocalStorage('token', res.token);
-        this._router.navigate(['']);
-        console.log("Registration successfull");
-      } else {
-        console.log(res);
-        app.innerHTML='';
-        appendAlert(res.msg, 'danger')
+      if(res.status == 2){
+        
+        app.innerHTML ='';
+        appendAlert("Your password is too weak.", 'danger');
+        if(res.feedback.warning){
+          appendAlert(res.feedback.warning, 'info');
+        }
+      }else{
+        if (res.status) {
+          this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
+          this._auth.setDataInLocalStorage('token', res.token);
+          this._router.navigate(['']);
+          console.log("Registration successfull");
+        } else {
+          console.log(res);
+          app.innerHTML='';
+          appendAlert(res.msg, 'danger')
+        }
       }
     });
   }
+
+  // registerNewUser(form:any){
+  //   const app = document.getElementById("liveAlertPlaceholder")!;
+  //           //app?.classList.add("alert");   //add the class
+  //           //app?.classList.add("alert-primary");
+    
+  //   const appendAlert = (message: any, type: any) => {
+  //     const wrapper = document.createElement('div')
+  //     wrapper.innerHTML = [
+  //       `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+  //       `   <div>${message}</div>`,
+  //       '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+  //       '</div>'
+  //     ].join('')
+
+  //     app.append(wrapper);
+  //   }
+
+
+  //   this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
+  //     if (res.status) {
+  //       //console.log(res);
+  //       this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
+  //       this._auth.setDataInLocalStorage('token', res.token);
+  //       this._router.navigate(['']);
+  //       console.log("Registration successfull");
+  //     } else {
+  //       console.log(res);
+  //       app.innerHTML='';
+  //       appendAlert(res.msg, 'danger')
+  //     }
+  //   });
+  // }
 
   isUserLogin(){
     if(this._auth.getUserDetails() != null){

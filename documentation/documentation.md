@@ -4,9 +4,9 @@
 
 ## Entwickler
 Die Anwendung wurde von Gruppe L entwickelt.
-- Marcel Kaiser
-- Jonathan Rech
-- Benjamin Wirth
+* [@marcel951 (Marcel Kaiser)](https://github.com/marcel951)
+* [@JonathanRech (Jonathan Rech)](https://github.com/JonathanRech)
+* [@wrth1337 (Benjamin Wirth)](https://github.com/wrth1337)
 
 ## Verwendete Technologien
 Im Frontend wird das Framework "Angular" in Verbindung mit dem CSS-Framework "Bootstrap" verwendet.
@@ -16,9 +16,10 @@ Im Backend kommt Express.js zum Einsatz, sowie eine Datenbank in form von MariaD
 # Infrastruktur
 ## CI/CD
 ## Verwendete IDE
-Visual Studio Code
+Zum entwickeln der Angular-Komponenten, sowie der API-Abfragen in Express wurde von allen drei Gruppenmitgliedern "Visual Studio Code" inklusive der passenden Erweiterungen zu den jeweiligen Sprachen verwendet. 
 ## Struktur des Entwicklungsprozesses
 Der Entwicklungsprozess wurde strukturiert durch ein Trello Board, vielen Absprachen über Discord sowie einigen Github Issues.
+Mithilfe von Trello wurden Aufgaben konzipiert und anschließend an die drei Gruppenmitglieder verteilt. Sobald eine Aufgabe (Meist ein Feature oder Bugfix) erledigt wurde, wurden diese als Erledigt markiert. Damit eine Aufgabe als vollständig erledigt galt, musste ein weiteres Gruppenmitglied die Aufgabe kontrollieren und sich den dazugehörigen Code anschauen. Erst nach dieser Kontrolle wurde die Aufgabe als erledigt markiert und anschließend auf einen Branch auf Github gepusht. Der anschließende Pull-Request und der daraus resultierende Merge wurde mithilfe von diversen Github-Actions überprüft.
 
 # Funktionen
 
@@ -56,16 +57,38 @@ Im Frontend wird ein Formular zum editieren einer Notiz bereitgestellt. Dieses b
 Mögliche Schwachstellen beim editieren einer Notiz sind das Abfangen der Kommunikation von Frontend und Backend diese wird über das Verwenden von HTTPS verhindert. Weitere mögliche Schwachstellen sind das Editieren einer Notiz durch eine unerlaubte Person. Das Backend prüft hier zunächst ob ein Benutzer einen validen JWT mitgesendet hat. Ist dies der Fall wird der Author der zu editierenden Notiz mit dem im JWT gespeicherten Notzer verglichen. Sind diese Identisch darf der Benutzer die Datei editieren. Ansonten wird eine Fehlermeldung mit dem Status unauthorised zurückgesendet. Zudem darf sich im Frontend niemand zum Updaten Notizen von anderen Nutzern anzeigen lassen können. Dies wird verhindert, da die Notizen über UUIDs universelle nicht eratbare IDs besitzen. Dadurch wird der Zugriff auf versteckte Notizen extrem unwahrscheinlich. Dies wird über die uuid library implementiert. Da Nutzereingaben im Backend an die Datenbank gegeben werden besteht zudem die Gefahr von SQL-Injections. Diese werden über Prepared Statements verhindert.
 ### Datenschutz
 Der Datenschutz ist beim editieren von Notizen in sofern relevant, als dass Notizen, welche als privat markiert wurden auch vertraulich behandelt werden müssen. Notizen dürfen nur durch ihren Autoren verändert werden. Private Notizen dürfen nicht unberechtigten angezeigt werden.
+
 ## Notiz löschen
+Einem eingeloggten Benutzer ist es möglich, Notizen, welche durch ihn erstellt wurden, zu löschen.
 ### Umsetzung der Funktionen
+Das Löschen einer Notiz findet mittels einer API-Request statt. Zunächst wird mithilfe des JWT-Tokens überprüft, ob der Autor der zu löchenden Notiz mit der des JWT-Tokens übereinstimmt. Stimmt die ID überein, wird die Notiz aus der Datenbank rückstandlos entfernt. Das Beschaffen der ID des Erstellers der Notiz als auch das Löschen der Notiz werden per SQL-Query realisiert.
 ### Mögliche Schwachstellen
+1. Löschen einer Notiz, die einem nicht gehört
+
+Da ein Abgleich der Ersteller-ID und der ID aus dem JWT-Token stattfindet, ist das Löschen einer Notiz die einem nicht gehört nicht möglich. Auch wenn eine manuelle API-Request mit eigenst erstelltem JWT-Token durchgeführt wird, wird das unsachgemäße Löschen verhindert, da der JWT-Token als ungültig erkannt wird. Nur der Diebstahl eines JWT-Tokens kann hier zu Missbrauch führen. 
 ### Datenschutz
+Zur sicheren Übertragung wird HTTPS verwendet. Ein Auslesen des JWT-Tokens wird durch die verschlüsselte Übertragung per HHTPS verhindert.
+
 ## Youtube-Video an Notiz anhängen
+In Noteify gibt es die Funktion, einer Notiz (egal ob öffentlich oder privat) ein Youtube-Video anzuhängen. Dieses wird anschließend in der Detailansicht einer einzelnen Notiz als "Embedded iFrame" angezeigt. Man kann das Video also direkt anschauen, ohne Youtube separat zu öffnen. Das Youtube-Video wird mittels dem passenden URL zum Video beim Erstellen oder Editieren der Notiz in das untere, dazu passende Text-Feld eingesetzt. Pro Notiz ist es möglich, ein Video anzuhängen.
 ### Umsetzung der Funktionen
+Allgemein wird zum anzeigen des Youtube-Videos die von Angular zur Verfügung gestellte Funktion "Youtube-Player" verwendet. Hier wird ein neues HTML-Tag hinzugefügt. Mit einer validen Video-ID wird ein passender iFrame durch Angular gerendert.
+Die Video-ID zu dem angegebenen Youtube-Video wird mittels einer Regex aus dem URL gefiltert. ```((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*) ```
+
+Die Regex filter zu allen möglichen URL-Formatierungen die passende ID. Die ID wird anschließend per Typescript in die HTML-Seite der Single-Note eingesetzt. Das Ergebnis ist ein eingebettetes Youtube-Video.
 ### Mögliche Schwachstellen
+1. Mehrere URLs angeben
+   
+   Werden mehrere URLs angegeben, wird lediglich immer das erste passende Youtube-Video eingesetzt.
+2. Schadcode angeben
+   
+   Sobald die Regex zur Erkennung der Youtube-URLs keinen validen URL erkennt wird nichts/null zurückgegeben. Im Frontend wird nichts gerendert, da keine valide ID zur Verfügung gestellt wird. Das Rendern/Ausführen von Schadcode wird dadurch verhindert.
+3. Falsche URLs angeben
+   
+   Werden falsche URLs (z.B. URLs anderer Domains) oder Youtube-URLs mit fehlerhaften IDs angegeben, wird kein Youtube-Video gerendert, da keine valide ID zur Verfügung gestellt wird.
 ### Datenschutz
+Ggf. Youtube-Cookies. Noch überprüfen.
 ## Suche von Notizen
 ### Umsetzung der Funktionen
 ### Mögliche Schwachstellen
 ### Datenschutz
-
