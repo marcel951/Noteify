@@ -1,29 +1,53 @@
 <details>
-<summary>Dependancy 1</summary>
+<summary>zxcvbn</summary>
 <br>
 This is how you dropdown.
 </details>
 
 <details>
-<summary>Dependancy 2</summary>
+<summary>argon2</summary>
 <br>
 This is how you dropdown.
 </details>
 
 <details>
-<summary>Dependancy 3</summary>
+<summary>cors</summary>
 <br>
 This is how you dropdown.
 </details>
 
 <details>
-<summary>Dependancy 4</summary>
+<summary>express</summary>
 <br>
 This is how you dropdown.
 </details>
 
 <details>
-<summary>Dependancy 5</summary>
+<summary>jsonwebtoken</summary>
+<br>
+This is how you dropdown.
+</details>
+
+<details>
+<summary>mariadb</summary>
+<br>
+This is how you dropdown.
+</details>
+
+<details>
+<summary>nodemon</summary>
+<br>
+This is how you dropdown.
+</details>
+
+<details>
+<summary>util</summary>
+<br>
+This is how you dropdown.
+</details>
+
+<details>
+<summary>uuid</summary>
 <br>
 This is how you dropdown.
 </details>
