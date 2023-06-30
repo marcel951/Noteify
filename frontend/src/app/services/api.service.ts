@@ -5,11 +5,11 @@ import { map } from 'rxjs/operators';
 
 @Injectable(
   { providedIn: 'root' }) export class ApiService {
-    baseUrl = 'http://localhost:4000/';
-  constructor(private _http: HttpClient) { 
+    baseUrl = 'https://localhost:4000/';
+  constructor(private _http: HttpClient) {
 
   }
-  getTypeRequest(url: any) { 
+  getTypeRequest(url: any) {
     return this._http.get(`${this.baseUrl}${url}`).pipe(map(res => { return res; })); }
   postTypeRequest(url: any, payload: any) {
      return this._http.post(`${this.baseUrl}${url}`, payload).pipe(map(res => { return res; })); }
@@ -20,6 +20,6 @@ import { map } from 'rxjs/operators';
       ;
   }
   deleteTypeRequest(url: any){
-    return this._http.delete(`${this.baseUrl}${url}`).pipe(map(res => { return res; })); 
+    return this._http.delete(`${this.baseUrl}${url}`).pipe(map(res => { return res; }));
   }
 }
