@@ -123,7 +123,7 @@ router.post('/register', async function (req, res, next) {
             let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, argonSecret,{ expiresIn: '1h' })
             res.send({status: 1, token: token, data:{username,user_id: userIdQuery[0].user_id.toString()}});
           } else {
-            res.send({status: 0, data: err});
+            res.send({status: 0, data: 'err'});
           }
         }
       }
@@ -159,7 +159,7 @@ router.post('/login', async function (req, res, next) {
       res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});
     }
   } catch (error) {
-    res.send({ status: 0, error: error });
+    res.send({ status: 0, error: 'error' });
   } finally {
     if (con) con.release(); //release to pool
   }
