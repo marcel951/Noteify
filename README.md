@@ -1,5 +1,5 @@
 # Noteify
-[![BackendTest](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/BackendTest.yml)
+[![Backend-Test](https://github.com/marcel951/Noteify/actions/workflows/BackendTest.yml/badge.svg)](https://github.com/marcel951/Noteify/actions/workflows/BackendTest.yml)
 [![FontendTest.yml ](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcel951/Noteify/blob/main/LICENSE)
 
