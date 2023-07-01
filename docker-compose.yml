@@ -6,6 +6,7 @@ services:
         build:
             context: backend
             dockerfile: Dockerfile
+
         depends_on:
             - database
         restart: unless-stopped
@@ -27,11 +28,8 @@ services:
         build:
             context: .
             dockerfile: mariaDB/Dockerfile
+        env_file:
+            - environment.env
         restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: keineGuteIdeedasHierReinZuSchreiben
-            MYSQL_DATABASE: db_notes
-            MYSQL_USER: admin
-            MYSQL_PASSWORD: admin
         ports:
             - "3306:3306"
