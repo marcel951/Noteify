@@ -26,4 +26,4 @@ jobs:
         run:  |
               npm start &
               sleep 10 &&
-              curl http://localhost:4000/home/publicnotes
+              curl http://localhost:4000 -I
