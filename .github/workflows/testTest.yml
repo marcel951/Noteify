@@ -21,8 +21,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - working-directory: ./backend
-      - run: npm ci
-      - run: npm start
-      - run: sleep 5
-      - run: curl http://localhost:4000
+      
+      - run: |
+          npm ci
+          npm start
+          sleep 5
+          curl http://localhost:4000
