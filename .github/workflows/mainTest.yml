@@ -19,6 +19,7 @@ jobs:
           node-version: 18
       
       - run: |
+          cd backend
           npm ci
           npm start
           sleep 5
