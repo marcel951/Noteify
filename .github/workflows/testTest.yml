@@ -23,8 +23,8 @@ jobs:
       
       - name: start
         working-directory: ./backend
-        run:  npm start
-      - name: leep
+        run:  npm test
+      - name: sleep
         working-directory: ./backend
         run: sleep 5
       - name: curl
