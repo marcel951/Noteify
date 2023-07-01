@@ -5,14 +5,20 @@ const jwt = require('jsonwebtoken');
 const mariadb = require('mariadb');
 const argon = require('argon2');
 const util = require("util");
+
+require('dotenv').config();
+
+const argonSecret = process.env.ARGON_SECRET;
+console.log("Env: ArgonSec"+argonSecret);
+
 const pool = mariadb.createPool({
   //ACHTUNG!!!!!!!
     //host: 'localhost', //==> Kein Container Betrieb !!!!!!
     host: 'database', //==> Container Betrieb !!!!!!
     port: '3306',
-    user:'admin', 
-    password: 'admin',
-    database: 'db_notes'
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
 });
 
 router.use(express.json({limit: "100mb", extended: true}))
