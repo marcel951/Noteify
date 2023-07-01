@@ -7,7 +7,6 @@ const mariadb = require('mariadb');
 require('dotenv').config();
 
 const argonSecret = process.env.ARGON_SECRET;
-console.log("Env: ArgonSec: "+argonSecret);
 
 const pool = mariadb.createPool({
     //ACHTUNG!!!!!!!
@@ -26,7 +25,7 @@ function authenticateToken(req, res, next, search=false){
   if (!req.headers.authorization) {
     res.status(401).send({ message: "Unauthorized" })
   } else {
-    jwt.verify(req.headers.authorization, "1337leet420", function (err, decoded) {
+    jwt.verify(req.headers.authorization, argonSecret, function (err, decoded) {
         if(decoded){
             req.user = decoded.user_id;
             userID = decoded.user_id;
