@@ -26,4 +26,4 @@ jobs:
         run:  |
               npm start &
               sleep 10 &&
-              curl https://localhost:4000 -I
+              curl -k https://localhost:4000 -I
