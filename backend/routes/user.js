@@ -9,7 +9,7 @@ const util = require("util");
 require('dotenv').config();
 
 const argonSecret = process.env.ARGON_SECRET;
-console.log("Env: ArgonSec"+argonSecret);
+
 
 const pool = mariadb.createPool({
   //ACHTUNG!!!!!!!
@@ -120,10 +120,10 @@ router.post('/register', async function (req, res, next) {
           if(newUser > 0){
             const query = "SELECT user_id FROM users WHERE username = ?";
             userIdQuery = await conn.query(query,username);
-            let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420',{ expiresIn: '1h' })
+            let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, argonSecret,{ expiresIn: '1h' })
             res.send({status: 1, token: token, data:{username,user_id: userIdQuery[0].user_id.toString()}});
           } else {
-            res.send({status: 0, data: err});
+            res.send({status: 0, data: 'err'});
           }
         }
       }
@@ -150,7 +150,7 @@ router.post('/login', async function (req, res, next) {
       if (isMatch) {
         const query = `SELECT user_id FROM users WHERE username = ?`;
         userIdQuery = await con.query(query, [username]);
-        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, '1337leet420',{ expiresIn: '1h' })
+        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, argonSecret,{ expiresIn: '1h' })
         res.send({ status:1, data:{username,user_id: userIdQuery[0].user_id.toString()}, token:token });
       } else {
         res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});
@@ -159,7 +159,7 @@ router.post('/login', async function (req, res, next) {
       res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});
     }
   } catch (error) {
-    res.send({ status: 0, error: error });
+    res.send({ status: 0, error: 'error' });
   } finally {
     if (con) con.release(); //release to pool
   }
