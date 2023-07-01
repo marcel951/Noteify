@@ -12,16 +12,17 @@ import { Note } from '../note';
   templateUrl: './single-note.component.html',
   styleUrls: ['./single-note.component.css']
 })
+
 export class SingleNoteComponent implements OnInit{
   id  = 0;
   private res: any;
-  notes : Note[] = [];
+  notes : Note[] = [{note_id : "",isPrivate: false, titel: "",youtube:"", created: "",lastChanged: "",username: "", content: ""}];
   author_id_user = -1;
   author_id_note = -2;
   data = localStorage.getItem("userData");
   constructor(
     private route: ActivatedRoute,
-    private api: ApiService, 
+    private api: ApiService,
     private router : Router,
     private logout: AppComponent,
     private sanitized: DomSanitizer
@@ -31,6 +32,7 @@ export class SingleNoteComponent implements OnInit{
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
+
 
 
     this.res = this.route.params.subscribe(para => {
@@ -50,12 +52,18 @@ export class SingleNoteComponent implements OnInit{
     });
   }
   parse(){
+    marked.marked.use({
+      langPrefix: '',
+      mangle: false,
+      headerIds: false
+    });
+
     this.notes.forEach(elem => {
       let regex = new RegExp(/(https:\/\/www\.youtube\.com\/[^\s]*)|(https:\/\/youtu\.be\/[^\s]*)/, "i");
 
       let youtubeid = this.youtube_parser(elem.youtube);
-      
-  
+
+
       (elem.content = marked.marked.parse(elem.content.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"")))
         elem.created = new Date(elem.created).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
         elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
