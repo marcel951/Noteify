@@ -9,6 +9,17 @@ app.use(cors());
 app.use(express.json());
 app.use('/', indexRouter);
 
+// set up rate limiter: maximum of five requests per minute
+var RateLimit = require('express-rate-limit');
+var limiter = RateLimit({
+    windowMs: 1*60*1000, // 1 minute
+    max: 100
+});
+
+// apply rate limiter to all requests
+app.use(limiter);
+
+
 const options = {
     key: fs.readFileSync('certs/key.pem'),
     cert: fs.readFileSync('certs/cert.pem')
