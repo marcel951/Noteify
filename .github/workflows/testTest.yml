@@ -25,4 +25,5 @@ jobs:
         working-directory: ./backend
         run:  |
               npm start &
+              sleep 10 &
               curl http://localhost:4000
