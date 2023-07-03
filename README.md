@@ -1,6 +1,7 @@
 # Noteify
 [![Backend-Test](https://github.com/marcel951/Noteify/actions/workflows/BackendTest.yml/badge.svg)](https://github.com/marcel951/Noteify/actions/workflows/BackendTest.yml)
 [![FontendTest.yml ](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml/badge.svg)](https://github.com/marcel951/SSE_SoSe_2023_Projekt/actions/workflows/FontendTest.yml)
+[![CodeQL](https://github.com/marcel951/Noteify/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/marcel951/Noteify/actions/workflows/github-code-scanning/codeql)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcel951/Noteify/blob/main/LICENSE)
 
 Noteify stellt das Abschlussprojekt des Wahlpflichtmodul "Secure Software Engineering" an der Technischen Hochschule Mittelhessen in Gießen der Gruppe L da.
