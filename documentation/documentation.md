@@ -14,13 +14,17 @@ Im Backend kommt Express.js zum Einsatz, sowie eine Datenbank in Form von MariaD
 Das ganze wird in Docker gebaut und kann in einem Dockercontainer gestartet werden.
 
 # Infrastruktur
+
 ## CI/CD
-Um unsere Web Applikation im laufe der Entwicklungsschritte konsistent und frei von Fehlern zu halten, die die Lauffähigkeit beeinträchtigen, wurden verschiedene GitHub Actions angelegt.
+Um unsere Web-Applikation während des gesamten Entwicklungsprozesses konsistent und fehlerfrei zu halten, haben wir eine robuste CI/CD-Pipeline eingerichtet. Diese besteht aus verschiedenen GitHub Actions, die automatisierte Aufgaben ausführen.
 ### Frontend-Tests
-Hier wird mittels der GitHub action bei jedem PullRequest oder Push auf den Main-Branch das Frontend mittels der Angular Build funktion gebaut.Hierzu wird das Frontend kompiliert und auf mögliche kompilierungsfehler hin untersucht. Wenn das Frontend gebaut werden konnte, gillt der Test als positiv. 
-###Backend-Tests
-Im Backend Test wird das Express backend bei jedem PullRequest oder Push auf dem Main-Branch mittels der GitHub Laufzeitumgebung gebaut, alle pakete installiert, und anschließend gestartet. Wenn eine CURL https anfrage an das Backend erfolgreich durchgeführt werden konnte, gillt der Test als positiv.  
-###CodeQL
+Bei jedem Pull Request oder Push auf den Main-Branch wird eine GitHub Action ausgelöst, die das Frontend mithilfe der Angular Build-Funktion kompiliert. Dabei wird das Frontend auf mögliche Kompilierungsfehler untersucht. Wenn das Frontend erfolgreich erstellt werden konnte und keine Fehler festgestellt wurden, gilt der Test als bestanden. Dadurch stellen wir sicher, dass unser Frontend jederzeit einsatzbereit und fehlerfrei ist.
+### Backend-Tests
+Ähnlich wie bei den Frontend-Tests wird bei jedem Pull Request oder Push auf den Main-Branch eine GitHub Action ausgeführt, um das Express-Backend zu erstellen und zu testen. Dabei werden alle benötigten Pakete installiert und das Backend gestartet. Anschließend wird eine CURL HTTPS-Anfrage an das Backend gesendet, um dessen Funktionalität zu überprüfen. Wenn die Anfrage erfolgreich abgeschlossen werden konnte, gilt der Test als erfolgreich bestanden. Dies gewährleistet, dass unser Backend ordnungsgemäß funktioniert und reibungslos mit anderen Komponenten interagiert.
+### CodeQL
+Zusätzlich zu den automatisierten Tests haben wir CodeQL in unsere CI/CD-Pipeline integriert. CodeQL ist ein leistungsstarkes statisches Analysewerkzeug, das potenzielle Sicherheitslücken, Codefehler und andere Codeprobleme identifizieren kann. Durch regelmäßige CodeQL-Analysen können wir potenzielle Schwachstellen in unserem Code frühzeitig erkennen und beheben. Dies trägt zu einer insgesamt höheren Codequalität und Sicherheit unserer Web-Applikation bei. Die Ergebnisse der CodeQL-Analyse werden in den Entwicklungsworkflow integriert, um Entwicklern Feedback zu geben und sie bei der Verbesserung der Codequalität zu unterstützen.
+
+
 
 ## Verwendete IDE
 Zum entwickeln der Angular-Komponenten, sowie der API-Abfragen in Express wurde von allen drei Gruppenmitgliedern "Visual Studio Code" inklusive der passenden Erweiterungen zu den jeweiligen Sprachen verwendet. 
