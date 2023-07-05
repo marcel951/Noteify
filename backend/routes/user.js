@@ -151,7 +151,7 @@ router.post('/login', async function (req, res, next) {
       if (isMatch) {
         const query = `SELECT user_id FROM users WHERE username = ?`;
         userIdQuery = await con.query(query, [username]);
-        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, argonSecret,{ expiresIn: '1h' })
+        let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, jwtSecret,{ expiresIn: '1h' })
         res.send({ status:1, data:{username,user_id: userIdQuery[0].user_id.toString()}, token:token });
       } else {
         res.send({status:0, error: 'invalid Username or Password', msg:'invalid Username or Password'});
