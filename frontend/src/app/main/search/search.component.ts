@@ -53,8 +53,14 @@ export class SearchComponent implements OnInit {
       '&searchPrivate=' +this.searchPrivate+
       '&searchPublic=' +this.searchPublic).subscribe((results:any) => {
         const notes = Array.from(results.data);
-        this.searchResults = notes;
+        this.searchResults = notes;   
+        this.searchResults.forEach((elem:any) =>  {
+          elem.created = new Date(elem.created).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})
+          elem.lastChanged = new Date(elem.lastChanged).toLocaleString("en-GB", {timeZone: 'Europe/Berlin'})          
+        });
+
       });
+
   }
 
 
