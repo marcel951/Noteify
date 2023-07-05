@@ -15,7 +15,7 @@ Der Master-Branch stellt die aktuelle Stable-Version da.
 ## Das Projekt in Betrieb nehmen
 ### Mittels Docker
 Achtung!
-An 2 stellen im Repositopry müssen noch die SSL Zertifikate eingefügt werden
+An 2 Stellen im Repository müssen noch die SSL Zertifikate eingefügt werden
 ### Entwickler-Modus
 
 
