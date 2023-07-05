@@ -14,9 +14,22 @@ Der Master-Branch stellt die aktuelle Stable-Version da.
 
 ## Das Projekt in Betrieb nehmen
 ### Mittels Docker
-Achtung!
-An 2 Stellen im Repository müssen noch die SSL Zertifikate eingefügt werden
-### Entwickler-Modus
+Achtung! Im Projekt befinnden sich an 2 Stellen SSL Zertifikate. Diese sind AUSSCHLIEßLICH für Entwicklungs und testzwecke gedacht! Wenn die Anwendung produktiv genutzt werden soll, müssen zwingend individuell erstellte SSL Zertifikate verwendet werden. Diese dürfen NICHT! auf GitHub oder anderen Platformen veröffentlicht werden. 
+
+1. Klonen des Projekts ```git clone git@github.com:marcel951/Noteify.git```
+2. Wechseln in das geklonte Notify Verzeichnis
+3. Installieren von Docker-Compose (falls noch nicht vorhanden)```sudo apt update &&sudo apt install docker-compose```
+4. Bauen der Container mittels Docker Compose```sudo docker-compose build```
+5. Starten der Container ```sudo docker-compose up -d```
+6. Prüfen des Status ```sudo docker-compose ps```
+7. Zugriff auf die Webanwendung über https://localhost
+   
+ACHTUNG!!!
+Es werden zu entwicklungs und Test zwecken selbst-signierte Zertifikate verwendet, diese werden Standardmäßig vom Browser abgelehnt. Um dies zu umgehen müssen diese als Vertrauenswürdig markiert werden.
+Falls das Backend nicht erreichbar ist, liegt dies ebenfalls an der fehlenden Vertrauensstellung zu den Zertifikaten. Diese können abenfalls über den Aufruf von https://localhost:4000 als Ausnahme hinzugefügt werden. 
+
+## Stop des Containers
+```sudo docker-compose down```
 
 
 ## Contributors
@@ -25,39 +38,3 @@ Am Projekt beteiligt waren alle Mitglieder der "Gruppe L".
 * [@marcel951 (Marcel Kaiser)](https://github.com/marcel951)
 * [@JonathanRech (Jonathan Rech)](https://github.com/JonathanRech)
 * [@wrth1337 (Benjamin Wirth)](https://github.com/wrth1337)
-
-
-
-# Intern
-
-# Docker Commands für Container betrieb
-## Build && run
-sudo docker-compose up --build -d
-### Das -d steht für Hintergrund
-
-
-## Check State
-sudo docker-compose ps
-
-## Stop
-sudo docker-compose down
-
-# Docker Comands für Dev betrieb
-## im Backend in der user.js && home.js den Datenbankhost auf localhost setzen
-
-* sudo docker-compose build database
-* sudo docker-compose up database -d
-* mariadb --host 127.0.0.1 -P 3306 --user admin -padmin ==> Testen der DB Verbindung
-* Es wird nur die Datenbank gestartet
-
-
-
-# SSE_SoSe_2023_Projekt
-* feat: The new feature you're adding to a particular application
-* fix: A bug fix
-* style: Feature and updates related to styling
-* refactor: Refactoring a specific section of the codebase
-* test: Everything related to testing
-* docs: Everything related to documentation
-* chore: Regular code maintenance.[ You can also use emojis to represent commit types]
-
