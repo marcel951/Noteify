@@ -15,6 +15,13 @@ Das ganze wird in Docker gebaut und kann in einem Dockercontainer gestartet werd
 
 # Infrastruktur
 ## CI/CD
+Um unsere Web Applikation im laufe der Entwicklungsschritte konsistent und frei von Fehlern zu halten, die die Lauffähigkeit beeinträchtigen, wurden verschiedene GitHub Actions angelegt.
+### Frontend-Tests
+Hier wird mittels der GitHub action bei jedem PullRequest oder Push auf den Main-Branch das Frontend mittels der Angular Build funktion gebaut.Hierzu wird das Frontend kompiliert und auf mögliche kompilierungsfehler hin untersucht. Wenn das Frontend gebaut werden konnte, gillt der Test als positiv. 
+###Backend-Tests
+Im Backend Test wird das Express backend bei jedem PullRequest oder Push auf dem Main-Branch mittels der GitHub Laufzeitumgebung gebaut, alle pakete installiert, und anschließend gestartet. Wenn eine CURL https anfrage an das Backend erfolgreich durchgeführt werden konnte, gillt der Test als positiv.  
+###CodeQL
+
 ## Verwendete IDE
 Zum entwickeln der Angular-Komponenten, sowie der API-Abfragen in Express wurde von allen drei Gruppenmitgliedern "Visual Studio Code" inklusive der passenden Erweiterungen zu den jeweiligen Sprachen verwendet. 
 ## Struktur des Entwicklungsprozesses
