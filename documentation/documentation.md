@@ -1,6 +1,6 @@
 # Beschreibung
 ## Kurzbeschreibung
-"Noteify" ist eine Anwendung, die entwickelt wurde, um Nutzern beim Organisieren und Verwalten ihrer Notizen zu helfen. Die Anwendung bietet eine benutzerfreundliche Oberfläche, die es den Benutzern ermöglicht, Notizen zu erstellen, zu bearbeiten und zu speichern. Die Anwendung bietet auch Funktionen wie die Möglichkeit, Notizen zu teilen, Youtube-Videos einer Notiz anzuhängen. Eine erweiterte Suchfunktion ist ebenfalls in der Anwendung enthalten.
+"Noteify" ist eine Anwendung, die entwickelt wurde, um NutzerInnen beim Organisieren und Verwalten ihrer Notizen zu helfen. Die Anwendung bietet eine benutzerfreundliche Oberfläche, die es den Benutzern ermöglicht, Notizen zu erstellen, zu bearbeiten und zu speichern. Die Anwendung bietet auch Funktionen wie die Möglichkeit, Notizen zu teilen, Youtube-Videos einer Notiz anzuhängen. Eine erweiterte Suchfunktion ist ebenfalls in der Anwendung enthalten.
 
 ## Entwickler
 Die Anwendung wurde von Gruppe L entwickelt.
