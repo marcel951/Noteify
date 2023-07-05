@@ -9,6 +9,7 @@ const util = require("util");
 require('dotenv').config();
 
 const argonSecret = process.env.ARGON_SECRET;
+const jwtSecret =process.env.JWT_SECRET;
 
 
 const pool = mariadb.createPool({
@@ -120,7 +121,7 @@ router.post('/register', async function (req, res, next) {
           if(newUser > 0){
             const query = "SELECT user_id FROM users WHERE username = ?";
             userIdQuery = await conn.query(query,username);
-            let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, argonSecret,{ expiresIn: '1h' })
+            let token = jwt.sign({username:username, user_id: userIdQuery[0].user_id.toString()}, jwtSecret,{ expiresIn: '1h' })
             res.send({status: 1, token: token, data:{username,user_id: userIdQuery[0].user_id.toString()}});
           } else {
             res.send({status: 0, data: 'err'});
