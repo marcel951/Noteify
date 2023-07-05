@@ -5,8 +5,17 @@ const { v4: uuidv4 } = require('uuid');
 const mariadb = require('mariadb');
 
 require('dotenv').config();
-
 const jwtSecret = process.env.JWT_SECRET;
+
+// set up rate limiter: maximum of five requests per minute
+var RateLimit = require('express-rate-limit');
+var limiter = RateLimit({
+    windowMs: 1*60*1000, // 1 minute
+    max: 100
+});
+
+router.use(limiter);
+
 
 const pool = mariadb.createPool({
     //ACHTUNG!!!!!!!
