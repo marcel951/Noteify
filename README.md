@@ -11,8 +11,8 @@ The app allows you to create notes in the browser. These notes can be set to pri
 ## Important
 This project is not intended for real-world operation. It is no longer being updated or maintained since the final project has been completed. The master branch represents the current stable version.
 
-## Das Projekt in Betrieb nehmen
-### Mittels Docker
+## Getting the Project Up and Running
+### Using Docker
 Attention! There are two SSL certificates in the project. These are EXCLUSIVELY intended for development and testing purposes! If the application is to be used in a production environment, individually created SSL certificates must be used. These MUST NOT be published on GitHub or any other platforms.
 
 1. Clone the project: ```git clone git@github.com:marcel951/Noteify.git```
