@@ -4,36 +4,34 @@
 [![CodeQL](https://github.com/marcel951/Noteify/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/marcel951/Noteify/actions/workflows/github-code-scanning/codeql)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcel951/Noteify/blob/main/LICENSE)
 
-Noteify stellt das Abschlussprojekt des Wahlpflichtmodul "Secure Software Engineering" an der Technischen Hochschule Mittelhessen in Gießen der Gruppe L da.
+Noteify represents the final project of the elective module "Secure Software Engineering" at the Technische Hochschule Mittelhessen in Gießen by Group L.
 
-Die App ermöglicht es, im Browser Notizen anzulegen. Diese Notizen können privat und öffentlich geschaltet werden. Außerdem ist es möglich jeder Notiz ein Youtube-Video anzuhängen.
+The app allows you to create notes in the browser. These notes can be set to private or public. Additionally, it is possible to attach a YouTube video to each note.
 
 ## Important
-Dieses Projekt ist nicht für den realen Betrieb gedacht. Es wird nicht mehr aktualisiert und gepflegt, da das Abschlussprojekt abgeschlossen ist.
-Der Master-Branch stellt die aktuelle Stable-Version da.
+This project is not intended for real-world operation. It is no longer being updated or maintained since the final project has been completed. The master branch represents the current stable version.
 
 ## Das Projekt in Betrieb nehmen
 ### Mittels Docker
-Achtung! Im Projekt befinnden sich an 2 Stellen SSL Zertifikate. Diese sind AUSSCHLIEßLICH für Entwicklungs und testzwecke gedacht! Wenn die Anwendung produktiv genutzt werden soll, müssen zwingend individuell erstellte SSL Zertifikate verwendet werden. Diese dürfen NICHT! auf GitHub oder anderen Platformen veröffentlicht werden. 
+Attention! There are two SSL certificates in the project. These are EXCLUSIVELY intended for development and testing purposes! If the application is to be used in a production environment, individually created SSL certificates must be used. These MUST NOT be published on GitHub or any other platforms.
 
-1. Klonen des Projekts ```git clone git@github.com:marcel951/Noteify.git```
-2. Wechseln in das geklonte Notify Verzeichnis
-3. Installieren von Docker-Compose (falls noch nicht vorhanden)```sudo apt update &&sudo apt install docker-compose```
-4. Bauen der Container mittels Docker Compose```sudo docker-compose build```
-5. Starten der Container ```sudo docker-compose up -d```
-6. Prüfen des Status ```sudo docker-compose ps```
-7. Zugriff auf die Webanwendung über https://localhost
+1. Clone the project: ```git clone git@github.com:marcel951/Noteify.git```
+2. Change to the cloned Noteify directory.
+3. Install Docker Compose (if not already installed):```sudo apt update &&sudo apt install docker-compose```
+4. Build the containers using Docker Compose: ```sudo docker-compose build```
+5. Start the containers: ```sudo docker-compose up -d```
+6. Check the status: ```sudo docker-compose ps```
+7. Access the web application via https://localhost
    
-ACHTUNG!!!
-Es werden zu entwicklungs und Test zwecken selbst-signierte Zertifikate verwendet, diese werden Standardmäßig vom Browser abgelehnt. Um dies zu umgehen müssen diese als Vertrauenswürdig markiert werden.
-Falls das Backend nicht erreichbar ist, liegt dies ebenfalls an der fehlenden Vertrauensstellung zu den Zertifikaten. Diese können abenfalls über den Aufruf von https://localhost:4000 als Ausnahme hinzugefügt werden. 
+CAUTION!!!
+Self-signed certificates are used for development and testing purposes, and these are by default rejected by the browser. To bypass this, they need to be marked as trusted. If the backend is not accessible, this is also due to the lack of trust in the certificates. You can also add these as exceptions by visiting https://localhost:4000.
 
-## Stop des Containers
+## Stopping the Container
 ```sudo docker-compose down```
 
 
 ## Contributors
-Am Projekt beteiligt waren alle Mitglieder der "Gruppe L".
+All members of "Group L" were involved in the project.
 
 * [@marcel951 (Marcel Kaiser)](https://github.com/marcel951)
 * [@JonathanRech (Jonathan Rech)](https://github.com/JonathanRech)
